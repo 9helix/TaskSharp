@@ -3,10 +3,48 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TaskSharp"
+        xmlns:local="clr-namespace:TaskSharp" xmlns:sys="clr-namespace:System;assembly=netstandard"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="TaskSharp" Height="500" Width="800" ResizeMode="CanMinimize">
+    <Window.Resources>
+    </Window.Resources>
+    <StackPanel HorizontalAlignment="center">
+        <TextBlock FontSize="80" HorizontalAlignment="Center">T#</TextBlock>
+        <!--<Separator Height="10" Background="Transparent"/>-->
+        <TextBlock FontWeight="Bold" FontSize="20" Margin="0,0,0,5">Prijava</TextBlock>
+        <Label>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Resources/Images/user.png" Width="13"/>
+                <TextBlock Margin="5,0,0,0"><Run Text="Korisničko ime:"/></TextBlock>
+            </StackPanel>
+        </Label>
+        <TextBox x:Name="txtUser" MaxLength="15" />
+        <Separator Height="5" Background="Transparent"/>
+        <Label>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Resources/Images/key.png" Width="13"/>
+                <TextBlock Margin="5,0,0,0"><Run Text="Lozinka:"/></TextBlock>
+            </StackPanel>
+        </Label>
+        <PasswordBox Name="txtPass" MaxLength="12">
+        </PasswordBox>
+        <Separator Height="10" Background="Transparent"/>
+        <Button Click="Login_Click" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="110">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources> Prijavi se
+        </Button>
+        <Separator Height="7" Background="Transparent"/>
+        <TextBlock>Novi korisnik? <Hyperlink>Registriraj se.</Hyperlink></TextBlock>
+        <Separator Height="50" Width="120"/>
+        <TextBlock HorizontalAlignment="Center" Padding="0,5,0,5">
+            <Hyperlink NavigateUri="https://github.com/9helix/TaskSharp" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
+                <Image Source="/Resources/Images/github.png" Width="40"></Image>
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Center" Foreground="Gray">v0.1.0</TextBlock>
+    </StackPanel>
 
-    </Grid>
 </Window>

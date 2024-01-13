@@ -8,4 +8,20 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Images\github.png" />
+    <None Remove="Resources\Images\key.png" />
+    <None Remove="Resources\Images\user.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\github.png" />
+    <Resource Include="Resources\Images\key.png" />
+    <Resource Include="Resources\Images\user.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Fonts\" />
+  </ItemGroup>
+
 </Project>
