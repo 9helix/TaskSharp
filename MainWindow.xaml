@@ -10,8 +10,9 @@
     </Window.Resources>
     <StackPanel HorizontalAlignment="center">
         <TextBlock FontSize="80" HorizontalAlignment="Center">T#</TextBlock>
+        <Frame x:Name="landing" NavigationUIVisibility="Hidden"></Frame>
         <!--<Separator Height="10" Background="Transparent"/>-->
-        <TextBlock FontWeight="Bold" FontSize="20" Margin="0,0,0,5">Prijava</TextBlock>
+        <!--<TextBlock FontWeight="Bold" FontSize="20" Margin="0,0,0,5">Prijava</TextBlock>
         <Label>
             <StackPanel Orientation="Horizontal">
                 <Image Source="/Resources/Images/user.png" Width="13"/>
@@ -37,7 +38,8 @@
             </Button.Resources> Prijavi se
         </Button>
         <Separator Height="7" Background="Transparent"/>
-        <TextBlock>Novi korisnik? <Hyperlink>Registriraj se.</Hyperlink></TextBlock>
+        -->
+        
         <Separator Height="50" Width="120"/>
         <TextBlock HorizontalAlignment="Center" Padding="0,5,0,5">
             <Hyperlink NavigateUri="https://github.com/9helix/TaskSharp" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">

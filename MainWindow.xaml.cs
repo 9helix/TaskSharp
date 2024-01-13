@@ -11,12 +11,11 @@ namespace TaskSharp
         public MainWindow()
         {
             InitializeComponent();
+            landing.Navigate(new Page1());
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            //ystem.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
-
             System.Diagnostics.Process.Start(new ProcessStartInfo
             {
                 FileName = e.Uri.AbsoluteUri,
@@ -24,7 +23,7 @@ namespace TaskSharp
             });
         }
 
-        private void Login_Click(object sender, RoutedEventArgs e)
+        /*private void Login_Click(object sender, RoutedEventArgs e)
         {
             string user = txtUser.Text;
             if (user.Length < 2)
@@ -33,6 +32,8 @@ namespace TaskSharp
             if (pass.Length < 4)
                 MessageBox.Show("Lozinka mora sadržavati bar 4 znaka.", "Greška prijave", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
+        */
+
 
     }
 }
