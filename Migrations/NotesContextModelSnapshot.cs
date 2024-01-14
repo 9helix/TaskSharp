@@ -34,14 +34,11 @@ namespace TaskSharp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Pinned")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Tags")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<byte>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("UserName")
@@ -56,8 +53,7 @@ namespace TaskSharp.Migrations
 
             modelBuilder.Entity("TaskSharp.Classes.User", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<byte>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Password")
