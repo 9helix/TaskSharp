@@ -16,7 +16,7 @@ namespace TaskSharp
         public MainWindow()
         {
             InitializeComponent();
-
+            //PurgeDatabase();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -86,26 +86,35 @@ namespace TaskSharp
                 }
                 else
                 {
-                    byte generatedId = GenerateUserId();
-                    DebugUsers();
-                    if (generatedId != 0)
+                    var usernames = _context.Users.Select(usr => usr.UserName).ToList();
+                    if (!usernames.Contains(txtUser.Text))
                     {
-                        var newUser = new User
-                        {
-                            UserName = txtUser.Text,
-                            Password = txtPass.Password,
-                            UserId = generatedId,
-                        };
-                        _context.Users.Add(newUser);
-                        _context.SaveChanges();
-                        MessageBox.Show("Registracija uspješna!", "Registracija", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                        LoginSwitch();
+                        byte generatedId = GenerateUserId();
                         DebugUsers();
+                        if (generatedId != 0)
+                        {
+                            var newUser = new User
+                            {
+                                UserName = txtUser.Text,
+                                Password = txtPass.Password,
+                                UserId = generatedId,
+                            };
+                            _context.Users.Add(newUser);
+                            _context.SaveChanges();
+                            MessageBox.Show("Registracija uspješna!", "Registracija", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                            LoginSwitch();
+                            DebugUsers();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Prekoračen limit registriranih korisnika (255).", "Registracija", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Prekoračen limit registriranih korisnika (255).", "Registracija", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Korisnik s tim imenom već postoji.", "Registracija", MessageBoxButton.OK, MessageBoxImage.Error);
 
                     }
                 }
