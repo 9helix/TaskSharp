@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TaskSharp.Classes;
 
 namespace TaskSharp
 {
-    public class ProductContext : DbContext
+    public class NotesContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<BaseNote> BaseNotes { get; set; }

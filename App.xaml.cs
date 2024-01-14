@@ -13,7 +13,7 @@ namespace TaskSharp
             // Create the startup window
             MainWindow wnd = new MainWindow();
             // Do stuff here, e.g. to the window
-            wnd.Title = "Something else";
+            //wnd.Title = "Something else";
             // Show the window
             wnd.Show();
         }

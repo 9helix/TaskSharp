@@ -1,33 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskSharp
+﻿namespace TaskSharp.Classes
 {
-    public class User
-    {
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-
-        // reference on user's notes
-        public virtual ICollection<BaseNote> TaskList
-            { get; private set;  } = new ObservableCollection<BaseNote>();
-    }
-
-    public abstract class BaseNote
+    public class BaseNote
     {
         public int BaseNoteId { get; set; }
         public DateTime CreationDate { get; set; }
         public string Name { get; set; }
-        public List<string> Tags { get; set; }
+        public string Tags { get; set; }
         public bool Pinned { get; set; }
 
         // foreign key on User
-        public int UserId { get; set; }
+        public int UserName { get; set; }
         public virtual User User { get; set; }
     }
 

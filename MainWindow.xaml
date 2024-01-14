@@ -5,14 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskSharp" xmlns:sys="clr-namespace:System;assembly=netstandard"
         mc:Ignorable="d"
-        Title="TaskSharp" Height="500" Width="800" ResizeMode="CanMinimize">
+        Title="TaskSharp" Height="520" Width="800" ResizeMode="CanMinimize" Loaded="Window_Loaded" Closing="Window_Closing">
     <Window.Resources>
     </Window.Resources>
     <StackPanel HorizontalAlignment="center">
         <TextBlock FontSize="80" HorizontalAlignment="Center">T#</TextBlock>
-        <Frame x:Name="landing" NavigationUIVisibility="Hidden"></Frame>
-        <!--<Separator Height="10" Background="Transparent"/>-->
-        <!--<TextBlock FontWeight="Bold" FontSize="20" Margin="0,0,0,5">Prijava</TextBlock>
+        <TextBlock FontWeight="Bold" FontSize="20" Margin="0,0,0,5" Name="Title">Prijava</TextBlock>
         <Label>
             <StackPanel Orientation="Horizontal">
                 <Image Source="/Resources/Images/user.png" Width="13"/>
@@ -29,24 +27,46 @@
         </Label>
         <PasswordBox Name="txtPass" MaxLength="12">
         </PasswordBox>
-        <Separator Height="10" Background="Transparent"/>
-        <Button Click="Login_Click" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="110">
+
+        <Separator Height="5" Background="Transparent"/>
+        <StackPanel Visibility="Collapsed" Name="PassConf">
+            <Separator Height="5" Background="Transparent"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/confirm.png" Width="13"/>
+                    <TextBlock Margin="5,0,0,0"><Run Text="Potvrdi lozinku:"/></TextBlock>
+                </StackPanel>
+                <PasswordBox Name="txtPassConf" MaxLength="12">
+                </PasswordBox>
+            <Separator Height="5" Background="Transparent"/>
+            </StackPanel>
+
+
+        <Separator Height="5" Background="Transparent"/>
+        <Button Click="Login_Click" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="110" Name="AccButton">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
                 </Style>
             </Button.Resources> Prijavi se
         </Button>
-        <Separator Height="7" Background="Transparent"/>
-        -->
-        
-        <Separator Height="50" Width="120"/>
-        <TextBlock HorizontalAlignment="Center" Padding="0,5,0,5">
+        <StackPanel Name="RegisterCall"
+Visibility="Visible">
+            <Separator Height="7" Background="Transparent"/>
+            <TextBlock TextAlignment="Center">Novi korisnik? <Hyperlink Click="Hyperlink_Click">Registriraj se.</Hyperlink></TextBlock>
+        </StackPanel>
+        <StackPanel Name="LoginCall"
+Visibility="Collapsed">
+            <Separator Height="7" Background="Transparent"/>
+            <TextBlock TextAlignment="Center">Postojeći korisnik? <Hyperlink Click="Hyperlink_Click">Prijavi se.</Hyperlink></TextBlock>
+        </StackPanel>
+
+        <Separator Height="35" Width="120"/>
+        <TextBlock HorizontalAlignment="Center" Padding="0,0,0,5">
             <Hyperlink NavigateUri="https://github.com/9helix/TaskSharp" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
                 <Image Source="/Resources/Images/github.png" Width="40"></Image>
             </Hyperlink>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Center" Foreground="Gray">v0.1.0</TextBlock>
+        <TextBlock HorizontalAlignment="Center" Foreground="Gray" TextAlignment="Center">v0.1.0<LineBreak/>Autori: Dino Gržinić, Marin Rabađija</TextBlock>
     </StackPanel>
 
 </Window>
