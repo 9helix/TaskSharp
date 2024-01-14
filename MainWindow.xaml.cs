@@ -121,7 +121,7 @@ namespace TaskSharp
             }
             else
             {
-                var loguser = _context.Users.Where(usr => usr.UserName == txtUser.Text).FirstOrDefault();
+                var loguser = _context.Users.Where(usr => usr.UserName == txtUser.Text && usr.Password == txtPass.Password).FirstOrDefault();
                 if (loguser != null)
                     MessageBox.Show("Prijava uspješna!", "Prijava", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
