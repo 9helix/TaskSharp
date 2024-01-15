@@ -27,6 +27,8 @@
         </Label>
         <PasswordBox Name="txtPass" MaxLength="12">
         </PasswordBox>
+        <TextBox Name="PasswordUnmask" Visibility="Collapsed"/>
+        <CheckBox x:Name="ShowPasswordCheckBox" Content="Prikaži lozinku" Checked="ShowPassword_Checked" Unchecked="ShowPassword_Unchecked" />
 
         <Separator Height="5" Background="Transparent"/>
         <StackPanel Visibility="Collapsed" Name="PassConf">

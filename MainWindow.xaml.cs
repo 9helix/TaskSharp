@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using TaskSharp.Classes;
 
 namespace TaskSharp
@@ -61,6 +62,17 @@ namespace TaskSharp
                     return i;
             }
             return 0;
+        }
+        private void ShowPassword_Checked(object sender, RoutedEventArgs e)
+        {
+            PasswordUnmask.Visibility = Visibility.Visible;
+            txtPass.Visibility = Visibility.Collapsed;
+            PasswordUnmask.Text = txtPass.Password;
+        }
+        private void ShowPassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            PasswordUnmask.Visibility = Visibility.Collapsed;
+            txtPass.Visibility = Visibility.Visible;
         }
         private void Login_Click(object sender, RoutedEventArgs e)
         {
