@@ -90,7 +90,7 @@ namespace TaskSharp
                 return;
             }
 
-            char[] invalidChars = {'/', '\\', ' ', '\"', '\'', '*', '=', '<', '>', '+', ';', '|'};
+            char[] invalidChars = { '/', '\\', ' ', '\"', '\'', '*', '=', '<', '>', '+', ';', '|' };
             foreach (char c in invalidChars)
             {
                 if (txtUser.Text.Contains(c) || txtPass.Password.Contains(c))
@@ -143,9 +143,16 @@ namespace TaskSharp
             }
             else
             {
-                var loguser = _context.Users.Where(usr => usr.UserName == txtUser.Text && usr.Password == txtPass.Password).FirstOrDefault();
-                if (loguser != null)
-                    MessageBox.Show("Prijava uspješna!", "Prijava", MessageBoxButton.OK, MessageBoxImage.Information);
+                var loguser = _context.Users.Where(usr => usr.UserName == txtUser.Text && usr.Password == txtPass.Password);
+                if (loguser.FirstOrDefault() != null)
+                {
+                    // store logged user's ID
+                    var uid = loguser.Select(usr => usr.UserId).First();
+                    Application.Current.Properties["uid"] = uid;
+
+                    MessageBox.Show($"Prijava uspješna!", "Prijava", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
                 else
                     MessageBox.Show("Krivi korisnički podaci! Pokušajte ponovo.", "Prijava", MessageBoxButton.OK, MessageBoxImage.Error);
 
