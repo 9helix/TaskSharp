@@ -11,7 +11,7 @@ using TaskSharp;
 namespace TaskSharp.Migrations
 {
     [DbContext(typeof(NotesContext))]
-    [Migration("20240114211544_InitialCreate")]
+    [Migration("20240115075822_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -42,9 +42,6 @@ namespace TaskSharp.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<byte>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserName")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("BaseNoteId");

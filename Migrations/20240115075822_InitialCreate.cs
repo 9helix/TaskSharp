@@ -33,7 +33,6 @@ namespace TaskSharp.Migrations
                     CreationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Tags = table.Column<string>(type: "TEXT", nullable: false),
-                    UserName = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<byte>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

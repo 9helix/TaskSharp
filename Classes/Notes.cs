@@ -13,7 +13,7 @@
         private bool Pinned;
 
         // foreign key on User
-        public int UserName { get; set; }
+        public byte UserId { get; set; }
         public virtual User User { get; set; }
 
         public void TogglePinned()

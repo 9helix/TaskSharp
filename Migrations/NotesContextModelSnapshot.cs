@@ -41,9 +41,6 @@ namespace TaskSharp.Migrations
                     b.Property<byte>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserName")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("BaseNoteId");
 
                     b.HasIndex("UserId");
