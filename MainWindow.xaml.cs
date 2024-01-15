@@ -147,11 +147,14 @@ namespace TaskSharp
                 var loguser = _context.Users.Where(usr => usr.UserName == txtUser.Text && usr.Password == txtPass.Password);
                 if (loguser.FirstOrDefault() != null)
                 {
+                    MessageBox.Show($"Prijava uspješna!", "Prijava", MessageBoxButton.OK, MessageBoxImage.Information);
+
                     // store logged user's ID
                     var uid = loguser.Select(usr => usr.UserId).First();
                     Application.Current.Properties["uid"] = uid;
 
-                    MessageBox.Show($"Prijava uspješna!", "Prijava", MessageBoxButton.OK, MessageBoxImage.Information);
+                    var dashboard = new Dashboard();
+                    dashboard.Show();
                 }
 
                 else

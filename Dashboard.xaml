@@ -1,0 +1,37 @@
+﻿<Window x:Class="TaskSharp.Dashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskSharp"
+        mc:Ignorable="d"
+        Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" ResizeMode="CanMinimize">
+    <Grid Background="DeepSkyBlue">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock FontSize="50" HorizontalAlignment="Center">T#</TextBlock>
+
+        <ListBox Grid.Column="0" Background="DeepSkyBlue" Foreground="White" x:Name="sidebar" Margin="0,50,0,0"  BorderThickness="0" FontWeight="Bold" SelectionChanged="sidebar_SelectionChanged" FontSize="14">
+            <Separator Height="10" Background="Transparent"/>
+            <ListBoxItem Height="35">Bilješke</ListBoxItem>
+            <ListBoxItem Height="35">Događaji</ListBoxItem>
+            <ListBoxItem Height="35">Podsjetnici</ListBoxItem>
+            <ListBoxItem Height="35">To-do liste</ListBoxItem>
+            <Separator Height="210" Background="Transparent"/>
+            <ListBoxItem Height="35">Odjava</ListBoxItem>
+        </ListBox>
+
+        <Frame Grid.Column="1" x:Name="navframe" NavigationUIVisibility="Hidden" Background="white" />
+
+        <Button Click="Create_Click" Background="DeepSkyBlue" Foreground="White" FontSize="14" x:Name="CreateButton" Content="+ dodaj novo" Margin="0,435,34,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="110" Padding="1,1,1,3" Grid.IsSharedSizeScope="True">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</Window>
