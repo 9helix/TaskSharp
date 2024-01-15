@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\confirm.png" />
     <None Remove="Resources\Images\github.png" />
     <None Remove="Resources\Images\hide.png" />
@@ -22,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\add.png" />
     <Resource Include="Resources\Images\confirm.png" />
     <Resource Include="Resources\Images\github.png" />
     <Resource Include="Resources\Images\hide.png" />
