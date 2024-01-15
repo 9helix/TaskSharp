@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using TaskSharp.Classes;
 
 namespace TaskSharp
@@ -219,5 +220,26 @@ namespace TaskSharp
                 Debug.WriteLine($"ID: {user.UserId}, Ime: {user.UserName}, Pass: {user.Password}");
             }
         }
+
+        private void ShowPassword()
+        {
+            PasswordUnmask.Visibility = Visibility.Visible;
+            txtPass.Visibility = Visibility.Collapsed;
+            PasswordUnmask.Text = txtPass.Password;
+            ShowPass.Source = new BitmapImage(new Uri(@"/Resources/Images/hide.png", UriKind.Relative));
+        }
+
+        private void HidePassword()
+        {
+            PasswordUnmask.Visibility = Visibility.Collapsed;
+            txtPass.Visibility = Visibility.Visible;
+            ShowPass.Source = new BitmapImage(new Uri(@"/Resources/Images/show.png", UriKind.Relative));
+
+        }
+        private void Image_MouseLeave(object sender, MouseEventArgs e) => HidePassword();
+        private void Image_PreviewMouseDown(object sender, MouseButtonEventArgs e) => ShowPassword();
+        private void Image_PreviewMouseUp(object sender, MouseButtonEventArgs e) => HidePassword();
+
+
     }
 }

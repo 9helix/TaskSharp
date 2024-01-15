@@ -1,0 +1,45 @@
+﻿<Window x:Class="TaskSharp.NoteCreate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskSharp"
+        mc:Ignorable="d"
+        Title="NoteCreate" Height="450" Width="800" ResizeMode="NoResize">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Margin="0,0,5,0" FontSize="15">Vrsta bilješke:</TextBlock>
+            <ComboBox HorizontalAlignment="Center" Width="120" FontSize="15" >
+                <ComboBoxItem IsSelected="True" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/Notes/note.png" Width="16"></Image>
+                        <Separator Width="3"  Background="Transparent"/>
+                        <TextBlock>Bilješka</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/Notes/event.png" Width="16"></Image>
+                        <Separator Width="3"  Background="Transparent"/>
+                        <TextBlock>Događaj</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/Notes/reminder.png" Width="16"></Image>
+                        <Separator Width="3"  Background="Transparent"/>
+                        <TextBlock>Podsjetnik</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/Notes/todo.png" Width="16"></Image>
+                        <Separator Width="3" Background="Transparent"/>
+                        <TextBlock>To-Do lista</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+
+            </ComboBox>
+        </StackPanel>
+    </StackPanel>
+</Window>

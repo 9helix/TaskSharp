@@ -17,7 +17,7 @@
                 <TextBlock Margin="5,0,0,0"><Run Text="Korisničko ime:"/></TextBlock>
             </StackPanel>
         </Label>
-        <TextBox x:Name="txtUser" MaxLength="15" />
+        <TextBox x:Name="txtUser" MaxLength="15" Width="188" HorizontalAlignment="Left"/>
         <Separator Height="5" Background="Transparent"/>
         <Label>
             <StackPanel Orientation="Horizontal">
@@ -25,11 +25,14 @@
                 <TextBlock Margin="5,0,0,0"><Run Text="Lozinka:"/></TextBlock>
             </StackPanel>
         </Label>
-        <PasswordBox Name="txtPass" MaxLength="12">
+        <StackPanel Orientation="Horizontal">
+        <PasswordBox Name="txtPass" MaxLength="12" Width="188" >
         </PasswordBox>
-        <TextBox Name="PasswordUnmask" Visibility="Collapsed"/>
-        <CheckBox x:Name="ShowPasswordCheckBox" Content="Prikaži lozinku" Checked="ShowPassword_Checked" Unchecked="ShowPassword_Unchecked" />
 
+            <TextBox Name="PasswordUnmask" Visibility="Collapsed" Width="188"/>
+        <!--<CheckBox x:Name="ShowPasswordCheckBox" Content="Prikaži lozinku" Checked="ShowPassword_Checked" Unchecked="ShowPassword_Unchecked" />-->
+            <Image x:Name="ShowPass" Source="/Resources/Images/show.png" Width="15" Margin="5,0,0,0" PreviewMouseDown="Image_PreviewMouseDown" PreviewMouseUp="Image_PreviewMouseUp" MouseLeave="Image_MouseLeave"/>
+        </StackPanel>
         <Separator Height="5" Background="Transparent"/>
         <StackPanel Visibility="Collapsed" Name="PassConf">
             <Separator Height="5" Background="Transparent"/>
@@ -37,7 +40,7 @@
                     <Image Source="/Resources/Images/confirm.png" Width="13"/>
                     <TextBlock Margin="5,0,0,0"><Run Text="Potvrdi lozinku:"/></TextBlock>
                 </StackPanel>
-                <PasswordBox Name="txtPassConf" MaxLength="12">
+                <PasswordBox Name="txtPassConf" MaxLength="12" Width="188" HorizontalAlignment="Left">
                 </PasswordBox>
             <Separator Height="5" Background="Transparent"/>
             </StackPanel>
