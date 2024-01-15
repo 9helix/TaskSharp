@@ -77,6 +77,17 @@ namespace TaskSharp
                 MessageBox.Show("Lozinka mora sadržavati bar 4 znaka.", $"Greška {(registration == false ? "prijave" : "registracija")}", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            char[] invalidChars = {'/', '\\', ' ', '\"', '\'', '*', '=', '<', '>', '+', ';', '|'};
+            foreach (char c in invalidChars)
+            {
+                if (txtUser.Text.Contains(c) || txtPass.Password.Contains(c))
+                {
+                    MessageBox.Show("Korisničko ime i lozinka ne smiju sadržavati sljedeće znakove:\nrazmak, /, \\, \', |, \", *, =, <, >, +, i ;", $"Greška {(registration == false ? "prijave" : "registracija")}", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
+
             if (registration)
             {
                 if (txtPassConf.Password != txtPass.Password)
@@ -128,8 +139,8 @@ namespace TaskSharp
                     MessageBox.Show("Krivi korisnički podaci! Pokušajte ponovo.", "Prijava", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 /*
-                     logika za prijavu
-                      */
+                login logic
+                */
             }
         }
         private void LoginSwitch()
