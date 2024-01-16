@@ -13,7 +13,7 @@
         private bool Pinned;
 
         // foreign key on User
-        public byte UserId { get; set; }
+        public int UserId { get; set; }
         public virtual User User { get; set; }
 
         public void TogglePinned()
@@ -33,47 +33,17 @@
 
     public class Event : BaseNote
     {
-        private DateTime StartDate;
-        private DateTime EndDate;
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string Location { get; set; }
 
-        public int SetEvent(DateTime start, DateTime end, string loc)
-        {
-
-            if (end > start)
-            {
-                Location = loc;
-                StartDate = start;
-                EndDate = end;
-                return 0;
-            }
-            else
-            {
-                return -1;
-            }
-        }
     }
 
     public class Reminder : BaseNote
     {
-        private DateOnly DueDate;
+        public DateTime DueDate;
         public ReminderPriority Priority { get; set; }
 
-        public int SetDueDate(DateOnly duedate)
-        {
-            if (DateOnly.FromDateTime(DateTime.Now) < duedate)
-            {
-                DueDate = duedate;
-                return 0;
-            }
-            else
-                return -1;
-        }
-
-        public DateOnly GetDueDate()
-        {
-            return DueDate;
-        }
     }
 
     public class TodoList : BaseNote

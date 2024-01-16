@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
-        Title="NoteCreate" Height="450" Width="800" ResizeMode="NoResize" Loaded="Window_Loaded">
-    
+        Title="Stvaranje bilješke" Height="550" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded" Closing="Window_Closing">
+
     <StackPanel Orientation="Vertical">
         <TextBlock FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,0">Stvaranje bilješke</TextBlock>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,50,0,0" >
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,35,0,0" >
             <TextBlock Margin="0,0,5,0" FontSize="15" VerticalAlignment="Center">Vrsta zapisa:</TextBlock>
             <ComboBox Name="NoteTypeMenu" HorizontalAlignment="Center" Width="120" FontSize="15" SelectionChanged="ComboBox_SelectionChanged">
                 <ComboBoxItem IsSelected="True" VerticalAlignment="Top">
@@ -42,26 +42,26 @@
                 </ComboBoxItem>
             </ComboBox>
         </StackPanel>
-        
+
         <Separator Height="40" Width="150"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0">Ime zapisa:</TextBlock>
-            <TextBox Width="100"/>
+            <TextBox Width="100" Name="note_name"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0">Tagovi (separator <Bold>;</Bold>):</TextBlock>
-            <TextBox Width="100"/>
+            <TextBox Width="100" Name="tags"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0">Zastavica:</TextBlock>
-            <CheckBox></CheckBox>
+            <CheckBox Name="flag"></CheckBox>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="NoteContent" Margin="0,0,0,5">
-            <TextBlock Padding="0,0,5,0">Sadržaj:</TextBlock>
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap"/>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="NoteContent" Margin="0,0,0,5">
+            <TextBlock Padding="0,0,5,5" TextAlignment="Center">Sadržaj:</TextBlock>
+            <TextBox Name="content" AcceptsReturn="True" TextWrapping="Wrap" Width="200" Height="100" MaxHeight="150"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="EventStart" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Početak događaja:</TextBlock>
@@ -79,7 +79,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="txtLocation" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0">Lokacija:</TextBlock>
-            <TextBox/>
+            <TextBox Width="90" MaxLength="100" Name="location"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="ReminderDue" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Rok:</TextBlock>
@@ -91,7 +91,7 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Name="PriorityMenu" Visibility="Collapsed" Margin="0,0,0,5">
             <TextBlock Margin="0,0,5,0" VerticalAlignment="Center">Prioritet:</TextBlock>
-            <ComboBox  HorizontalAlignment="Center" Width="120">
+            <ComboBox  HorizontalAlignment="Center" Width="120" Name="PriorityMenuPick">
                 <ComboBoxItem IsSelected="True" VerticalAlignment="Top">
                     Niski
                 </ComboBoxItem>
@@ -104,19 +104,28 @@
             </ComboBox>
         </StackPanel>
 
-        <StackPanel Name="TodoText" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
-            <TextBlock Padding="0,0,5,0">To-Do lista:</TextBlock>
-            <Image Source="/Resources/Images/add.png" Width="15" PreviewMouseDown="AddTodo"/>
-        </StackPanel>
-        <StackPanel Name="Todos" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
-            <TextBox MaxLength="50" Width="175" ></TextBox>
-            <Separator Width="10" Background="Transparent"/>
-            <CheckBox VerticalAlignment="Center"></CheckBox>
-        </StackPanel>
+        <StackPanel Visibility="Collapsed" Name="TodoList" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Padding="0,0,5,0">To-Do lista:</TextBlock>
+                <Image Source="/Resources/Images/add.png" Width="15" PreviewMouseDown="AddTodo"/>
+            </StackPanel>
+            <ScrollViewer  Height="100" Margin="10,10,0,0"
+               Width="300" VerticalScrollBarVisibility="Auto">
+                <StackPanel Name="scroll" >
+                    <Border Name="todo1" Padding="0,0,0,7">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBox MaxLength="50" Width="175" Text="Todo #1"></TextBox>
+                            <Separator Width="10" Background="Transparent"/>
+                            <CheckBox VerticalAlignment="Center" Padding="0,0,10,0"></CheckBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
+            </ScrollViewer>
+        </StackPanel>
         <Separator Height="30" Background="Transparent"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="120" Name="SaveNoteBtn">
+            <Button Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="120" Name="SaveNoteBtn" Click="SaveNote">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
