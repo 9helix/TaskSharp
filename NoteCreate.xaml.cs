@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -86,7 +85,7 @@ namespace TaskSharp
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
-            _context.Users.Load();
+            //_context.Users.Load();
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -154,7 +153,7 @@ namespace TaskSharp
                 case 0: //biljeska
                     string content = this.content.Text;
                     Debug.WriteLine(content);
-                    Note newNote = new Note { UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Content = content };
+                    Note newNote = new Note { UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Content = content, Pinned = Pin };
                     _context.BaseNotes.Add(newNote);
                     break;
                 case 1: //događaj
@@ -167,7 +166,7 @@ namespace TaskSharp
                     }
                     string location = this.location.Text;
                     Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
-                    Event newEvent = new Event { UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, StartDate = StartEvent, EndDate = EndEvent, Location = location };
+                    Event newEvent = new Event { UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, StartDate = StartEvent, EndDate = EndEvent, Location = location, Pinned = Pin };
                     _context.BaseNotes.Add(newEvent);
 
                     break;
@@ -177,7 +176,7 @@ namespace TaskSharp
                     int PriorityIndex = PriorityMenuPick.SelectedIndex;
                     ReminderPriority priority = (ReminderPriority)PriorityIndex;
                     Debug.WriteLine($"{dueDate}-{priority}");
-                    Reminder newReminder = new Reminder { UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Priority = priority, DueDate = dueDate };
+                    Reminder newReminder = new Reminder { UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Priority = priority, DueDate = dueDate, Pinned = Pin };
                     _context.BaseNotes.Add(newReminder);
 
                     break;
@@ -190,7 +189,7 @@ namespace TaskSharp
                         TodoDict[(todo[0] as TextBox).Text] = (todo[2] as CheckBox).IsChecked.Value;
                         Debug.WriteLine($"{(todo[0] as TextBox).Text}-{(todo[2] as CheckBox).IsChecked.Value}");
                     }
-                    TodoList newTodoList = new TodoList { UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Todos = TodoDict };
+                    TodoList newTodoList = new TodoList { UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Todos = TodoDict, Pinned = Pin };
                     _context.BaseNotes.Add(newTodoList);
 
                     break;

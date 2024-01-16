@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskSharp" xmlns:sys="clr-namespace:System;assembly=netstandard"
         mc:Ignorable="d"
-        Title="TaskSharp" Height="520" Width="800" ResizeMode="CanMinimize" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="TaskSharp" Height="530" Width="800" ResizeMode="CanMinimize" Loaded="Window_Loaded" Closing="Window_Closing">
     <Window.Resources>
     </Window.Resources>
     <StackPanel HorizontalAlignment="center">
@@ -35,8 +35,7 @@
         </StackPanel>
         <Separator Height="5" Background="Transparent"/>
         <StackPanel Visibility="Collapsed" Name="PassConf">
-            <Separator Height="5" Background="Transparent"/>
-                <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
                     <Image Source="/Resources/Images/confirm.png" Width="13"/>
                     <TextBlock Margin="5,0,0,0"><Run Text="Potvrdi lozinku:"/></TextBlock>
                 </StackPanel>

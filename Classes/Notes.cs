@@ -10,20 +10,12 @@
         public DateTime CreationDate { get; set; }
         public string Name { get; set; }
         public string Tags { get; set; }
-        private bool Pinned;
+        public bool Pinned { get; set; }
 
         // foreign key on User
         public int UserId { get; set; }
         public virtual User User { get; set; }
 
-        public void TogglePinned()
-        {
-            Pinned = !Pinned;
-        }
-        public bool GetPinned()
-        {
-            return Pinned;
-        }
     }
 
     public class Note : BaseNote
@@ -49,11 +41,6 @@
     public class TodoList : BaseNote
     {
         public Dictionary<string, bool> Todos { get; set; }
-
-        public void ToggleTodo(string todo)
-        {
-            Todos[todo] = !Todos[todo];
-        }
 
     }
 }
