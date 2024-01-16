@@ -15,6 +15,7 @@ namespace TaskSharp
         private readonly NotesContext _context =
             new NotesContext();
         bool registration = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,23 +48,6 @@ namespace TaskSharp
                 MessageBox.Show("Lozinka mora sadržavati bar 4 znaka.", "Greška prijave", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
         */
-        private byte GenerateUserId()
-        {
-            var ids = _context.Users.Select(usr => usr.UserId).ToList();
-            HashSet<byte> numbers = new HashSet<byte>();
-            byte max = 0;
-            foreach (var id in ids)
-            {
-                if (id > max) { max = id; }
-                numbers.Add(id);
-            }
-            for (byte i = 1; i <= max + 1; i++)
-            {
-                if (!numbers.Contains(i))
-                    return i;
-            }
-            return 0;
-        }
         private void ShowPassword_Checked(object sender, RoutedEventArgs e)
         {
             PasswordUnmask.Visibility = Visibility.Visible;
@@ -112,15 +96,12 @@ namespace TaskSharp
                     var usernames = _context.Users.Select(usr => usr.UserName).ToList();
                     if (!usernames.Contains(txtUser.Text))
                     {
-                        byte generatedId = GenerateUserId();
-                        DebugUsers();
-                        if (generatedId != 0)
-                        {
+                        
+                        
                             var newUser = new User
                             {
                                 UserName = txtUser.Text,
-                                Password = txtPass.Password,
-                                UserId = generatedId,
+                                Password = txtPass.Password
                             };
                             _context.Users.Add(newUser);
                             _context.SaveChanges();
@@ -128,12 +109,7 @@ namespace TaskSharp
 
                             LoginSwitch();
                             DebugUsers();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Prekoračen limit registriranih korisnika (255).", "Registracija", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                        }
+                       
                     }
                     else
                     {
