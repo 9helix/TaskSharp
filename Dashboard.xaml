@@ -8,25 +8,23 @@
         Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" ResizeMode="CanMinimize">
     <Grid Background="DeepSkyBlue">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="113"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="50" HorizontalAlignment="Center">T#</TextBlock>
+        <TextBlock FontSize="40" HorizontalAlignment="Center" Width="109" TextAlignment="Center"><Run Text="Task"/><Run Text="#"/></TextBlock>
 
-        <ListBox Grid.Column="0" Background="DeepSkyBlue" Foreground="White" x:Name="sidebar" Margin="0,50,0,0"  BorderThickness="0" FontWeight="Bold" SelectionChanged="sidebar_SelectionChanged" FontSize="14">
-            <Separator Height="10" Background="Transparent"/>
-            <ListBoxItem Height="35">Bilješke</ListBoxItem>
-            <ListBoxItem Height="35">Događaji</ListBoxItem>
-            <ListBoxItem Height="35">Podsjetnici</ListBoxItem>
-            <ListBoxItem Height="35">To-do liste</ListBoxItem>
-            <Separator Height="210" Background="Transparent"/>
-            <ListBoxItem Height="35">Odjava</ListBoxItem>
+        <ListBox Grid.Column="0" Background="DeepSkyBlue" Foreground="White" x:Name="sidebar" Margin="0,67,0,0" Padding="5,0,0,0" BorderThickness="0" FontWeight="Bold" SelectionChanged="sidebar_SelectionChanged" FontSize="14">
+            <ListBoxItem Height="37" Margin="0,10,0,0">Bilješke</ListBoxItem>
+            <ListBoxItem Height="37">Događaji</ListBoxItem>
+            <ListBoxItem Height="37">Podsjetnici</ListBoxItem>
+            <ListBoxItem Height="37">To-do liste</ListBoxItem>
+            <ListBoxItem Height="35" Margin="0,204,0,0" >Odjava</ListBoxItem>
         </ListBox>
 
         <Frame Grid.Column="1" x:Name="navframe" NavigationUIVisibility="Hidden" Background="white" />
 
-        <Button Click="Create_Click" Background="DeepSkyBlue" Foreground="White" FontSize="14" x:Name="CreateButton" Content="+ dodaj novo" Margin="0,435,34,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="110" Padding="1,1,1,3" Grid.IsSharedSizeScope="True">
+        <Button Click="Create_Click" Background="DeepSkyBlue" Foreground="White" FontSize="14" x:Name="CreateButton" Content="+ dodaj novo" Margin="0,435,34,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="110" Padding="1,1,1,3" Grid.IsSharedSizeScope="True" Height="25">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="10"/>

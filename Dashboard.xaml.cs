@@ -27,22 +27,25 @@ namespace TaskSharp
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox lb = sender as ListBox;
-            ListBoxItem lbi = lb.SelectedItem as ListBoxItem;
-            switch (lbi.Content)
+            switch (lb.SelectedIndex)
             {
-                case "Bilješke":
+                case 0:
                     navframe.Navigate(new Uri("Pages/Notes.xaml", UriKind.Relative));
                     break;
-                case "Događaji":
+                case 1:
                     navframe.Navigate(new Uri("Pages/Events.xaml", UriKind.Relative));
                     break;
-                case "Podsjetnici":
+                case 2:
                     navframe.Navigate(new Uri("Pages/Reminders.xaml", UriKind.Relative));
                     break;
-                case "To-do liste":
+                case 3:
                     navframe.Navigate(new Uri("Pages/TodoLists.xaml", UriKind.Relative));
                     break;
-                case "Odjava":
+                case 4:
+                    MessageBox.Show($"Odjava uspješna!", "Odjava", MessageBoxButton.OK, MessageBoxImage.Information);
+                    var win = new MainWindow();
+                    win.Show();
+
                     this.Close();
                     break;
             }
@@ -50,7 +53,8 @@ namespace TaskSharp
 
         private void Create_Click(object sender, RoutedEventArgs e)
         {
-
+            var noteCreate = new NoteCreate();
+            noteCreate.Show();
         }
     }
 }

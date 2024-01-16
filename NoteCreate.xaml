@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
         Title="NoteCreate" Height="450" Width="800" ResizeMode="NoResize" Loaded="Window_Loaded">
+    
     <StackPanel Orientation="Vertical">
         <TextBlock FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,0">Stvaranje bilješke</TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,50,0,0" >
@@ -39,45 +40,48 @@
                         <TextBlock>To-Do lista</TextBlock>
                     </StackPanel>
                 </ComboBoxItem>
-
             </ComboBox>
         </StackPanel>
+        
         <Separator Height="40" Width="150"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0">Ime zapisa:</TextBlock>
-            <TextBox/>
+            <TextBox Width="100"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0">Tagovi (separator <Bold>;</Bold>):</TextBlock>
-            <TextBox/>
+            <TextBox Width="100"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0">Zastavica:</TextBlock>
             <CheckBox></CheckBox>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="NoteContent">
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="NoteContent" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0">Sadržaj:</TextBlock>
             <TextBox AcceptsReturn="True" TextWrapping="Wrap"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="EventStart">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="EventStart" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Početak događaja:</TextBlock>
             <DatePicker Name="EventStartPick" Width="100">
                 <DatePicker.BlackoutDates>
                 </DatePicker.BlackoutDates>
             </DatePicker>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="EventEnd">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="EventEnd" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Kraj događaja:</TextBlock>
             <DatePicker Name="EventEndPick" Width="100">
                 <DatePicker.BlackoutDates>
                 </DatePicker.BlackoutDates>
             </DatePicker>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="txtLocation">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="txtLocation" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0">Lokacija:</TextBlock>
             <TextBox/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="ReminderDue">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="ReminderDue" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Rok:</TextBlock>
             <DatePicker Name="ReminderDuePick" Width="100">
                 <DatePicker.BlackoutDates>
@@ -85,7 +89,7 @@
             </DatePicker>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Name="PriorityMenu" Visibility="Collapsed">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Name="PriorityMenu" Visibility="Collapsed" Margin="0,0,0,5">
             <TextBlock Margin="0,0,5,0" VerticalAlignment="Center">Prioritet:</TextBlock>
             <ComboBox  HorizontalAlignment="Center" Width="120">
                 <ComboBoxItem IsSelected="True" VerticalAlignment="Top">
@@ -99,16 +103,17 @@
                 </ComboBoxItem>
             </ComboBox>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+        <StackPanel Name="TodoText" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
             <TextBlock Padding="0,0,5,0">To-Do lista:</TextBlock>
             <Image Source="/Resources/Images/add.png" Width="15" PreviewMouseDown="AddTodo"/>
-            
         </StackPanel>
-        <StackPanel Name="Todos" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Name="Todos" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
             <TextBox MaxLength="50" Width="175" ></TextBox>
             <Separator Width="10" Background="Transparent"/>
             <CheckBox VerticalAlignment="Center"></CheckBox>
         </StackPanel>
+
         <Separator Height="30" Background="Transparent"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="120" Name="SaveNoteBtn">

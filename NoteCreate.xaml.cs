@@ -85,6 +85,16 @@ namespace TaskSharp
                 ReminderDue.Visibility = Visibility.Visible;
                 PriorityMenu.Visibility = Visibility.Visible;
             }
+            if (type != "ToDo")
+            {
+                TodoText.Visibility = Visibility.Collapsed;
+                Todos.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                TodoText.Visibility = Visibility.Visible;
+                Todos.Visibility = Visibility.Visible;
+            }
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

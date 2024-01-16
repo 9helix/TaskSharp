@@ -155,6 +155,7 @@ namespace TaskSharp
 
                     var dashboard = new Dashboard();
                     dashboard.Show();
+                    this.Close();
                 }
 
                 else
