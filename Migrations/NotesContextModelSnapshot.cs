@@ -38,7 +38,7 @@ namespace TaskSharp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("BaseNoteId");
@@ -50,7 +50,8 @@ namespace TaskSharp.Migrations
 
             modelBuilder.Entity("TaskSharp.Classes.User", b =>
                 {
-                    b.Property<byte>("UserId")
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Password")

@@ -11,7 +11,7 @@ using TaskSharp;
 namespace TaskSharp.Migrations
 {
     [DbContext(typeof(NotesContext))]
-    [Migration("20240115075822_InitialCreate")]
+    [Migration("20240116191743_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -41,7 +41,7 @@ namespace TaskSharp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("BaseNoteId");
@@ -53,7 +53,8 @@ namespace TaskSharp.Migrations
 
             modelBuilder.Entity("TaskSharp.Classes.User", b =>
                 {
-                    b.Property<byte>("UserId")
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Password")
