@@ -10,78 +10,63 @@ using TaskSharp.Classes;
 namespace TaskSharp
 {
     /// <summary>
-    /// Interaction logic for NoteCreate.xaml
+    /// Interaction logic for NoteEdit.xaml
     /// </summary>
-    public partial class NoteCreate : Window
+    public partial class NoteEdit : Window
     {
         private readonly NotesContext _context =
     new NotesContext();
 
+        int NoteId;//define them
+        int NoteType;
+
         List<int> todos = new List<int> { 1 };
-        public NoteCreate()
+        public NoteEdit()
         {
             InitializeComponent();
-            EventStartPick.BlackoutDates.AddDatesInPast();
-            EventStartPick.SelectedDate = DateTime.Now;
-            EventEndPick.BlackoutDates.AddDatesInPast();
-            EventEndPick.SelectedDate = DateTime.Now;
-            ReminderDuePick.BlackoutDates.AddDatesInPast();
-            ReminderDuePick.SelectedDate = DateTime.Now;
-            NoteContent.Visibility = Visibility.Visible;
+            switch (NoteType)
+            {
+
+                case 0:
+                    var temp1 = _context.Notes.Where(nt => nt.Id == NoteId).First();
+                    NoteContent.Visibility = Visibility.Visible;
+                    break;
+                case 1:
+                    var temp = _context.Events.Where(nt => nt.Id == NoteId).First();
+                    EventStartPick.BlackoutDates.AddDatesInPast();
+                    EventStartPick.SelectedDate = temp.StartDate;
+                    EventEndPick.BlackoutDates.AddDatesInPast();
+                    EventEndPick.SelectedDate = temp.EndDate;
+                    EventStart.Visibility = Visibility.Visible;
+                    EventEnd.Visibility = Visibility.Visible;
+                    txtLocation.Visibility = Visibility.Visible;
+
+                    break;
+                case 2:
+                    var temp3 = _context.Reminders.Where(nt => nt.Id == NoteId).First();
+                    ReminderDuePick.BlackoutDates.AddDatesInPast();
+                    ReminderDuePick.SelectedDate = temp3.DueDate;
+                    ReminderDue.Visibility = Visibility.Visible;
+
+                    (PriorityMenu.Children[(int)temp3.Priority] as ComboBoxItem).IsSelected = true;
+                    PriorityMenu.Visibility = Visibility.Visible;
+
+                    break;
+                case 3:
+                    var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First();
+                    foreach (KeyValuePair<string, bool> entry in note4.Todos)
+                    {
+                        AddTodo(entry.Key, entry.Value);
+                    }
+
+                    TodoList.Visibility = Visibility.Visible;
+                    break;
+            }
+
 
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            int index = NoteTypeMenu.SelectedIndex;
 
-            if (NoteContent != null)
-            {
-                ToggleFields(index);
-                //test.Children.Add(new TextBox { });
-            }
-        }
-        private void ToggleFields(int type)
-        {
-            if (type != 0)
-            {
-                NoteContent.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                NoteContent.Visibility = Visibility.Visible;
-            }
-            if (type != 1)
-            {
-                EventStart.Visibility = Visibility.Collapsed;
-                EventEnd.Visibility = Visibility.Collapsed;
-                txtLocation.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                EventStart.Visibility = Visibility.Visible;
-                EventEnd.Visibility = Visibility.Visible;
-                txtLocation.Visibility = Visibility.Visible;
-            }
-            if (type != 2)
-            {
-                ReminderDue.Visibility = Visibility.Collapsed;
-                PriorityMenu.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                ReminderDue.Visibility = Visibility.Visible;
-                PriorityMenu.Visibility = Visibility.Visible;
-            }
-            if (type != 3)
-            {
-                TodoList.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                TodoList.Visibility = Visibility.Visible;
-            }
-        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
@@ -94,14 +79,21 @@ namespace TaskSharp
             this.Close();
         }
 
-        private void AddTodo(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void AddTodo(string content = null, bool check = false)
         {
             if (todos.Count < 10)
             {
                 StackPanel stk = new StackPanel { Name = $"todo{todos.Last() + 1}", Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
                 todos.Add(todos.Last() + 1);
-                TextBox txt = new TextBox { Margin = new Thickness(left: 15, top: 0, right: 0, bottom: 0), MaxLength = 50, Width = 175, Text = $"Todo #{todos.Last()}" };
-
+                TextBox txt;
+                if (content == null)
+                {
+                    txt = new TextBox { Margin = new Thickness(left: 15, top: 0, right: 0, bottom: 0), MaxLength = 50, Width = 175, Text = $"Todo #{todos.Last()}" };
+                }
+                else
+                {
+                    txt = new TextBox { Margin = new Thickness(left: 15, top: 0, right: 0, bottom: 0), MaxLength = 50, Width = 175, Text = content };
+                }
                 Separator sep = new Separator
                 {
                     Name = $"septodo{todos.Last()}",
@@ -112,7 +104,7 @@ namespace TaskSharp
                 {
                     Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 7)
                 };
-                CheckBox chk = new CheckBox { VerticalAlignment = VerticalAlignment.Center, Padding = new Thickness(left: 0, top: 0, right: 10, bottom: 0) };
+                CheckBox chk = new CheckBox { IsChecked = check, VerticalAlignment = VerticalAlignment.Center, Padding = new Thickness(left: 0, top: 0, right: 10, bottom: 0) };
                 Image img = new Image { Width = 15, Source = new BitmapImage(new Uri(@"/Resources/Images/delete.png", UriKind.Relative)) };
                 img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
 
@@ -141,7 +133,7 @@ namespace TaskSharp
 
         private void SaveNote(object sender, RoutedEventArgs e)
         {
-            int index = NoteTypeMenu.SelectedIndex;
+            int index = NoteType;
             string name = note_name.Text;
             string tags = this.tags.Text;
             bool Pin = flag.IsChecked.Value;
@@ -156,16 +148,12 @@ namespace TaskSharp
                 case 0: //biljeska
                     string content = this.content.Text;
                     Debug.WriteLine(content);
-                    Note newNote = new Note
-                    {
-                        UserId = uid,
-                        Name = name,
-                        CreationDate = dateCreate,
-                        Tags = tags,
-                        Content = content,
-                        Pinned = Pin
-                    };
-                    _context.Notes.Add(newNote);
+
+                    var note1 = _context.Notes.Where(nt => nt.Id == NoteId).First<Note>();
+                    note1.Name = name;
+                    note1.Tags = tags;
+                    note1.Content = content;
+                    note1.Pinned = Pin;
                     break;
 
                 case 1: //događaj
@@ -179,18 +167,14 @@ namespace TaskSharp
                     }
                     string location = this.location.Text;
                     Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
-                    Event newEvent = new Event
-                    {
-                        UserId = uid,
-                        Name = name,
-                        CreationDate = dateCreate,
-                        Tags = tags,
-                        StartDate = StartEvent,
-                        EndDate = EndEvent,
-                        Location = location,
-                        Pinned = Pin
-                    };
-                    _context.Events.Add(newEvent);
+
+                    var note2 = _context.Events.Where(nt => nt.Id == NoteId).First<Event>();
+                    note2.Name = name;
+                    note2.Tags = tags;
+                    note2.StartDate = StartEvent;
+                    note2.EndDate = EndEvent;
+                    note2.Location = location;
+                    note2.Pinned = Pin;
                     break;
 
                 case 2: //podsjetnik
@@ -199,17 +183,14 @@ namespace TaskSharp
                     int PriorityIndex = PriorityMenuPick.SelectedIndex;
                     ReminderPriority priority = (ReminderPriority)PriorityIndex;
                     Debug.WriteLine($"{dueDate}-{priority}");
-                    Reminder newReminder = new Reminder
-                    {
-                        UserId = uid,
-                        Name = name,
-                        CreationDate = dateCreate,
-                        Tags = tags,
-                        Priority = priority,
-                        DueDate = dueDate,
-                        Pinned = Pin
-                    };
-                    _context.Reminders.Add(newReminder);
+
+
+                    var note3 = _context.Reminders.Where(nt => nt.Id == NoteId).First<Reminder>();
+                    note3.Name = name;
+                    note3.Tags = tags;
+                    note3.Pinned = Pin;
+                    note3.Priority = priority;
+                    note3.DueDate = dueDate;
                     break;
 
                 case 3://todo
@@ -235,7 +216,12 @@ namespace TaskSharp
                         Todos = TodoDict,
                         Pinned = Pin
                     };
-                    _context.TodoLists.Add(newTodoList);
+
+                    var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First<TodoList>();
+                    note4.Name = name;
+                    note4.Tags = tags;
+                    note4.Todos = TodoDict;
+                    note4.Pinned = Pin;
                     break;
             }
             _context.SaveChanges();
