@@ -4,6 +4,10 @@
     {
         Low, Medium, High
     }
+    public enum NoteType
+    {
+        Note, Event, Reminder, Todo
+    }
     public class BaseNote
     {
         public int BaseNoteId { get; set; }
@@ -11,6 +15,7 @@
         public string Name { get; set; }
         public string Tags { get; set; }
         public bool Pinned { get; set; }
+        public NoteType Type { get; set; }
 
         // foreign key on User
         public int UserId { get; set; }
