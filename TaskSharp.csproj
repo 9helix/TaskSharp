@@ -12,6 +12,7 @@
     <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\confirm.png" />
     <None Remove="Resources\Images\delete.png" />
+    <None Remove="Resources\Images\edit.png" />
     <None Remove="Resources\Images\github.png" />
     <None Remove="Resources\Images\hide.png" />
     <None Remove="Resources\Images\key.png" />
@@ -28,6 +29,7 @@
     <Resource Include="Resources\Images\add.png" />
     <Resource Include="Resources\Images\confirm.png" />
     <Resource Include="Resources\Images\delete.png" />
+    <Resource Include="Resources\Images\edit.png" />
     <Resource Include="Resources\Images\github.png" />
     <Resource Include="Resources\Images\hide.png" />
     <Resource Include="Resources\Images\key.png" />
