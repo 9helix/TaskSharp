@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,11 @@ namespace TaskSharp
         public Dashboard()
         {
             InitializeComponent();
+        }
+
+        private void Dashboard_Loaded(object sender, RoutedEventArgs e)
+        {
+            navframe.Navigate(new Uri("Pages/Notes.xaml", UriKind.Relative));
         }
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
