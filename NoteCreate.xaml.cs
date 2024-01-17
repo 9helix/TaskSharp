@@ -156,7 +156,7 @@ namespace TaskSharp
                     string content = this.content.Text;
                     Debug.WriteLine(content);
                     Note newNote = new Note { Type = (NoteType)index, UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Content = content, Pinned = Pin };
-                    _context.BaseNotes.Add(newNote);
+                    _context.Notes.Add(newNote);
                     break;
                 case 1: //događaj
                     DateTime StartEvent = (DateTime)EventStartPick.SelectedDate;
@@ -169,7 +169,7 @@ namespace TaskSharp
                     string location = this.location.Text;
                     Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
                     Event newEvent = new Event { Type = (NoteType)index, UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, StartDate = StartEvent, EndDate = EndEvent, Location = location, Pinned = Pin };
-                    _context.BaseNotes.Add(newEvent);
+                    _context.Events.Add(newEvent);
 
                     break;
                 case 2: //podsjetnik
@@ -179,7 +179,7 @@ namespace TaskSharp
                     ReminderPriority priority = (ReminderPriority)PriorityIndex;
                     Debug.WriteLine($"{dueDate}-{priority}");
                     Reminder newReminder = new Reminder { Type = (NoteType)index, UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Priority = priority, DueDate = dueDate, Pinned = Pin };
-                    _context.BaseNotes.Add(newReminder);
+                    _context.Reminders.Add(newReminder);
 
                     break;
                 case 3://todo
@@ -192,7 +192,7 @@ namespace TaskSharp
                         Debug.WriteLine($"{(todo[0] as TextBox).Text}-{(todo[2] as CheckBox).IsChecked.Value}");
                     }
                     TodoList newTodoList = new TodoList { Type = (NoteType)index, UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Todos = TodoDict, Pinned = Pin };
-                    _context.BaseNotes.Add(newTodoList);
+                    _context.TodoLists.Add(newTodoList);
 
                     break;
             }
