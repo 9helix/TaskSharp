@@ -8,13 +8,13 @@
         Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" ResizeMode="CanMinimize" Loaded="Dashboard_Loaded">
     <Grid Background="DeepSkyBlue">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="113"/>
+            <ColumnDefinition Width="132"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="40" HorizontalAlignment="Center" Width="109" TextAlignment="Center"><Run Text="Task"/><Run Text="#"/></TextBlock>
+        <TextBlock FontSize="40" HorizontalAlignment="Center" Width="110" TextAlignment="Center"><Run Text="Task"/><Run Text="#"/></TextBlock>
 
-        <ListBox Grid.Column="0" Background="DeepSkyBlue" Foreground="White" x:Name="sidebar" Margin="0,67,0,0" Padding="5,0,0,0" BorderThickness="0" FontWeight="Bold" SelectionChanged="sidebar_SelectionChanged" FontSize="14">
+        <ListBox Grid.Column="0" Background="DeepSkyBlue" Foreground="White" x:Name="sidebar" Margin="0,67,0,0" Padding="5,0,0,0" BorderThickness="0" SelectionChanged="sidebar_SelectionChanged" FontWeight="DemiBold" FontSize="17">
             <ListBoxItem Height="37" Margin="0,10,0,0">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="Resources/Images/Notes/note.png" Width="13"/>

@@ -7,33 +7,58 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Bilješke" Loaded="Notes_Loaded" Unloaded="Notes_Unloaded">
+ <Page.Resources>
+    <DataTemplate x:Key="NotesTemplate">
+            <Border Name="border" BorderBrush="LightSkyBlue" BorderThickness="1" Padding="2" Margin="2">
+                <ListBoxItem>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="20px" Text="uzrurz" />
+                        <Separator Background="Transparent"/>
+
+                        <TextBlock Text="{Binding Path=CreationDate}"/>
+                        <Separator Background="Transparent"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <TextBlock Foreground="DarkGray" Text="{Binding Path=Tags}" />
+                        <Separator Width="250" Background="Transparent"/>
+
+                        <Image Source="../Resources/Images/delete.png" Width="13" />
+                        <Separator Width="25" Background="Transparent"/>
+                        <Image Source="../Resources/Images/edit.png" Width="13" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0">
+                        <TextBlock Text="{Binding Path=Content}" />
+                    </StackPanel>
+                </StackPanel>
+            </ListBoxItem>
+        </Border>
+    </DataTemplate>
+</Page.Resources>
 
     <Grid Background="White">
-        <StackPanel HorizontalAlignment="center" Margin="30,0,0,0">
+        <StackPanel HorizontalAlignment="center" Margin="110,0,0,0">
             <TextBlock FontSize="30" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">Bilješke</TextBlock>
-        
+
             <StackPanel Orientation="Horizontal">
-                <TextBlock FontSize="12" HorizontalAlignment="Center" Margin="0,30,0,0">
+                <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
                     Pozdrav
                 </TextBlock>
                 <Separator Width="5" Background="Transparent"></Separator>
-                <TextBlock FontSize="12" x:Name="UsernameField" HorizontalAlignment="Center" Margin="0,30,0,0" FontWeight="Bold" />
-                <TextBlock FontSize="12" HorizontalAlignment="Center" Margin="0,30,0,0">
+                <TextBlock FontSize="15" x:Name="UsernameField" HorizontalAlignment="Center" Margin="0,30,0,0" FontWeight="Bold" />
+                <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
                     , ovdje možete vidjeti sve svoje bilješke.
                 </TextBlock>
             </StackPanel>
 
-            <ListBox Width="400" Margin="10">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Path=TaskName}" />
-                            <TextBlock Text="{Binding Path=Description}"/>
-                            <TextBlock Text="{Binding Path=Priority}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <ListBox Width="450" BorderThickness="0" Margin="0,20,0,0" x:Name="NotesContainer" HorizontalContentAlignment="Stretch"
+                Visibility="Visible" ItemTemplate="{StaticResource NotesTemplate}"/>
+
+            <TextBlock Name="NotesEmpty" Visibility="Collapsed" Foreground="DarkGray" FontSize="15">
+                Izgleda da niste unijeli nijednu bilješku...
+            </TextBlock>
         </StackPanel>
     </Grid>
 </Page>

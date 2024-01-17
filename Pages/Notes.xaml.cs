@@ -43,17 +43,20 @@ namespace SideBar_Nav.Pages
             var uid = (int)Application.Current.Properties["uid"];
 
             var username = _context.Users.Where(usr => usr.UserId == uid).Select(usr => usr.UserName).FirstOrDefault();
-            var notes = _context.Notes.Where(x => x.UserId == uid && x is Note).OrderByDescending(x => x.Pinned).ToList();
+            var notes = _context.Notes.Where(x => x.UserId == uid).OrderByDescending(x => x.Pinned).ToList();
 
             UsernameField.Text = username;
             
-            if (notes == null)
+            if (notes.Count == 0)
             {
-                // display text which says there aren't notes yet
+                NotesContainer.Visibility = Visibility.Collapsed;
+                NotesEmpty.Visibility = Visibility.Visible;
             }
             else
             {
-                DebugNotes();
+                NotesEmpty.Visibility = Visibility.Collapsed;
+                NotesContainer.Visibility = Visibility.Visible;
+                NotesContainer.ItemsSource = notes;
             }
         }
 
