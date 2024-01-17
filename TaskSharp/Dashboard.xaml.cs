@@ -61,6 +61,7 @@ namespace TaskSharp
         {
             var noteCreate = new NoteCreate();
             noteCreate.Show();
+            this.Close();
         }
     }
 }

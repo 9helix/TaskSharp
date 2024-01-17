@@ -31,7 +31,7 @@ namespace TaskSharp
             });
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Login_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
             _context.Users.Load();
@@ -172,7 +172,7 @@ namespace TaskSharp
 
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Login_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _context.Dispose();
             //base.OnClosing(e);

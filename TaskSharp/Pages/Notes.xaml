@@ -22,7 +22,18 @@
                     , ovdje možete vidjeti sve svoje bilješke.
                 </TextBlock>
             </StackPanel>
-            
+
+            <ListBox Width="400" Margin="10">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=TaskName}" />
+                            <TextBlock Text="{Binding Path=Description}"/>
+                            <TextBlock Text="{Binding Path=Priority}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
     </Grid>
 </Page>

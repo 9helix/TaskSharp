@@ -41,17 +41,26 @@ namespace SideBar_Nav.Pages
             _context.Notes.Load();
 
             var uid = (int)Application.Current.Properties["uid"];
+
             var username = _context.Users.Where(usr => usr.UserId == uid).Select(usr => usr.UserName).FirstOrDefault();
-            //var notes = _context.BaseNotes.Where(usr => usr.UserId == uid).ToList();
+            var notes = _context.Notes.Where(x => x.UserId == uid && x is Note).OrderByDescending(x => x.Pinned).ToList();
 
             UsernameField.Text = username;
-            DebugNotes();
+            
+            if (notes == null)
+            {
+                // display text which says there aren't notes yet
+            }
+            else
+            {
+                DebugNotes();
+            }
         }
 
         private void DebugNotes()
         {
             var uid = (int)Application.Current.Properties["uid"];
-            var notes = _context.Notes.Where(x => x.UserId == uid && x.Type == 0).ToList();
+            var notes = _context.Notes.Where(x => x.UserId == uid && x is Note).OrderByDescending(x => x.Pinned).ToList();
             foreach (var user in notes)
             {
                 Debug.WriteLine($"BasenoteID: {user.Id}, UserID: {user.UserId}, datum kreiranja: {user.CreationDate}, name: {user.Name}, tags: {user.Tags}, pinned: {user.Pinned}, content: {user.Content}");

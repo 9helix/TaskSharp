@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
-        Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" Loaded="Dashboard_Loaded" ResizeMode="CanMinimize">
+        Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" ResizeMode="CanMinimize" Loaded="Dashboard_Loaded">
     <Grid Background="DeepSkyBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="113"/>

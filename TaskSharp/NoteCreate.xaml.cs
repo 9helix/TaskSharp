@@ -40,7 +40,6 @@ namespace TaskSharp
                 ToggleFields(index);
                 //test.Children.Add(new TextBox { });
             }
-            Debug.WriteLine(index);
         }
         private void ToggleFields(int type)
         {
@@ -102,6 +101,7 @@ namespace TaskSharp
                 StackPanel stk = new StackPanel { Name = $"todo{todos.Last() + 1}", Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
                 todos.Add(todos.Last() + 1);
                 TextBox txt = new TextBox { Margin = new Thickness(left: 15, top: 0, right: 0, bottom: 0), MaxLength = 50, Width = 175, Text = $"Todo #{todos.Last()}" };
+
                 Separator sep = new Separator
                 {
                     Name = $"septodo{todos.Last()}",
@@ -133,6 +133,7 @@ namespace TaskSharp
             StackPanel stk = (StackPanel)(sender as Image).Parent;
             Border toDelete = (Border)stk.Parent;
             todos.RemoveAt(1);
+
             Debug.WriteLine(toDelete.Name);
             StackPanel par = (StackPanel)toDelete.Parent;
             par.Children.Remove(toDelete);
@@ -140,27 +141,36 @@ namespace TaskSharp
 
         private void SaveNote(object sender, RoutedEventArgs e)
         {
-
-            Debug.WriteLine("save");
             int index = NoteTypeMenu.SelectedIndex;
             string name = note_name.Text;
             string tags = this.tags.Text;
             bool Pin = flag.IsChecked.Value;
+
             Debug.WriteLine($"{name}-{tags}-{Pin}");
             DateTime dateCreate = DateTime.Now;
             int uid = (int)Application.Current.Properties["uid"];
             //ushort id = GenerateNoteId();
+
             switch (index)
             {
                 case 0: //biljeska
                     string content = this.content.Text;
                     Debug.WriteLine(content);
-                    Note newNote = new Note { Type = (NoteType)index, UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Content = content, Pinned = Pin };
+                    Note newNote = new Note {
+                        UserId = uid,
+                        Name = name,
+                        CreationDate = dateCreate,
+                        Tags = tags,
+                        Content = content,
+                        Pinned = Pin
+                    };
                     _context.Notes.Add(newNote);
                     break;
+
                 case 1: //događaj
                     DateTime StartEvent = (DateTime)EventStartPick.SelectedDate;
                     DateTime EndEvent = (DateTime)EventEndPick.SelectedDate;
+
                     if (EndEvent < StartEvent)
                     {
                         MessageBox.Show("Datum kraja događaja ne smije biti manji od datuma početka događaja.", "Događaj greška", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -168,20 +178,37 @@ namespace TaskSharp
                     }
                     string location = this.location.Text;
                     Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
-                    Event newEvent = new Event { Type = (NoteType)index, UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, StartDate = StartEvent, EndDate = EndEvent, Location = location, Pinned = Pin };
+                    Event newEvent = new Event {
+                        UserId = uid,
+                        Name = name,
+                        CreationDate = dateCreate,
+                        Tags = tags,
+                        StartDate = StartEvent,
+                        EndDate = EndEvent,
+                        Location = location,
+                        Pinned = Pin
+                    };
                     _context.Events.Add(newEvent);
-
                     break;
+
                 case 2: //podsjetnik
                     DateTime dueDate = (DateTime)ReminderDuePick.SelectedDate;
 
                     int PriorityIndex = PriorityMenuPick.SelectedIndex;
                     ReminderPriority priority = (ReminderPriority)PriorityIndex;
                     Debug.WriteLine($"{dueDate}-{priority}");
-                    Reminder newReminder = new Reminder { Type = (NoteType)index, UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Priority = priority, DueDate = dueDate, Pinned = Pin };
+                    Reminder newReminder = new Reminder {
+                        UserId = uid,
+                        Name = name,
+                        CreationDate = dateCreate,
+                        Tags = tags,
+                        Priority = priority,
+                        DueDate = dueDate,
+                        Pinned = Pin
+                    };
                     _context.Reminders.Add(newReminder);
-
                     break;
+
                 case 3://todo
                     var todos = scroll.Children;
                     Dictionary<string, bool> TodoDict = new();
@@ -191,21 +218,27 @@ namespace TaskSharp
                         TodoDict[(todo[0] as TextBox).Text] = (todo[2] as CheckBox).IsChecked.Value;
                         Debug.WriteLine($"{(todo[0] as TextBox).Text}-{(todo[2] as CheckBox).IsChecked.Value}");
                     }
-                    TodoList newTodoList = new TodoList { Type = (NoteType)index, UserId = uid, Name = name, CreationDate = dateCreate, Tags = tags, Todos = TodoDict, Pinned = Pin };
+                    TodoList newTodoList = new TodoList {
+                        UserId = uid,
+                        Name = name,
+                        CreationDate = dateCreate,
+                        Tags = tags,
+                        Todos = TodoDict,
+                        Pinned = Pin
+                    };
                     _context.TodoLists.Add(newTodoList);
-
                     break;
             }
             _context.SaveChanges();
             MessageBox.Show("Zapis uspješno stvoren!", "Stvaranje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            _context.Dispose();
             this.Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _context.Dispose();
+            var dashboard = new Dashboard();
+            dashboard.Show();
         }
     }
 }
