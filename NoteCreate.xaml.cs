@@ -91,6 +91,7 @@ namespace TaskSharp
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
+            _context.Dispose();
             this.Close();
         }
 
@@ -198,6 +199,7 @@ namespace TaskSharp
             _context.SaveChanges();
             MessageBox.Show("Zapis uspješno stvoren!", "Stvaranje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
 
+            _context.Dispose();
             this.Close();
         }
 

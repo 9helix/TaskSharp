@@ -6,9 +6,23 @@
       xmlns:local="clr-namespace:SideBar_Nav.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Bilješke">
+      Title="Bilješke" Loaded="Notes_Loaded" Unloaded="Notes_Unloaded">
 
-    <Grid>
-        <TextBlock Text="PAGE 1" FontFamily="ubuntu" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB197FC" FontSize="60" FontWeight="Bold"/>
+    <Grid Background="White">
+        <StackPanel HorizontalAlignment="center" Margin="30,0,0,0">
+            <TextBlock FontSize="30" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">Bilješke</TextBlock>
+        
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="12" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    Pozdrav
+                </TextBlock>
+                <Separator Width="5" Background="Transparent"></Separator>
+                <TextBlock FontSize="12" x:Name="UsernameField" HorizontalAlignment="Center" Margin="0,30,0,0" FontWeight="Bold" />
+                <TextBlock FontSize="12" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    , ovdje možete vidjeti sve svoje bilješke.
+                </TextBlock>
+            </StackPanel>
+            
+        </StackPanel>
     </Grid>
 </Page>

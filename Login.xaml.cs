@@ -35,7 +35,6 @@ namespace TaskSharp
         {
             _context.Database.EnsureCreated();
             _context.Users.Load();
-            DebugUsers();
         }
 
         /*private void Login_Click(object sender, RoutedEventArgs e)

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskSharp;
 
 namespace SideBar_Nav.Pages
 {
@@ -20,9 +24,42 @@ namespace SideBar_Nav.Pages
     /// </summary>
     public partial class Page1 : Page
     {
+
+        private readonly NotesContext _context =
+            new NotesContext();
+
         public Page1()
         {
             InitializeComponent();
+        }
+
+        private void Notes_Loaded(object sender, RoutedEventArgs e)
+        {
+            _context.Database.EnsureCreated();
+            _context.Users.Load();
+            _context.BaseNotes.Load();
+
+            var uid = (int)Application.Current.Properties["uid"];
+            var username = _context.Users.Where(usr => usr.UserId == uid).Select(usr => usr.UserName).FirstOrDefault();
+            //var notes = _context.BaseNotes.Where(usr => usr.UserId == uid).ToList();
+
+            UsernameField.Text = username;
+            DebugNotes();
+        }
+
+        private void DebugNotes()
+        {
+            var uid = (int)Application.Current.Properties["uid"];
+            var notes = _context.BaseNotes.Where(usr => usr.UserId == uid).ToList();
+            foreach (var user in notes)
+            {
+                Debug.WriteLine($"BasenoteID: {user.BaseNoteId}, ID: {user.UserId}, datum kreiranja: {user.CreationDate}, name: {user.Name}, tags: {user.Tags}, pinned: {user.Pinned}");
+            }
+        }
+
+        private void Notes_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _context.Dispose();
         }
     }
 }

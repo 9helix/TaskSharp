@@ -15,6 +15,7 @@
     <None Remove="Resources\Images\github.png" />
     <None Remove="Resources\Images\hide.png" />
     <None Remove="Resources\Images\key.png" />
+    <None Remove="Resources\Images\logout.png" />
     <None Remove="Resources\Images\Notes\event.png" />
     <None Remove="Resources\Images\Notes\note.png" />
     <None Remove="Resources\Images\Notes\reminder.png" />
@@ -30,6 +31,7 @@
     <Resource Include="Resources\Images\github.png" />
     <Resource Include="Resources\Images\hide.png" />
     <Resource Include="Resources\Images\key.png" />
+    <Resource Include="Resources\Images\logout.png" />
     <Resource Include="Resources\Images\Notes\event.png" />
     <Resource Include="Resources\Images\Notes\note.png" />
     <Resource Include="Resources\Images\Notes\todo.png" />
