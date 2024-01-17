@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -85,7 +86,7 @@ namespace TaskSharp
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
-            //_context.Users.Load();
+            _context.Users.Load();
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)

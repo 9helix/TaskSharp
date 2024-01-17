@@ -125,7 +125,7 @@
         </StackPanel>
         <Separator Height="30" Background="Transparent"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="120" Name="SaveNoteBtn" Click="SaveNote">
+            <Button IsDefault="True" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="120" Name="SaveNoteBtn" Click="SaveNote">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -133,7 +133,7 @@
                 </Button.Resources> Stvori zapis
             </Button>
             <Separator Width="10" Background="transparent"/>
-            <Button Background="LightGray" Foreground="black" FontWeight="Bold" FontSize="15" Width="100" Name="CancelBtn" Click="CancelBtn_Click">
+            <Button IsCancel="True" Background="LightGray" Foreground="black" FontWeight="Bold" FontSize="15" Width="100" Name="CancelBtn" Click="CancelBtn_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>

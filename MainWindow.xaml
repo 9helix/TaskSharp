@@ -46,7 +46,7 @@
 
 
         <Separator Height="5" Background="Transparent"/>
-        <Button Click="Login_Click" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="110" Name="AccButton">
+        <Button IsDefault="True" Click="Login_Click" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="110" Name="AccButton">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
