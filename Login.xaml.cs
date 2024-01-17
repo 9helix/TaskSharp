@@ -96,20 +96,17 @@ namespace TaskSharp
                     var usernames = _context.Users.Select(usr => usr.UserName).ToList();
                     if (!usernames.Contains(txtUser.Text))
                     {
-                        
-                        
-                            var newUser = new User
-                            {
-                                UserName = txtUser.Text,
-                                Password = txtPass.Password
-                            };
-                            _context.Users.Add(newUser);
-                            _context.SaveChanges();
-                            MessageBox.Show("Registracija uspješna!", "Registracija", MessageBoxButton.OK, MessageBoxImage.Information);
+                        var newUser = new User
+                        {
+                            UserName = txtUser.Text,
+                            Password = txtPass.Password
+                        };
+                        _context.Users.Add(newUser);
+                        _context.SaveChanges();
+                        MessageBox.Show("Registracija uspješna!", "Registracija", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                            LoginSwitch();
-                            DebugUsers();
-                       
+                        LoginSwitch();
+                        DebugUsers();
                     }
                     else
                     {
@@ -137,9 +134,7 @@ namespace TaskSharp
                 else
                     MessageBox.Show("Krivi korisnički podaci! Pokušajte ponovo.", "Prijava", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                /*
-                login logic
-                */
+                // login logic
             }
         }
         private void LoginSwitch()
