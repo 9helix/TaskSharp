@@ -29,7 +29,7 @@
                             <TextBlock Grid.Column="2" Text="{Binding Path=CreationDate, StringFormat=dd. MM. yyyy}"/>
                         </StackPanel>
 
-                        <Image Grid.Column="2" Source="../Resources/Images/thumbtack.png" Width="15" Cursor="Hand">
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Source="../Resources/Images/thumbtack.png" Width="15" Cursor="Hand">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
                                     <Setter Property="Visibility" Value="Visible"/>
@@ -54,11 +54,11 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Foreground="DarkGray" Text="{Binding Path=Tags}" />
-                        <Image Grid.Column="1" Source="../Resources/Images/deleteRed.png" Width="15" Cursor="Hand" PreviewMouseDown="DeleteNote"/>
-                        <Image Grid.Column="2" Source="../Resources/Images/edit.png" Width="15" Cursor="Hand" PreviewMouseDown="OpenEditor"/>
+                        <Image Grid.Column="1" Tag="{Binding Path=Id}" Source="../Resources/Images/deleteRed.png" Width="15" Cursor="Hand" PreviewMouseDown="DeleteNote"/>
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="15" Cursor="Hand" PreviewMouseDown="OpenEditor"/>
                     </Grid>
 
-                    <Grid Margin="2,5,0,0">
+                    <Grid Margin="2,8,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
@@ -67,7 +67,7 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Sadržaj:" />
+                            <TextBlock FontSize="15" Text="Sadržaj:" />
                             <Separator Width="3" Background="Transparent"/>
                             <TextBlock FontSize="15" Text="{Binding Path=Content}" />
                         </StackPanel>

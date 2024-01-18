@@ -17,8 +17,8 @@ namespace TaskSharp
         private readonly NotesContext _context =
     new NotesContext();
 
-        int NoteId;//define them
-        int NoteType;
+        int NoteId = (int)Application.Current.Properties["noteId"];
+        int NoteType = (int)Application.Current.Properties["noteType"];
 
         List<int> todos = new List<int> { 1 };
         public NoteEdit()
@@ -31,17 +31,20 @@ namespace TaskSharp
                     var temp1 = _context.Notes.Where(nt => nt.Id == NoteId).First();
                     NoteContent.Visibility = Visibility.Visible;
                     break;
+
                 case 1:
                     var temp = _context.Events.Where(nt => nt.Id == NoteId).First();
+
                     EventStartPick.BlackoutDates.AddDatesInPast();
                     EventStartPick.SelectedDate = temp.StartDate;
                     EventEndPick.BlackoutDates.AddDatesInPast();
                     EventEndPick.SelectedDate = temp.EndDate;
+
                     EventStart.Visibility = Visibility.Visible;
                     EventEnd.Visibility = Visibility.Visible;
                     txtLocation.Visibility = Visibility.Visible;
-
                     break;
+
                 case 2:
                     var temp3 = _context.Reminders.Where(nt => nt.Id == NoteId).First();
                     ReminderDuePick.BlackoutDates.AddDatesInPast();
@@ -50,8 +53,8 @@ namespace TaskSharp
 
                     (PriorityMenu.Children[(int)temp3.Priority] as ComboBoxItem).IsSelected = true;
                     PriorityMenu.Visibility = Visibility.Visible;
-
                     break;
+
                 case 3:
                     var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First();
                     foreach (KeyValuePair<string, bool> entry in note4.Todos)
@@ -62,10 +65,7 @@ namespace TaskSharp
                     TodoList.Visibility = Visibility.Visible;
                     break;
             }
-
-
         }
-
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

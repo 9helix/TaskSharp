@@ -82,7 +82,10 @@ namespace SideBar_Nav.Pages
 
         private void OpenEditor(object sender, MouseButtonEventArgs e)
         {
+            var noteID = ((Image)sender).Tag;
             Application.Current.Properties["noteType"] = 0;
+            Application.Current.Properties["noteId"] = noteID;
+
             var noteEdit = new NoteEdit();
             noteEdit.Show();
 
@@ -92,8 +95,7 @@ namespace SideBar_Nav.Pages
 
         private void DeleteNote(object sender, MouseButtonEventArgs e)
         {
-            FrameworkElement parent = (FrameworkElement)((Image)sender).Parent;
-            Debug.WriteLine(parent);
+            var noteID = ((Image)sender).Tag;
         }
     }
 }
