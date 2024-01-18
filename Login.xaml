@@ -17,7 +17,9 @@
                 <TextBlock Margin="5,0,0,0"><Run Text="Korisničko ime:"/></TextBlock>
             </StackPanel>
         </Label>
-        <TextBox x:Name="txtUser" MaxLength="15" Width="188" HorizontalAlignment="Left"/>
+        <StackPanel FocusManager.FocusedElement="{Binding ElementName=txtUser}">
+            <TextBox x:Name="txtUser" MaxLength="15" Width="188" HorizontalAlignment="Left"/>
+        </StackPanel>
         <Separator Height="5" Background="Transparent"/>
         <Label>
             <StackPanel Orientation="Horizontal">

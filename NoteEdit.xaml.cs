@@ -24,29 +24,42 @@ namespace TaskSharp
         public NoteEdit()
         {
             InitializeComponent();
+
             switch (NoteType)
             {
 
                 case 0:
                     var temp1 = _context.Notes.Where(nt => nt.Id == NoteId).First();
                     NoteContent.Visibility = Visibility.Visible;
+                    note_name.Text = temp1.Name;
+                    tags.Text = temp1.Tags;
+                    flag.IsChecked = temp1.Pinned;
+                    content.Text = temp1.Content;
+                    txtNoteType.Text = "Bilješka";
                     break;
 
                 case 1:
-                    var temp = _context.Events.Where(nt => nt.Id == NoteId).First();
-
+                    var temp2 = _context.Events.Where(nt => nt.Id == NoteId).First();
+                    txtNoteType.Text = "Događaj";
+                    note_name.Text = temp2.Name;
+                    tags.Text = temp2.Tags;
+                    flag.IsChecked = temp2.Pinned;
                     EventStartPick.BlackoutDates.AddDatesInPast();
-                    EventStartPick.SelectedDate = temp.StartDate;
+                    EventStartPick.SelectedDate = temp2.StartDate;
                     EventEndPick.BlackoutDates.AddDatesInPast();
-                    EventEndPick.SelectedDate = temp.EndDate;
-
+                    EventEndPick.SelectedDate = temp2.EndDate;
+                    location.Text = temp2.Location;
                     EventStart.Visibility = Visibility.Visible;
                     EventEnd.Visibility = Visibility.Visible;
                     txtLocation.Visibility = Visibility.Visible;
                     break;
 
                 case 2:
+                    txtNoteType.Text = "Podsjetnik";
                     var temp3 = _context.Reminders.Where(nt => nt.Id == NoteId).First();
+                    note_name.Text = temp3.Name;
+                    tags.Text = temp3.Tags;
+                    flag.IsChecked = temp3.Pinned;
                     ReminderDuePick.BlackoutDates.AddDatesInPast();
                     ReminderDuePick.SelectedDate = temp3.DueDate;
                     ReminderDue.Visibility = Visibility.Visible;
@@ -56,6 +69,7 @@ namespace TaskSharp
                     break;
 
                 case 3:
+                    txtNoteType.Text = "To-Do lista";
                     var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First();
                     foreach (KeyValuePair<string, bool> entry in note4.Todos)
                     {

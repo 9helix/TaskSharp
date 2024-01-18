@@ -11,7 +11,7 @@
         <TextBlock FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,0">Uređivanje bilješke</TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,35,0,0" >
             <TextBlock Margin="0,0,5,0" FontSize="15" VerticalAlignment="Center">Vrsta zapisa:</TextBlock>
-            <TextBlock Margin="0,0,5,0" FontSize="15" VerticalAlignment="Center" FontWeight="Bold">Test tip</TextBlock>
+            <TextBlock Name="txtNoteType" Margin="0,0,5,0" FontSize="15" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
 </StackPanel>
 
         <Separator Height="40" Width="150"/>
@@ -34,6 +34,7 @@
             <TextBlock Padding="0,0,5,5" TextAlignment="Center">Sadržaj:</TextBlock>
             <TextBox Name="content" AcceptsReturn="True" TextWrapping="Wrap" Width="200" Height="100" MaxHeight="150"/>
         </StackPanel>
+        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="EventStart" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Početak događaja:</TextBlock>
             <DatePicker Name="EventStartPick" Width="100">
@@ -52,6 +53,7 @@
             <TextBlock Padding="0,0,5,0">Lokacija:</TextBlock>
             <TextBox Width="90" MaxLength="100" Name="location"/>
         </StackPanel>
+        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed" Name="ReminderDue" Margin="0,0,0,5">
             <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Rok:</TextBlock>
             <DatePicker Name="ReminderDuePick" Width="100">
