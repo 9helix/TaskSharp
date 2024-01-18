@@ -31,7 +31,7 @@
 
             <TextBox Name="PasswordUnmask" Visibility="Collapsed" Width="188"/>
         <!--<CheckBox x:Name="ShowPasswordCheckBox" Content="Prikaži lozinku" Checked="ShowPassword_Checked" Unchecked="ShowPassword_Unchecked" />-->
-            <Image x:Name="ShowPass" Source="/Resources/Images/show.png" Width="15" Margin="5,0,0,0" PreviewMouseDown="Image_PreviewMouseDown" PreviewMouseUp="Image_PreviewMouseUp" MouseLeave="Image_MouseLeave"/>
+            <Image x:Name="ShowPass" Source="/Resources/Images/show.png" Width="15" Margin="5,0,0,0" PreviewMouseDown="Image_PreviewMouseDown" PreviewMouseUp="Image_PreviewMouseUp" MouseLeave="Image_MouseLeave" Cursor="Hand"/>
         </StackPanel>
         <Separator Height="5" Background="Transparent"/>
         <StackPanel Visibility="Collapsed" Name="PassConf">
@@ -46,7 +46,7 @@
 
 
         <Separator Height="5" Background="Transparent"/>
-        <Button IsDefault="True" Click="Login_Click" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="110" Name="AccButton">
+        <Button IsDefault="True" Click="Login_Click" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="110" Name="AccButton" Cursor="Hand">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -56,12 +56,12 @@
         <StackPanel Name="RegisterCall"
 Visibility="Visible">
             <Separator Height="7" Background="Transparent"/>
-            <TextBlock TextAlignment="Center">Novi korisnik? <Hyperlink Click="Hyperlink_Click">Registriraj se.</Hyperlink></TextBlock>
+            <TextBlock TextAlignment="Center">Novi korisnik? <Hyperlink Click="Hyperlink_Click" Cursor="Hand">Registriraj se.</Hyperlink></TextBlock>
         </StackPanel>
         <StackPanel Name="LoginCall"
 Visibility="Collapsed">
             <Separator Height="7" Background="Transparent"/>
-            <TextBlock TextAlignment="Center">Postojeći korisnik? <Hyperlink Click="Hyperlink_Click">Prijavi se.</Hyperlink></TextBlock>
+            <TextBlock TextAlignment="Center">Postojeći korisnik? <Hyperlink Click="Hyperlink_Click" Cursor="Hand">Prijavi se.</Hyperlink></TextBlock>
         </StackPanel>
 
         <Separator Height="35" Width="120"/>
