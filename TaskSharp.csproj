@@ -12,6 +12,7 @@
     <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\confirm.png" />
     <None Remove="Resources\Images\delete.png" />
+    <None Remove="Resources\Images\deleteRed.png" />
     <None Remove="Resources\Images\edit.png" />
     <None Remove="Resources\Images\github.png" />
     <None Remove="Resources\Images\hide.png" />
@@ -22,6 +23,7 @@
     <None Remove="Resources\Images\Notes\reminder.png" />
     <None Remove="Resources\Images\Notes\todo.png" />
     <None Remove="Resources\Images\show.png" />
+    <None Remove="Resources\Images\thumbtack.png" />
     <None Remove="Resources\Images\user.png" />
   </ItemGroup>
 
@@ -29,6 +31,7 @@
     <Resource Include="Resources\Images\add.png" />
     <Resource Include="Resources\Images\confirm.png" />
     <Resource Include="Resources\Images\delete.png" />
+    <Resource Include="Resources\Images\deleteRed.png" />
     <Resource Include="Resources\Images\edit.png" />
     <Resource Include="Resources\Images\github.png" />
     <Resource Include="Resources\Images\hide.png" />
@@ -39,6 +42,7 @@
     <Resource Include="Resources\Images\Notes\todo.png" />
     <Resource Include="Resources\Images\Notes\reminder.png" />
     <Resource Include="Resources\Images\show.png" />
+    <Resource Include="Resources\Images\thumbtack.png" />
     <Resource Include="Resources\Images\user.png" />
   </ItemGroup>
 

@@ -42,8 +42,13 @@ namespace SideBar_Nav.Pages
 
             var uid = (int)Application.Current.Properties["uid"];
 
-            var username = _context.Users.Where(usr => usr.UserId == uid).Select(usr => usr.UserName).FirstOrDefault();
-            var notes = _context.Notes.Where(x => x.UserId == uid).OrderByDescending(x => x.Pinned).ToList();
+            var username = _context.Users.Where(usr => usr.UserId == uid)
+                .Select(usr => usr.UserName)
+                .FirstOrDefault();
+            var notes = _context.Notes.Where(x => x.UserId == uid)
+                .OrderByDescending(x => x.Pinned)
+                .ThenByDescending(x => x.CreationDate)
+                .ToList();
 
             UsernameField.Text = username;
             
@@ -78,8 +83,17 @@ namespace SideBar_Nav.Pages
         private void OpenEditor(object sender, MouseButtonEventArgs e)
         {
             Application.Current.Properties["noteType"] = 0;
-            var noteCreate = new NoteCreate();
-            noteCreate.Show();
+            var noteEdit = new NoteEdit();
+            noteEdit.Show();
+
+            var wnd = Window.GetWindow(this);
+            wnd.Close();
+        }
+
+        private void DeleteNote(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement parent = (FrameworkElement)((Image)sender).Parent;
+            Debug.WriteLine(parent);
         }
     }
 }
