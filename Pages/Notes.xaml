@@ -9,29 +9,47 @@
       Title="Bilješke" Loaded="Notes_Loaded" Unloaded="Notes_Unloaded">
  <Page.Resources>
     <DataTemplate x:Key="NotesTemplate">
-            <Border Name="border" BorderBrush="LightSkyBlue" BorderThickness="1" Padding="2" Margin="2">
-                <ListBoxItem>
+        <Border Name="border" BorderBrush="LightSkyBlue" BorderThickness="1" Padding="1" Margin="2">
+            <ListBoxItem>
                 <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="20px" Text="uzrurz" />
-                        <Separator Background="Transparent"/>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding Path=CreationDate}"/>
-                        <Separator Background="Transparent"/>
-                    </StackPanel>
+                            <TextBlock FontSize="20px" Text="uzrurz" />
+                            <TextBlock Grid.Column="1" Text="{Binding Path=CreationDate}"/>
+                        </Grid>
 
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <TextBlock Foreground="DarkGray" Text="{Binding Path=Tags}" />
-                        <Separator Width="250" Background="Transparent"/>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3.5*" />
+                                <ColumnDefinition Width=".5*" />
+                                <ColumnDefinition Width=".5*" />
+                            </Grid.ColumnDefinitions>
 
-                        <Image Source="../Resources/Images/delete.png" Width="13" />
-                        <Separator Width="25" Background="Transparent"/>
-                        <Image Source="../Resources/Images/edit.png" Width="13" />
-                    </StackPanel>
+                            <TextBlock Foreground="DarkGray" Text="{Binding Path=Tags}" />
+                            <Image Grid.Column="1" Source="../Resources/Images/delete.png" Width="15" Cursor="Hand" />
+                            <Image Grid.Column="2" Source="../Resources/Images/edit.png" Width="15" Cursor="Hand" PreviewMouseDown="OpenEditor"/>
+                        </Grid>
 
-                    <StackPanel Margin="0,5,0,0">
-                        <TextBlock Text="{Binding Path=Content}" />
-                    </StackPanel>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding Path=Content}" />
+                        </Grid>
                 </StackPanel>
             </ListBoxItem>
         </Border>
@@ -39,7 +57,7 @@
 </Page.Resources>
 
     <Grid Background="White">
-        <StackPanel HorizontalAlignment="center" Margin="110,0,0,0">
+        <StackPanel HorizontalAlignment="center" Margin="70,0,0,0">
             <TextBlock FontSize="30" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">Bilješke</TextBlock>
 
             <StackPanel Orientation="Horizontal">
@@ -56,9 +74,14 @@
             <ListBox Width="450" BorderThickness="0" Margin="0,20,0,0" x:Name="NotesContainer" HorizontalContentAlignment="Stretch"
                 Visibility="Visible" ItemTemplate="{StaticResource NotesTemplate}"/>
 
-            <TextBlock Name="NotesEmpty" Visibility="Collapsed" Foreground="DarkGray" FontSize="15">
-                Izgleda da niste unijeli nijednu bilješku...
-            </TextBlock>
+            <StackPanel Name="NotesEmpty" Visibility="Collapsed">
+                <TextBlock Foreground="DarkGray" FontSize="15">
+                    Izgleda da niste unijeli nijednu bilješku...
+                </TextBlock>
+                <TextBlock Foreground="DarkGray" FontSize="15">
+                    Bez brige, to možete ispraviti klikom na gumb "+ dodaj novo".
+                </TextBlock>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

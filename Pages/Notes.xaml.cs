@@ -74,5 +74,12 @@ namespace SideBar_Nav.Pages
         {
             _context.Dispose();
         }
+
+        private void OpenEditor(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Properties["noteType"] = 0;
+            var noteCreate = new NoteCreate();
+            noteCreate.Show();
+        }
     }
 }
