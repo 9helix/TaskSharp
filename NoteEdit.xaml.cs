@@ -56,7 +56,7 @@ namespace TaskSharp
                     var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First();
                     foreach (KeyValuePair<string, bool> entry in note4.Todos)
                     {
-                        AddTodo(entry.Key, entry.Value);
+                        AddTodo2(entry.Key, entry.Value);
                     }
 
                     TodoList.Visibility = Visibility.Visible;
@@ -78,8 +78,12 @@ namespace TaskSharp
             _context.Dispose();
             this.Close();
         }
+        private void AddTodo(object sender, MouseButtonEventArgs e)
+        {
+            AddTodo2();
+        }
 
-        private void AddTodo(string content = null, bool check = false)
+        private void AddTodo2(string content = null, bool check = false)
         {
             if (todos.Count < 10)
             {
@@ -135,12 +139,17 @@ namespace TaskSharp
         {
             int index = NoteType;
             string name = note_name.Text;
+            if (name == "")
+            {
+                MessageBox.Show("Zapis mora imati ime.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             string tags = this.tags.Text;
             bool Pin = flag.IsChecked.Value;
 
             Debug.WriteLine($"{name}-{tags}-{Pin}");
-            DateTime dateCreate = DateTime.Now;
-            int uid = (int)Application.Current.Properties["uid"];
+            //DateTime dateCreate = DateTime.Now;
+            //int uid = (int)Application.Current.Properties["uid"];
             //ushort id = GenerateNoteId();
 
             switch (index)
@@ -148,6 +157,11 @@ namespace TaskSharp
                 case 0: //biljeska
                     string content = this.content.Text;
                     Debug.WriteLine(content);
+                    if (content == "")
+                    {
+                        MessageBox.Show("Sadržaj ne smije biti prazan.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
 
                     var note1 = _context.Notes.Where(nt => nt.Id == NoteId).First<Note>();
                     note1.Name = name;
@@ -157,8 +171,14 @@ namespace TaskSharp
                     break;
 
                 case 1: //događaj
-                    DateTime StartEvent = (DateTime)EventStartPick.SelectedDate;
-                    DateTime EndEvent = (DateTime)EventEndPick.SelectedDate;
+                    var StartEvent = EventStartPick.SelectedDate;
+                    var EndEvent = EventEndPick.SelectedDate;
+
+                    if (StartEvent is not DateTime || EndEvent is not DateTime)
+                    {
+                        MessageBox.Show("Datumi moraju biti odabrani.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
 
                     if (EndEvent < StartEvent)
                     {
@@ -171,14 +191,19 @@ namespace TaskSharp
                     var note2 = _context.Events.Where(nt => nt.Id == NoteId).First<Event>();
                     note2.Name = name;
                     note2.Tags = tags;
-                    note2.StartDate = StartEvent;
-                    note2.EndDate = EndEvent;
+                    note2.StartDate = (DateTime)StartEvent;
+                    note2.EndDate = (DateTime)EndEvent;
                     note2.Location = location;
                     note2.Pinned = Pin;
                     break;
 
                 case 2: //podsjetnik
-                    DateTime dueDate = (DateTime)ReminderDuePick.SelectedDate;
+                    var dueDate = ReminderDuePick.SelectedDate;
+                    if (dueDate is not DateTime)
+                    {
+                        MessageBox.Show("Datum mora biti odabran.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
 
                     int PriorityIndex = PriorityMenuPick.SelectedIndex;
                     ReminderPriority priority = (ReminderPriority)PriorityIndex;
@@ -190,7 +215,7 @@ namespace TaskSharp
                     note3.Tags = tags;
                     note3.Pinned = Pin;
                     note3.Priority = priority;
-                    note3.DueDate = dueDate;
+                    note3.DueDate = (DateTime)dueDate;
                     break;
 
                 case 3://todo
@@ -207,15 +232,6 @@ namespace TaskSharp
                             return;
                         }
                     }
-                    TodoList newTodoList = new TodoList
-                    {
-                        UserId = uid,
-                        Name = name,
-                        CreationDate = dateCreate,
-                        Tags = tags,
-                        Todos = TodoDict,
-                        Pinned = Pin
-                    };
 
                     var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First<TodoList>();
                     note4.Name = name;

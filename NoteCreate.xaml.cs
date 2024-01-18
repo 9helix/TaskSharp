@@ -143,6 +143,11 @@ namespace TaskSharp
         {
             int index = NoteTypeMenu.SelectedIndex;
             string name = note_name.Text;
+            if (name == "")
+            {
+                MessageBox.Show("Zapis mora imati ime.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             string tags = this.tags.Text;
             bool Pin = flag.IsChecked.Value;
 
@@ -156,6 +161,11 @@ namespace TaskSharp
                 case 0: //biljeska
                     string content = this.content.Text;
                     Debug.WriteLine(content);
+                    if (content == "")
+                    {
+                        MessageBox.Show("Sadržaj ne smije biti prazan.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     Note newNote = new Note
                     {
                         UserId = uid,
@@ -169,9 +179,14 @@ namespace TaskSharp
                     break;
 
                 case 1: //događaj
-                    DateTime StartEvent = (DateTime)EventStartPick.SelectedDate;
-                    DateTime EndEvent = (DateTime)EventEndPick.SelectedDate;
+                    var StartEvent = EventStartPick.SelectedDate;
+                    var EndEvent = EventEndPick.SelectedDate;
 
+                    if (StartEvent is not DateTime || EndEvent is not DateTime)
+                    {
+                        MessageBox.Show("Datumi moraju biti odabrani.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     if (EndEvent < StartEvent)
                     {
                         MessageBox.Show("Datum kraja događaja ne smije biti manji od datuma početka događaja.", "Događaj greška", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -185,8 +200,8 @@ namespace TaskSharp
                         Name = name,
                         CreationDate = dateCreate,
                         Tags = tags,
-                        StartDate = StartEvent,
-                        EndDate = EndEvent,
+                        StartDate = (DateTime)StartEvent,
+                        EndDate = (DateTime)EndEvent,
                         Location = location,
                         Pinned = Pin
                     };
@@ -194,8 +209,12 @@ namespace TaskSharp
                     break;
 
                 case 2: //podsjetnik
-                    DateTime dueDate = (DateTime)ReminderDuePick.SelectedDate;
-
+                    var dueDate = ReminderDuePick.SelectedDate;
+                    if (dueDate is not DateTime)
+                    {
+                        MessageBox.Show("Datum mora biti odabran.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     int PriorityIndex = PriorityMenuPick.SelectedIndex;
                     ReminderPriority priority = (ReminderPriority)PriorityIndex;
                     Debug.WriteLine($"{dueDate}-{priority}");
@@ -206,7 +225,7 @@ namespace TaskSharp
                         CreationDate = dateCreate,
                         Tags = tags,
                         Priority = priority,
-                        DueDate = dueDate,
+                        DueDate = (DateTime)dueDate,
                         Pinned = Pin
                     };
                     _context.Reminders.Add(newReminder);
