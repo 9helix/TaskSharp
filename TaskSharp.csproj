@@ -26,6 +26,7 @@
     <None Remove="Resources\Images\show.png" />
     <None Remove="Resources\Images\thumbtack.png" />
     <None Remove="Resources\Images\unpin.png" />
+    <None Remove="Resources\Images\user-xmark.png" />
     <None Remove="Resources\Images\user.png" />
   </ItemGroup>
 
@@ -46,6 +47,7 @@
     <Resource Include="Resources\Images\pin.png" />
     <Resource Include="Resources\Images\show.png" />
     <Resource Include="Resources\Images\unpin.png" />
+    <Resource Include="Resources\Images\user-xmark.png" />
     <Resource Include="Resources\Images\user.png" />
   </ItemGroup>
 
