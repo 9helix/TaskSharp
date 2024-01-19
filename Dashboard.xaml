@@ -39,19 +39,19 @@
                     <TextBlock Margin="5,0,0,0"><Run Text="To-do liste"/></TextBlock>
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Height="35" Margin="0,150,0,0">
+            <ListBoxItem Height="35" Margin="0,140,0,0">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock TextTrimming="CharacterEllipsis" Margin="0,0,0,0" Name="userChip" Width="133"></TextBlock>
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Height="26" Cursor="Hand">
+            <ListBoxItem Height="26" Cursor="Hand" Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="Resources/Images/user-xmark.png" Width="16"/>
                     <TextBlock Margin="5,0,0,0">Ukloni račun</TextBlock>
 
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Height="35" Cursor="Hand">
+            <ListBoxItem Height="35" Cursor="Hand" Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="Resources/Images/logout.png" Width="13"/>
                     <TextBlock Margin="5,0,0,0"><Run Text="Odjava"/></TextBlock>

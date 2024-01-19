@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
-        Title="Stvaranje bilješke" Height="550" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="Stvaranje zapisa" Height="550" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded" Closing="Window_Closing">
 
     <StackPanel Orientation="Vertical">
-        <TextBlock FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,0">Stvaranje bilješke</TextBlock>
+        <TextBlock FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,0">Stvaranje zapisa</TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,35,0,0" >
             <TextBlock Margin="0,0,5,0" FontSize="15" VerticalAlignment="Center">Vrsta zapisa:</TextBlock>
             <ComboBox Name="NoteTypeMenu" HorizontalAlignment="Center" Width="120" FontSize="15" SelectionChanged="ComboBox_SelectionChanged">

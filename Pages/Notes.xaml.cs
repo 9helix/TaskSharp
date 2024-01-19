@@ -52,16 +52,6 @@ namespace SideBar_Nav.Pages
             }
         }
 
-        private void DebugNotes()
-        {
-            var uid = (int)Application.Current.Properties["uid"];
-            var notes = _context.Notes.Where(x => x.UserId == uid).OrderByDescending(x => x.Pinned).ToList();
-            foreach (var user in notes)
-            {
-                Debug.WriteLine($"BasenoteID: {user.Id}, UserID: {user.UserId}, datum kreiranja: {user.CreationDate}, name: {user.Name}, tags: {user.Tags}, pinned: {user.Pinned}, content: {user.Content}");
-            }
-        }
-
         private void RefreshNotes()
         {
             var uid = (int)Application.Current.Properties["uid"];
@@ -109,7 +99,7 @@ namespace SideBar_Nav.Pages
                 _context.Notes.Remove(note);
                 _context.SaveChanges();
 
-                MessageBox.Show("Zapis uspješno izbrisan!", "Brisanje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Bilješka uspješno izbrisana!", "Brisanje bilješke", MessageBoxButton.OK, MessageBoxImage.Information);
                 RefreshNotes();
             }
         }

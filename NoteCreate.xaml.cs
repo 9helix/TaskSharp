@@ -94,7 +94,7 @@ namespace TaskSharp
             this.Close();
         }
 
-        private void AddTodo(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void AddTodo(object sender, MouseButtonEventArgs e)
         {
             if (todos.Count < 10)
             {
@@ -128,7 +128,7 @@ namespace TaskSharp
                 MessageBox.Show("Dozvoljeno maksimalno 10 Todo-ova po listi.", "Todo greška", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-        private void DeleteTodo(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void DeleteTodo(object sender, MouseButtonEventArgs e)
         {
             StackPanel stk = (StackPanel)(sender as Image).Parent;
             Border toDelete = (Border)stk.Parent;

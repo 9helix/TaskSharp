@@ -6,9 +6,114 @@
       xmlns:local="clr-namespace:SideBar_Nav.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Događaji">
+      Title="Događaji" Loaded="Events_Loaded" Unloaded="Events_Unloaded">
+<Page.Resources>
+        <DataTemplate x:Key="EventsTemplate">
+            <Border Name="border" BorderBrush="LightSkyBlue" BorderThickness="1" Padding="5" Margin="2">
+                <StackPanel Orientation="Vertical">
 
-    <Grid>
-        <TextBlock Text="PAGE 2" FontFamily="ubuntu"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB197FC" FontSize="60" FontWeight="Bold"/>
+                    <Grid Margin="2,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width=".5*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Grid.Column="1">Stvoreno:</TextBlock>
+                            <Separator Width="3" Background="Transparent"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Path=CreationDate, StringFormat=dd. MM. yyyy}"/>
+                        </StackPanel>
+
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" PreviewMouseDown="PinUnpinEvent"  Width="15" Cursor="Hand">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Source" Value="../Resources/Images/pin.png"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Pinned}" Value="False">
+                                            <Setter Property="Source" Value="../Resources/Images/unpin.png"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Grid>
+
+                    <Grid Margin="2,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.5*" />
+                            <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width=".5*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Foreground="DarkGray" Text="{Binding Path=Tags}" />
+                        <Image Grid.Column="1" Tag="{Binding Path=Id}" Source="../Resources/Images/deleteRed.png" Width="15" Cursor="Hand" PreviewMouseDown="DeleteEvent"/>
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="15" Cursor="Hand" PreviewMouseDown="OpenEditor"/>
+                    </Grid>
+
+                    <Grid Margin="2,8,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock FontSize="14" Text="Datum od:" />
+                            <TextBlock FontSize="14" Text="{Binding Path=StartDate, StringFormat=dd. MM. yyyy}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                            <TextBlock FontSize="14" Text="Datum do:" />
+                            <TextBlock FontSize="14" Text="{Binding Path=EndDate, StringFormat=dd. MM. yyyy}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Orientation="Vertical">
+                            <TextBlock FontSize="14" Text="Lokacija:" />
+                            <TextBlock FontSize="14" Text="{Binding Path=Location}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="White">
+        <StackPanel HorizontalAlignment="center" Margin="50,0,0,0">
+            <TextBlock FontSize="30" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">Događaji</TextBlock>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    Pozdrav
+                </TextBlock>
+                <Separator Width="5" Background="Transparent"></Separator>
+                <TextBlock FontSize="15" x:Name="UsernameField" HorizontalAlignment="Center" Margin="0,30,0,0" FontWeight="Bold" />
+                <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    , ovdje možete vidjeti sve svoje događaje.
+                </TextBlock>
+            </StackPanel>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl Width="450" BorderThickness="0" Margin="0,20,0,0" x:Name="EventsContainer" HorizontalContentAlignment="Stretch"
+                Visibility="Visible" ItemTemplate="{StaticResource EventsTemplate}"/>
+            </ScrollViewer>
+
+            <StackPanel Name="EventsEmpty" Visibility="Collapsed" Margin="0,7,0,0">
+                <TextBlock Foreground="DarkGray" FontSize="15">
+                    Izgleda da niste unijeli nijedan događaj...
+                </TextBlock>
+                <TextBlock Foreground="DarkGray" FontSize="15">
+                    Bez brige, to možete ispraviti klikom na gumb "+ dodaj novo".
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>

@@ -24,10 +24,11 @@ namespace TaskSharp
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
         {
             navframe.Navigate(new Uri("Pages/Notes.xaml", UriKind.Relative));
+
             var uid = (int)Application.Current.Properties["uid"];
             var username = _context.Users.Where(usr => usr.UserId == uid)
-    .Select(usr => usr.UserName)
-    .First();
+                            .Select(usr => usr.UserName)
+                            .First();
             userChip.Inlines.Add(new Run("Korisnik: "));
             userChip.Inlines.Add(new Bold(new Run($"{username}")));
         }
@@ -51,6 +52,7 @@ namespace TaskSharp
                     break;
                 case 5:
                     var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati vaš račun? Time ćete pobrisati i sve svoje spremljene bilješke.", "Brisanje računa", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
                     if (choice == MessageBoxResult.Yes)
                     {
                         var uid = (int)Application.Current.Properties["uid"];
@@ -66,18 +68,16 @@ namespace TaskSharp
 
                         var user = _context.Users.Where(x => x.UserId == uid).First();
                         _context.Users.Remove(user);
-
                         _context.SaveChanges();
 
-                        MessageBox.Show("Zapis uspješno izbrisan!", "Brisanje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                        MessageBox.Show("Uspješno izbrisan korisnički račun!", "Brisanje korisničkog računa", MessageBoxButton.OK, MessageBoxImage.Information);
 
                         var win2 = new MainWindow();
                         win2.Show();
-
                         this.Close();
                     }
                     break;
+
                 case 6:
                     MessageBox.Show($"Odjava uspješna!", "Odjava", MessageBoxButton.OK, MessageBoxImage.Information);
                     var win = new MainWindow();
