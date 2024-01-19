@@ -105,7 +105,6 @@ namespace TaskSharp
                         MessageBox.Show("Registracija uspješna!", "Registracija", MessageBoxButton.OK, MessageBoxImage.Information);
 
                         LoginSwitch();
-                        DebugUsers();
                     }
                     else
                     {
@@ -174,6 +173,7 @@ namespace TaskSharp
 
         private void Login_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            DebugUsers();
             _context.Dispose();
             //base.OnClosing(e);
         }

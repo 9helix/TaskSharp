@@ -1,22 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TaskSharp;
-using TaskSharp.Classes;
 
 namespace SideBar_Nav.Pages
 {
@@ -68,16 +55,32 @@ namespace SideBar_Nav.Pages
         private void DebugNotes()
         {
             var uid = (int)Application.Current.Properties["uid"];
-            var notes = _context.Notes.Where(x => x.UserId == uid && x is Note).OrderByDescending(x => x.Pinned).ToList();
+            var notes = _context.Notes.Where(x => x.UserId == uid).OrderByDescending(x => x.Pinned).ToList();
             foreach (var user in notes)
             {
                 Debug.WriteLine($"BasenoteID: {user.Id}, UserID: {user.UserId}, datum kreiranja: {user.CreationDate}, name: {user.Name}, tags: {user.Tags}, pinned: {user.Pinned}, content: {user.Content}");
             }
         }
 
-        private void Notes_Unloaded(object sender, RoutedEventArgs e)
+        private void RefreshNotes()
         {
-            _context.Dispose();
+            var uid = (int)Application.Current.Properties["uid"];
+            var notes = _context.Notes.Where(x => x.UserId == uid)
+                .OrderByDescending(x => x.Pinned)
+                .ThenByDescending(x => x.CreationDate)
+                .ToList();
+            NotesContainer.ItemsSource = notes;
+        }
+
+        private void PinUnpinNote(object sender, MouseButtonEventArgs e)
+        {
+            var noteID = (int)((Image)sender).Tag;
+            var uid = (int)Application.Current.Properties["uid"];
+            var note = _context.Notes.Where(x => x.UserId == uid && x.Id == noteID).First();
+
+            note.Pinned = !note.Pinned;
+            _context.SaveChanges();
+            RefreshNotes();
         }
 
         private void OpenEditor(object sender, MouseButtonEventArgs e)
@@ -95,7 +98,25 @@ namespace SideBar_Nav.Pages
 
         private void DeleteNote(object sender, MouseButtonEventArgs e)
         {
-            var noteID = ((Image)sender).Tag;
+            var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati bilješku?", "Brisanje bilješke", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (choice == MessageBoxResult.Yes)
+            {
+                var noteID = (int)((Image)sender).Tag;
+                var uid = (int)Application.Current.Properties["uid"];
+
+                var note = _context.Notes.Where(x => x.UserId == uid && x.Id == noteID).First();
+                _context.Notes.Remove(note);
+                _context.SaveChanges();
+
+                MessageBox.Show("Zapis uspješno izbrisan!", "Brisanje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
+                RefreshNotes();
+            }
+        }
+
+        private void Notes_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _context.Dispose();
         }
     }
 }

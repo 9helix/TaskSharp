@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace TaskSharp.Classes
+﻿namespace TaskSharp.Classes
 {
     public class User
     {

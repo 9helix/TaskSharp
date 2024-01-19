@@ -255,7 +255,7 @@ namespace TaskSharp
                     break;
             }
             _context.SaveChanges();
-            MessageBox.Show("Zapis uspješno stvoren!", "Stvaranje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Zapis uspješno izmijenjen!", "Ažuriranje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
         }
 

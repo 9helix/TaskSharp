@@ -9,7 +9,7 @@
       Title="Bilješke" Loaded="Notes_Loaded" Unloaded="Notes_Unloaded">
 <Page.Resources>
         <DataTemplate x:Key="NotesTemplate">
-            <Border Name="border" BorderBrush="LightSkyBlue" BorderThickness="1" Padding="5,3,0,3" Margin="2">
+            <Border Name="border" BorderBrush="LightSkyBlue" BorderThickness="1" Padding="5" Margin="2">
                 <StackPanel Orientation="Vertical">
                     
                     <Grid Margin="2,5,0,0">
@@ -19,7 +19,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
@@ -29,13 +29,13 @@
                             <TextBlock Grid.Column="2" Text="{Binding Path=CreationDate, StringFormat=dd. MM. yyyy}"/>
                         </StackPanel>
 
-                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Source="../Resources/Images/thumbtack.png" Width="15" Cursor="Hand">
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" PreviewMouseDown="PinUnpinNote"  Width="15" Cursor="Hand">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
-                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="Source" Value="../Resources/Images/pin.png"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Pinned}" Value="False">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Setter Property="Source" Value="../Resources/Images/unpin.png"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -66,10 +66,9 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontSize="15" Text="Sadržaj:" />
-                            <Separator Width="3" Background="Transparent"/>
-                            <TextBlock FontSize="15" Text="{Binding Path=Content}" />
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock FontSize="14" Text="Sadržaj:" Foreground="Gray" />
+                            <TextBlock Width="390" FontSize="15" TextWrapping="Wrap" Text="{Binding Path=Content}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -97,7 +96,7 @@
                 Visibility="Visible" ItemTemplate="{StaticResource NotesTemplate}"/>
             </ScrollViewer>
 
-            <StackPanel Name="NotesEmpty" Visibility="Collapsed">
+            <StackPanel Name="NotesEmpty" Visibility="Collapsed" Margin="0,7,0,0">
                 <TextBlock Foreground="DarkGray" FontSize="15">
                     Izgleda da niste unijeli nijednu bilješku...
                 </TextBlock>

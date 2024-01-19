@@ -22,8 +22,10 @@
     <None Remove="Resources\Images\Notes\note.png" />
     <None Remove="Resources\Images\Notes\reminder.png" />
     <None Remove="Resources\Images\Notes\todo.png" />
+    <None Remove="Resources\Images\pin.png" />
     <None Remove="Resources\Images\show.png" />
     <None Remove="Resources\Images\thumbtack.png" />
+    <None Remove="Resources\Images\unpin.png" />
     <None Remove="Resources\Images\user.png" />
   </ItemGroup>
 
@@ -41,8 +43,9 @@
     <Resource Include="Resources\Images\Notes\note.png" />
     <Resource Include="Resources\Images\Notes\todo.png" />
     <Resource Include="Resources\Images\Notes\reminder.png" />
+    <Resource Include="Resources\Images\pin.png" />
     <Resource Include="Resources\Images\show.png" />
-    <Resource Include="Resources\Images\thumbtack.png" />
+    <Resource Include="Resources\Images\unpin.png" />
     <Resource Include="Resources\Images\user.png" />
   </ItemGroup>
 
