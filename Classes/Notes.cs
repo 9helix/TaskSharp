@@ -4,7 +4,7 @@ namespace TaskSharp.Classes
 {
     public enum ReminderPriority
     {
-        Low, Medium, High
+        Niski, Srednji, Visoki
     }
 
     public abstract class BaseNote
@@ -34,7 +34,7 @@ namespace TaskSharp.Classes
 
     public class Reminder : BaseNote
     {
-        public DateTime DueDate;
+        public DateTime DueDate { get; set; }
         public ReminderPriority Priority { get; set; }
     }
 

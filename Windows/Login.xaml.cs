@@ -171,13 +171,6 @@ namespace TaskSharp
 
         }
 
-        private void Login_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            DebugUsers();
-            _context.Dispose();
-            //base.OnClosing(e);
-        }
-
         private void PurgeDatabase()
         {
             var allUsers = _context.Users.ToList();
@@ -200,20 +193,25 @@ namespace TaskSharp
             PasswordUnmask.Visibility = Visibility.Visible;
             txtPass.Visibility = Visibility.Collapsed;
             PasswordUnmask.Text = txtPass.Password;
-            ShowPass.Source = new BitmapImage(new Uri(@"/Resources/Images/hide.png", UriKind.Relative));
+            ShowPass.Source = new BitmapImage(new Uri(@"../Resources/Images/hide.png", UriKind.Relative));
         }
 
         private void HidePassword()
         {
             PasswordUnmask.Visibility = Visibility.Collapsed;
             txtPass.Visibility = Visibility.Visible;
-            ShowPass.Source = new BitmapImage(new Uri(@"/Resources/Images/show.png", UriKind.Relative));
+            ShowPass.Source = new BitmapImage(new Uri(@"../Resources/Images/show.png", UriKind.Relative));
 
         }
+
         private void Image_MouseLeave(object sender, MouseEventArgs e) => HidePassword();
         private void Image_PreviewMouseDown(object sender, MouseButtonEventArgs e) => ShowPassword();
         private void Image_PreviewMouseUp(object sender, MouseButtonEventArgs e) => HidePassword();
 
-
+        private void Login_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DebugUsers();
+            _context.Dispose();
+        }
     }
 }

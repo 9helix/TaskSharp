@@ -13,7 +13,7 @@
         <TextBlock FontWeight="Bold" FontSize="20" Margin="0,0,0,5" Name="Title">Prijava</TextBlock>
         <Label>
             <StackPanel Orientation="Horizontal">
-                <Image Source="/Resources/Images/user.png" Width="13"/>
+                <Image Source="../Resources/Images/user.png" Width="13"/>
                 <TextBlock Margin="5,0,0,0"><Run Text="Korisničko ime:"/></TextBlock>
             </StackPanel>
         </Label>
@@ -23,7 +23,7 @@
         <Separator Height="5" Background="Transparent"/>
         <Label>
             <StackPanel Orientation="Horizontal">
-                <Image Source="/Resources/Images/key.png" Width="13"/>
+                <Image Source="../Resources/Images/key.png" Width="13"/>
                 <TextBlock Margin="5,0,0,0"><Run Text="Lozinka:"/></TextBlock>
             </StackPanel>
         </Label>
@@ -33,12 +33,12 @@
 
             <TextBox Name="PasswordUnmask" Visibility="Collapsed" Width="188"/>
         <!--<CheckBox x:Name="ShowPasswordCheckBox" Content="Prikaži lozinku" Checked="ShowPassword_Checked" Unchecked="ShowPassword_Unchecked" />-->
-            <Image x:Name="ShowPass" Source="/Resources/Images/show.png" Width="15" Margin="5,0,0,0" PreviewMouseDown="Image_PreviewMouseDown" PreviewMouseUp="Image_PreviewMouseUp" MouseLeave="Image_MouseLeave" Cursor="Hand"/>
+            <Image x:Name="ShowPass" Source="../Resources/Images/show.png" Width="15" Margin="5,0,0,0" PreviewMouseDown="Image_PreviewMouseDown" PreviewMouseUp="Image_PreviewMouseUp" MouseLeave="Image_MouseLeave" Cursor="Hand"/>
         </StackPanel>
         <Separator Height="5" Background="Transparent"/>
         <StackPanel Visibility="Collapsed" Name="PassConf">
             <StackPanel Orientation="Horizontal">
-                    <Image Source="/Resources/Images/confirm.png" Width="13"/>
+                <Image Source="../Resources/Images/confirm.png" Width="13"/>
                     <TextBlock Margin="5,0,0,0"><Run Text="Potvrdi lozinku:"/></TextBlock>
                 </StackPanel>
                 <PasswordBox Name="txtPassConf" MaxLength="12" Width="188" HorizontalAlignment="Left">
@@ -69,7 +69,7 @@ Visibility="Collapsed">
         <Separator Height="35" Width="120"/>
         <TextBlock HorizontalAlignment="Center" Padding="0,0,0,5">
             <Hyperlink NavigateUri="https://github.com/9helix/TaskSharp" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
-                <Image Source="/Resources/Images/github.png" Width="40"></Image>
+                <Image Source="../Resources/Images/github.png" Width="40"></Image>
             </Hyperlink>
         </TextBlock>
         <TextBlock HorizontalAlignment="Center" Foreground="Gray" TextAlignment="Center">v0.1.0<LineBreak/>Autori: Dino Gržinić, Marin Rabađija</TextBlock>

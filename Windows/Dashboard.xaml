@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
-        Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" ResizeMode="CanMinimize" Loaded="Dashboard_Loaded">
+        Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" ResizeMode="CanMinimize" Loaded="Dashboard_Loaded" Closing="Dashboard_Closing">
     <Grid Background="DeepSkyBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
@@ -14,46 +14,45 @@
 
         <TextBlock FontSize="40" HorizontalAlignment="Center" Width="110" TextAlignment="Center"><Run Text="Task"/><Run Text="#"/></TextBlock>
 
-        <ListBox Grid.Column="0" Background="DeepSkyBlue" Foreground="White" x:Name="sidebar" Margin="0,67,0,0" Padding="5,0,0,0" BorderThickness="0" SelectionChanged="sidebar_SelectionChanged" FontWeight="DemiBold" FontSize="17">
-            <ListBoxItem Height="37" Margin="0,10,0,0" Cursor="Hand">
+        <ListBox Grid.Column="0" Background="DeepSkyBlue" Foreground="White" x:Name="sidebar" Margin="0,67,0,0" BorderThickness="0" SelectionChanged="sidebar_SelectionChanged" FontWeight="DemiBold" FontSize="17">
+            <ListBoxItem Height="37" Margin="0,10,0,0" Padding="7,0,0,0" Cursor="Hand">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/Notes/note.png" Width="13"/>
+                    <Image Source="../Resources/Images/Notes/note.png" Width="13"/>
                     <TextBlock Margin="5,0,0,0"><Run Text="Bilješke"/></TextBlock>
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Height="37" Cursor="Hand">
+            <ListBoxItem Height="37" Padding="7,0,0,0" Cursor="Hand">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/Notes/event.png" Width="13"/>
+                    <Image Source="../Resources/Images/Notes/event.png" Width="13"/>
                     <TextBlock Margin="5,0,0,0"><Run Text="Događaji"/></TextBlock>
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Height="37" Cursor="Hand">
+            <ListBoxItem Height="37" Padding="7,0,0,0" Cursor="Hand">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/Notes/reminder.png" Width="13"/>
+                    <Image Source="../Resources/Images/Notes/reminder.png" Width="13"/>
                     <TextBlock Margin="5,0,0,0"><Run Text="Podsjetnici"/></TextBlock>
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Height="37" Cursor="Hand">
+            <ListBoxItem Height="37" Padding="7,0,0,0" Cursor="Hand">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/Notes/todo.png" Width="13"/>
+                    <Image Source="../Resources/Images/Notes/todo.png" Width="13"/>
                     <TextBlock Margin="5,0,0,0"><Run Text="To-do liste"/></TextBlock>
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Height="35" Margin="0,140,0,0">
+            <ListBoxItem Height="35" Padding="7,0,0,0" Margin="0,140,0,0">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock TextTrimming="CharacterEllipsis" Margin="0,0,0,0" Name="userChip" Width="133"></TextBlock>
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Height="26" Cursor="Hand" Margin="0,5,0,0">
+            <ListBoxItem Height="26" Padding="7,0,0,0" Cursor="Hand" Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/user-xmark.png" Width="16"/>
+                    <Image Source="../Resources/Images/user-xmark.png" Width="16"/>
                     <TextBlock Margin="5,0,0,0">Ukloni račun</TextBlock>
-
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Height="35" Cursor="Hand" Margin="0,5,0,0">
+            <ListBoxItem Height="35" Padding="7,0,0,0" Cursor="Hand" Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/logout.png" Width="13"/>
+                    <Image Source="../Resources/Images/logout.png" Width="13"/>
                     <TextBlock Margin="5,0,0,0"><Run Text="Odjava"/></TextBlock>
                 </StackPanel>
             </ListBoxItem>
@@ -68,7 +67,7 @@
                 </Style>
             </Button.Resources>
             <StackPanel Orientation="Horizontal">
-                <Image Source="/Resources/Images/add.png" Width="13"/>
+                <Image Source="../Resources/Images/add.png" Width="13"/>
                 <TextBlock Margin="5,0,0,0"><Run Text="Dodaj novo"/></TextBlock>
             </StackPanel>
         </Button>

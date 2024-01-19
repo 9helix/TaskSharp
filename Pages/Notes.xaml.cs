@@ -52,6 +52,15 @@ namespace SideBar_Nav.Pages
             }
         }
 
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            var noteCreate = new NoteCreate();
+            noteCreate.Show();
+
+            var wnd = Window.GetWindow(this);
+            wnd.Close();
+        }
+
         private void RefreshNotes()
         {
             var uid = (int)Application.Current.Properties["uid"];
@@ -88,7 +97,7 @@ namespace SideBar_Nav.Pages
 
         private void DeleteNote(object sender, MouseButtonEventArgs e)
         {
-            var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati bilješku?", "Brisanje bilješke", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati bilješku?", "Brisanje bilješke", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if (choice == MessageBoxResult.Yes)
             {

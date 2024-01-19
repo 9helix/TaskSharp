@@ -23,7 +23,7 @@ namespace TaskSharp
 
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
         {
-            navframe.Navigate(new Uri("Pages/Notes.xaml", UriKind.Relative));
+            navframe.Navigate(new Uri("../Pages/Notes.xaml", UriKind.Relative));
 
             var uid = (int)Application.Current.Properties["uid"];
             var username = _context.Users.Where(usr => usr.UserId == uid)
@@ -39,16 +39,16 @@ namespace TaskSharp
             switch (lb.SelectedIndex)
             {
                 case 0:
-                    navframe.Navigate(new Uri("Pages/Notes.xaml", UriKind.Relative));
+                    navframe.Navigate(new Uri("../Pages/Notes.xaml", UriKind.Relative));
                     break;
                 case 1:
-                    navframe.Navigate(new Uri("Pages/Events.xaml", UriKind.Relative));
+                    navframe.Navigate(new Uri("../Pages/Events.xaml", UriKind.Relative));
                     break;
                 case 2:
-                    navframe.Navigate(new Uri("Pages/Reminders.xaml", UriKind.Relative));
+                    navframe.Navigate(new Uri("../Pages/Reminders.xaml", UriKind.Relative));
                     break;
                 case 3:
-                    navframe.Navigate(new Uri("Pages/TodoLists.xaml", UriKind.Relative));
+                    navframe.Navigate(new Uri("../Pages/TodoLists.xaml", UriKind.Relative));
                     break;
                 case 5:
                     var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati vaš račun? Time ćete pobrisati i sve svoje spremljene bilješke.", "Brisanje računa", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -93,6 +93,11 @@ namespace TaskSharp
             var noteCreate = new NoteCreate();
             noteCreate.Show();
             this.Close();
+        }
+
+        private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _context.Dispose();
         }
     }
 }

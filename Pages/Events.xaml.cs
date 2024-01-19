@@ -52,14 +52,13 @@ namespace SideBar_Nav.Pages
             }
         }
 
-        private void DebugNotes()
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            var uid = (int)Application.Current.Properties["uid"];
-            var notes = _context.Notes.Where(x => x.UserId == uid).OrderByDescending(x => x.Pinned).ToList();
-            foreach (var user in notes)
-            {
-                Debug.WriteLine($"BasenoteID: {user.Id}, UserID: {user.UserId}, datum kreiranja: {user.CreationDate}, name: {user.Name}, tags: {user.Tags}, pinned: {user.Pinned}, content: {user.Content}");
-            }
+            var noteCreate = new NoteCreate();
+            noteCreate.Show();
+
+            var wnd = Window.GetWindow(this);
+            wnd.Close();
         }
 
         private void RefreshEvents()
@@ -98,7 +97,7 @@ namespace SideBar_Nav.Pages
 
         private void DeleteEvent(object sender, MouseButtonEventArgs e)
         {
-            var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati događaj?", "Brisanje događaja", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati događaj?", "Brisanje događaja", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if (choice == MessageBoxResult.Yes)
             {

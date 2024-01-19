@@ -11,7 +11,17 @@
         <DataTemplate x:Key="EventsTemplate">
             <Border Name="border" BorderBrush="LightSkyBlue" BorderThickness="1" Padding="5" Margin="2">
                 <StackPanel Orientation="Vertical">
-
+                    <StackPanel.Style>
+                        <Style TargetType="{x:Type StackPanel}">
+                            <Setter Property="Background" Value="Snow"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Pinned}" Value="False">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    
                     <Grid Margin="2,5,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -69,16 +79,16 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Orientation="Vertical">
-                            <TextBlock FontSize="14" Text="Datum od:" />
-                            <TextBlock FontSize="14" Text="{Binding Path=StartDate, StringFormat=dd. MM. yyyy}" />
+                            <TextBlock FontSize="14" Text="Datum početka:" />
+                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=StartDate, StringFormat=dd. MM. yyyy}" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Vertical">
-                            <TextBlock FontSize="14" Text="Datum do:" />
-                            <TextBlock FontSize="14" Text="{Binding Path=EndDate, StringFormat=dd. MM. yyyy}" />
+                            <TextBlock FontSize="14" Text="Datum završetka:" />
+                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=EndDate, StringFormat=dd. MM. yyyy}" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Orientation="Vertical">
                             <TextBlock FontSize="14" Text="Lokacija:" />
-                            <TextBlock FontSize="14" Text="{Binding Path=Location}" />
+                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Location}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -86,34 +96,34 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="White">
-        <StackPanel HorizontalAlignment="center" Margin="50,0,0,0">
-            <TextBlock FontSize="30" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">Događaji</TextBlock>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Background="White">
+            <StackPanel HorizontalAlignment="center" Margin="50,0,0,30">
+                <TextBlock FontSize="30" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">Događaji</TextBlock>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
-                    Pozdrav
-                </TextBlock>
-                <Separator Width="5" Background="Transparent"></Separator>
-                <TextBlock FontSize="15" x:Name="UsernameField" HorizontalAlignment="Center" Margin="0,30,0,0" FontWeight="Bold" />
-                <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
-                    , ovdje možete vidjeti sve svoje događaje.
-                </TextBlock>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
+                        Pozdrav
+                    </TextBlock>
+                    <Separator Width="5" Background="Transparent"></Separator>
+                    <TextBlock FontSize="15" x:Name="UsernameField" HorizontalAlignment="Center" Margin="0,30,0,0" FontWeight="Bold" />
+                    <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
+                        , ovdje možete vidjeti sve svoje događaje.
+                    </TextBlock>
+                </StackPanel>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl Width="450" BorderThickness="0" Margin="0,20,0,0" x:Name="EventsContainer" HorizontalContentAlignment="Stretch"
                 Visibility="Visible" ItemTemplate="{StaticResource EventsTemplate}"/>
-            </ScrollViewer>
 
-            <StackPanel Name="EventsEmpty" Visibility="Collapsed" Margin="0,7,0,0">
-                <TextBlock Foreground="DarkGray" FontSize="15">
-                    Izgleda da niste unijeli nijedan događaj...
-                </TextBlock>
-                <TextBlock Foreground="DarkGray" FontSize="15">
-                    Bez brige, to možete ispraviti klikom na gumb "+ dodaj novo".
-                </TextBlock>
+                <StackPanel Name="EventsEmpty" Visibility="Collapsed" Margin="0,17,0,0">
+                    <TextBlock Foreground="DarkGray" FontSize="15">
+                        Izgleda da niste unijeli nijedan događaj...
+                    </TextBlock>
+                    <TextBlock Foreground="DarkGray" FontSize="15">
+                        Bez brige, to možete ispraviti <Hyperlink Click="Hyperlink_Click" Cursor="Hand">izradom prvog događaja</Hyperlink>.
+                    </TextBlock>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>
