@@ -70,7 +70,7 @@ namespace TaskSharp
                     ReminderDuePick.SelectedDate = temp3.DueDate;
                     ReminderDue.Visibility = Visibility.Visible;
 
-                    (PriorityMenu.Children[(int)temp3.Priority] as ComboBoxItem).IsSelected = true;
+                    PriorityMenuPick.SelectedIndex = (int)temp3.Priority;
                     PriorityMenu.Visibility = Visibility.Visible;
                     break;
 
