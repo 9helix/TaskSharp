@@ -32,6 +32,59 @@ namespace SideBar_Nav.Pages
             InitializeComponent();
         }
 
+        private void RefreshReminders()
+        {
+            var uid = (int)Application.Current.Properties["uid"];
+            var upcomingReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
+                .OrderByDescending(x => x.Pinned)
+                .ThenBy(x => x.Priority)
+                .ThenBy(x => x.DueDate)
+                .ToList();
+            var expiredReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
+                .OrderByDescending(x => x.DueDate)
+                .ToList();
+
+            if (upcomingReminders.Count == 0 && expiredReminders.Count == 0)
+            {
+                Reminders.Visibility = Visibility.Collapsed;
+                RemindersEmpty.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                RemindersEmpty.Visibility = Visibility.Collapsed;
+                Reminders.Visibility = Visibility.Visible;
+
+                if (upcomingReminders.Count == 0)
+                {
+                    UpcomingRemindersContainer.Visibility = Visibility.Collapsed;
+                    UpcomingRemindersEmpty.Visibility = Visibility.Visible;
+
+                    ExpiredRemindersContainer.Visibility = Visibility.Visible;
+                    ExpiredRemindersEmpty.Visibility = Visibility.Collapsed;
+                    ExpiredRemindersContainer.ItemsSource = expiredReminders;
+                }
+                else if (expiredReminders.Count == 0)
+                {
+                    UpcomingRemindersContainer.Visibility = Visibility.Visible;
+                    UpcomingRemindersEmpty.Visibility = Visibility.Collapsed;
+                    UpcomingRemindersContainer.ItemsSource = upcomingReminders;
+
+                    ExpiredRemindersContainer.Visibility = Visibility.Collapsed;
+                    ExpiredRemindersEmpty.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ExpiredRemindersContainer.Visibility = Visibility.Visible;
+                    ExpiredRemindersEmpty.Visibility = Visibility.Collapsed;
+                    ExpiredRemindersContainer.ItemsSource = expiredReminders;
+
+                    UpcomingRemindersContainer.Visibility = Visibility.Visible;
+                    UpcomingRemindersEmpty.Visibility = Visibility.Collapsed;
+                    UpcomingRemindersContainer.ItemsSource = upcomingReminders;
+                }
+            }
+        }
+
         private void Reminders_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
@@ -39,29 +92,12 @@ namespace SideBar_Nav.Pages
             _context.Reminders.Load();
 
             var uid = (int)Application.Current.Properties["uid"];
-
             var username = _context.Users.Where(usr => usr.UserId == uid)
                 .Select(usr => usr.UserName)
                 .FirstOrDefault();
-            var reminders = _context.Reminders.Where(x => x.UserId == uid)
-                .OrderByDescending(x => x.Pinned)
-                .ThenBy(x => x.Priority)
-                .ThenBy(x => x.DueDate)
-                .ToList();
 
             UsernameField.Text = username;
-
-            if (reminders.Count == 0)
-            {
-                RemindersContainer.Visibility = Visibility.Collapsed;
-                RemindersEmpty.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                RemindersEmpty.Visibility = Visibility.Collapsed;
-                RemindersContainer.Visibility = Visibility.Visible;
-                RemindersContainer.ItemsSource = reminders;
-            }
+            RefreshReminders();
         }
 
         private void DebugNotes()
@@ -76,21 +112,12 @@ namespace SideBar_Nav.Pages
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.Properties["noteType"] = 2;
             var noteCreate = new NoteCreate();
             noteCreate.Show();
 
             var wnd = Window.GetWindow(this);
             wnd.Close();
-        }
-
-        private void RefreshReminders()
-        {
-            var uid = (int)Application.Current.Properties["uid"];
-            var reminders = _context.Reminders.Where(x => x.UserId == uid)
-                .OrderByDescending(x => x.Pinned)
-                .ThenByDescending(x => x.CreationDate)
-                .ToList();
-            RemindersContainer.ItemsSource = reminders;
         }
 
         private void PinUnpinEvent(object sender, MouseButtonEventArgs e)

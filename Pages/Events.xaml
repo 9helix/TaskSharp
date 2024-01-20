@@ -8,20 +8,20 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Događaji" Loaded="Events_Loaded" Unloaded="Events_Unloaded">
 <Page.Resources>
-        <DataTemplate x:Key="EventsTemplate">
+        <DataTemplate x:Key="UpcomingEventsTemplate">
             <Border Name="border" BorderBrush="LightSkyBlue" BorderThickness="1" Padding="5" Margin="2">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Background" Value="AliceBlue"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Pinned}" Value="False">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
                 <StackPanel Orientation="Vertical">
-                    <StackPanel.Style>
-                        <Style TargetType="{x:Type StackPanel}">
-                            <Setter Property="Background" Value="Snow"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Pinned}" Value="False">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
-                    
                     <Grid Margin="2,5,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -94,6 +94,66 @@
                 </StackPanel>
             </Border>
         </DataTemplate>
+    
+        <DataTemplate x:Key="ExpiredEventsTemplate">
+            <Border Name="border" BorderBrush="LightGray" Background="LightGray" BorderThickness="1" Padding="5" Margin="2">
+                <StackPanel Orientation="Vertical">
+                    <Grid Margin="2,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Grid.Column="1">Stvoreno:</TextBlock>
+                            <Separator Width="3" Background="Transparent"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Path=CreationDate, StringFormat=dd. MM. yyyy}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Margin="2,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width=".5*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Foreground="DarkGray" Text="{Binding Path=Tags}" />
+                        <Image Grid.Column="1" Tag="{Binding Path=Id}" Source="../Resources/Images/deleteRed.png" Width="15" Cursor="Hand" PreviewMouseDown="DeleteEvent"/>
+                    </Grid>
+
+                    <Grid Margin="2,8,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock FontSize="14" Text="Datum početka:" />
+                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=StartDate, StringFormat=dd. MM. yyyy}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                            <TextBlock FontSize="14" Text="Datum završetka:" />
+                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=EndDate, StringFormat=dd. MM. yyyy}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Orientation="Vertical">
+                            <TextBlock FontSize="14" Text="Lokacija:" />
+                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Location}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
     </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -101,7 +161,7 @@
             <StackPanel HorizontalAlignment="center" Margin="50,0,0,30">
                 <TextBlock FontSize="30" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">Događaji</TextBlock>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                     <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
                         Pozdrav
                     </TextBlock>
@@ -112,8 +172,25 @@
                     </TextBlock>
                 </StackPanel>
 
-                <ItemsControl Width="450" BorderThickness="0" Margin="0,20,0,0" x:Name="EventsContainer" HorizontalContentAlignment="Stretch"
-                Visibility="Visible" ItemTemplate="{StaticResource EventsTemplate}"/>
+                <StackPanel Name="Events" Visibility="Visible">
+                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">
+                        Nadolazeći događaji
+                    </TextBlock>
+                    <ItemsControl Width="450" BorderThickness="0" Margin="0,20,0,10" x:Name="UpcomingEventsContainer" HorizontalContentAlignment="Stretch"
+                        ItemTemplate="{StaticResource UpcomingEventsTemplate}"/>
+                    <TextBlock Visibility="Collapsed" Name="UpcomingEventsEmpty" Foreground="DarkGray" FontSize="15" Margin="0,20,0,0">
+                        Trenutno nema nadolazećih događaja
+                    </TextBlock>
+
+                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,20,0,0">
+                        Prošli događaji
+                    </TextBlock>
+                    <ItemsControl Width="450" BorderThickness="0" Margin="0,20,0,10" x:Name="ExpiredEventsContainer" HorizontalContentAlignment="Stretch"
+                        ItemTemplate="{StaticResource ExpiredEventsTemplate}"/>
+                    <TextBlock Visibility="Collapsed" Name="ExpiredEventsEmpty" Foreground="DarkGray" FontSize="15" Margin="0,20,0,0">
+                        Trenutno nema prošlih događaja
+                    </TextBlock>
+                </StackPanel>
 
                 <StackPanel Name="EventsEmpty" Visibility="Collapsed" Margin="0,17,0,0">
                     <TextBlock Foreground="DarkGray" FontSize="15">

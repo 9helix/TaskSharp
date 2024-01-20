@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TaskSharp;
+using TaskSharp.Classes;
 
 namespace SideBar_Nav.Pages
 {
@@ -21,6 +22,58 @@ namespace SideBar_Nav.Pages
             InitializeComponent();
         }
 
+        private void RefreshEvents()
+        {
+            var uid = (int)Application.Current.Properties["uid"];
+            var upcomingEvents = _context.Events.Where(x => x.UserId == uid && x.EndDate >= DateTime.Today)
+                .OrderByDescending(x => x.Pinned)
+                .ThenBy(x => x.EndDate)
+                .ToList();
+            var expiredEvents = _context.Events.Where(x => x.UserId == uid && x.EndDate < DateTime.Today)
+                .OrderByDescending(x => x.EndDate)
+                .ToList();
+
+            if (upcomingEvents.Count == 0 && expiredEvents.Count == 0)
+            {
+                Events.Visibility = Visibility.Collapsed;
+                EventsEmpty.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                EventsEmpty.Visibility = Visibility.Collapsed;
+                Events.Visibility = Visibility.Visible;
+
+                if (upcomingEvents.Count == 0)
+                {
+                    UpcomingEventsContainer.Visibility = Visibility.Collapsed;
+                    UpcomingEventsEmpty.Visibility = Visibility.Visible;
+
+                    ExpiredEventsContainer.Visibility = Visibility.Visible;
+                    ExpiredEventsEmpty.Visibility = Visibility.Collapsed;
+                    ExpiredEventsContainer.ItemsSource = expiredEvents;
+                }
+                else if (expiredEvents.Count == 0)
+                {
+                    UpcomingEventsContainer.Visibility = Visibility.Visible;
+                    UpcomingEventsEmpty.Visibility = Visibility.Collapsed;
+                    UpcomingEventsContainer.ItemsSource = upcomingEvents;
+
+                    ExpiredEventsContainer.Visibility = Visibility.Collapsed;
+                    ExpiredEventsEmpty.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ExpiredEventsContainer.Visibility = Visibility.Visible;
+                    ExpiredEventsEmpty.Visibility = Visibility.Collapsed;
+                    ExpiredEventsContainer.ItemsSource = expiredEvents;
+
+                    UpcomingEventsContainer.Visibility = Visibility.Visible;
+                    UpcomingEventsEmpty.Visibility = Visibility.Collapsed;
+                    UpcomingEventsContainer.ItemsSource = upcomingEvents;
+                }
+            }
+        }
+
         private void Events_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
@@ -28,47 +81,22 @@ namespace SideBar_Nav.Pages
             _context.Events.Load();
 
             var uid = (int)Application.Current.Properties["uid"];
-
             var username = _context.Users.Where(usr => usr.UserId == uid)
                 .Select(usr => usr.UserName)
                 .FirstOrDefault();
-            var events = _context.Events.Where(x => x.UserId == uid)
-                .OrderByDescending(x => x.Pinned)
-                .ThenBy(x => x.EndDate)
-                .ToList();
-
+           
             UsernameField.Text = username;
-
-            if (events.Count == 0)
-            {
-                EventsContainer.Visibility = Visibility.Collapsed;
-                EventsEmpty.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                EventsEmpty.Visibility = Visibility.Collapsed;
-                EventsContainer.Visibility = Visibility.Visible;
-                EventsContainer.ItemsSource = events;
-            }
+            RefreshEvents();
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.Properties["noteType"] = 1;
             var noteCreate = new NoteCreate();
             noteCreate.Show();
 
             var wnd = Window.GetWindow(this);
             wnd.Close();
-        }
-
-        private void RefreshEvents()
-        {
-            var uid = (int)Application.Current.Properties["uid"];
-            var events = _context.Events.Where(x => x.UserId == uid)
-                .OrderByDescending(x => x.Pinned)
-                .ThenByDescending(x => x.CreationDate)
-                .ToList();
-            EventsContainer.ItemsSource = events;
         }
 
         private void PinUnpinEvent(object sender, MouseButtonEventArgs e)

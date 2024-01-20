@@ -21,24 +21,14 @@ namespace SideBar_Nav.Pages
             InitializeComponent();
         }
 
-        private void Notes_Loaded(object sender, RoutedEventArgs e)
+        private void RefreshNotes()
         {
-            _context.Database.EnsureCreated();
-            _context.Users.Load();
-            _context.Notes.Load();
-
             var uid = (int)Application.Current.Properties["uid"];
-
-            var username = _context.Users.Where(usr => usr.UserId == uid)
-                .Select(usr => usr.UserName)
-                .FirstOrDefault();
             var notes = _context.Notes.Where(x => x.UserId == uid)
                 .OrderByDescending(x => x.Pinned)
                 .ThenByDescending(x => x.CreationDate)
                 .ToList();
 
-            UsernameField.Text = username;
-            
             if (notes.Count == 0)
             {
                 NotesContainer.Visibility = Visibility.Collapsed;
@@ -52,23 +42,29 @@ namespace SideBar_Nav.Pages
             }
         }
 
+        private void Notes_Loaded(object sender, RoutedEventArgs e)
+        {
+            _context.Database.EnsureCreated();
+            _context.Users.Load();
+            _context.Notes.Load();
+
+            var uid = (int)Application.Current.Properties["uid"];
+            var username = _context.Users.Where(usr => usr.UserId == uid)
+                .Select(usr => usr.UserName)
+                .FirstOrDefault();
+
+            UsernameField.Text = username;
+            RefreshNotes();
+        }
+
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.Properties["noteType"] = 0;
             var noteCreate = new NoteCreate();
             noteCreate.Show();
 
             var wnd = Window.GetWindow(this);
             wnd.Close();
-        }
-
-        private void RefreshNotes()
-        {
-            var uid = (int)Application.Current.Properties["uid"];
-            var notes = _context.Notes.Where(x => x.UserId == uid)
-                .OrderByDescending(x => x.Pinned)
-                .ThenByDescending(x => x.CreationDate)
-                .ToList();
-            NotesContainer.ItemsSource = notes;
         }
 
         private void PinUnpinNote(object sender, MouseButtonEventArgs e)

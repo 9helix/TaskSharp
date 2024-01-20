@@ -12,28 +12,28 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,35,0,0" >
             <TextBlock Margin="0,0,5,0" FontSize="15" VerticalAlignment="Center">Vrsta zapisa:</TextBlock>
             <ComboBox Name="NoteTypeMenu" HorizontalAlignment="Center" Width="120" FontSize="15" SelectionChanged="ComboBox_SelectionChanged">
-                <ComboBoxItem IsSelected="True" VerticalAlignment="Top">
+                <ComboBoxItem VerticalAlignment="Top" Name="NoteSelected">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Resources/Images/Notes/note.png" Width="16"></Image>
                         <Separator Width="3"  Background="Transparent"/>
                         <TextBlock>Bilješka</TextBlock>
                     </StackPanel>
                 </ComboBoxItem>
-                <ComboBoxItem>
+                <ComboBoxItem Name="EventSelected">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Resources/Images/Notes/event.png" Width="16"></Image>
                         <Separator Width="3"  Background="Transparent"/>
                         <TextBlock>Događaj</TextBlock>
                     </StackPanel>
                 </ComboBoxItem>
-                <ComboBoxItem>
+                <ComboBoxItem Name="ReminderSelected">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Resources/Images/Notes/reminder.png" Width="16"></Image>
                         <Separator Width="3"  Background="Transparent"/>
                         <TextBlock>Podsjetnik</TextBlock>
                     </StackPanel>
                 </ComboBoxItem>
-                <ComboBoxItem>
+                <ComboBoxItem Name="TodoSelected">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Resources/Images/Notes/todo.png" Width="16"></Image>
                         <Separator Width="3" Background="Transparent"/>

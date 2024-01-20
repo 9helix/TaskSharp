@@ -23,12 +23,15 @@ namespace TaskSharp
             InitializeComponent();
             EventStartPick.BlackoutDates.AddDatesInPast();
             EventStartPick.SelectedDate = DateTime.Now;
+
             EventEndPick.BlackoutDates.AddDatesInPast();
             EventEndPick.SelectedDate = DateTime.Now;
+
             ReminderDuePick.BlackoutDates.AddDatesInPast();
             ReminderDuePick.SelectedDate = DateTime.Now;
-            NoteContent.Visibility = Visibility.Visible;
 
+            int NoteType = (int)Application.Current.Properties["noteType"];
+            ToggleFields(NoteType);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -50,6 +53,7 @@ namespace TaskSharp
             else
             {
                 NoteContent.Visibility = Visibility.Visible;
+                NoteSelected.IsSelected = true;
             }
             if (type != 1)
             {
@@ -62,6 +66,7 @@ namespace TaskSharp
                 EventStart.Visibility = Visibility.Visible;
                 EventEnd.Visibility = Visibility.Visible;
                 txtLocation.Visibility = Visibility.Visible;
+                EventSelected.IsSelected = true;
             }
             if (type != 2)
             {
@@ -72,6 +77,7 @@ namespace TaskSharp
             {
                 ReminderDue.Visibility = Visibility.Visible;
                 PriorityMenu.Visibility = Visibility.Visible;
+                ReminderSelected.IsSelected = true;
             }
             if (type != 3)
             {
@@ -80,6 +86,7 @@ namespace TaskSharp
             else
             {
                 TodoList.Visibility = Visibility.Visible;
+                TodoSelected.IsSelected = true;
             }
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
