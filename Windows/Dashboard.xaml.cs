@@ -18,7 +18,6 @@ namespace TaskSharp
             _context.Database.EnsureCreated();
             _context.Users.Load();
             _context.Notes.Load();
-
         }
 
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
@@ -39,18 +38,26 @@ namespace TaskSharp
             switch (lb.SelectedIndex)
             {
                 case 0:
+                    Application.Current.Properties["noteType"] = 0;
                     navframe.Navigate(new Uri("../Pages/Notes.xaml", UriKind.Relative));
                     break;
+
                 case 1:
+                    Application.Current.Properties["noteType"] = 1;
                     navframe.Navigate(new Uri("../Pages/Events.xaml", UriKind.Relative));
                     break;
+
                 case 2:
+                    Application.Current.Properties["noteType"] = 2;
                     navframe.Navigate(new Uri("../Pages/Reminders.xaml", UriKind.Relative));
                     break;
+
                 case 3:
+                    Application.Current.Properties["noteType"] = 3;
                     navframe.Navigate(new Uri("../Pages/TodoLists.xaml", UriKind.Relative));
                     break;
-                case 5:
+
+                case 4:
                     var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati vaš račun? Time ćete pobrisati i sve svoje spremljene bilješke.", "Brisanje računa", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
                     if (choice == MessageBoxResult.Yes)
@@ -78,7 +85,7 @@ namespace TaskSharp
                     }
                     break;
 
-                case 6:
+                case 5:
                     MessageBox.Show($"Odjava uspješna!", "Odjava", MessageBoxButton.OK, MessageBoxImage.Information);
                     var win = new MainWindow();
                     win.Show();
