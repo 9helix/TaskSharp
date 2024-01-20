@@ -32,20 +32,22 @@
                             <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
+                        <TextBlock TextWrapping="Wrap" FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <TextBlock Grid.Column="1">Stvoreno:</TextBlock>
                             <Separator Width="3" Background="Transparent"/>
                             <TextBlock Grid.Column="2" Text="{Binding Path=CreationDate, StringFormat=dd. MM. yyyy}"/>
                         </StackPanel>
 
-                        <Image Grid.Column="2" Tag="{Binding Path=Id}" PreviewMouseDown="PinUnpinNote"  Width="15" Cursor="Hand">
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" PreviewMouseDown="PinUnpinNote" Width="15" Cursor="Hand" ToolTipService.InitialShowDelay="500">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
                                     <Setter Property="Source" Value="../Resources/Images/pin.png"/>
+                                    <Setter Property="ToolTip" Value="Otkvači"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Pinned}" Value="False">
                                             <Setter Property="Source" Value="../Resources/Images/unpin.png"/>
+                                            <Setter Property="ToolTip" Value="Prikvači"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -64,8 +66,10 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Foreground="DarkGray" Text="{Binding Path=Tags}" />
-                        <Image Grid.Column="1" Tag="{Binding Path=Id}" Source="../Resources/Images/deleteRed.png" Width="15" Cursor="Hand" PreviewMouseDown="DeleteNote"/>
-                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="15" Cursor="Hand" PreviewMouseDown="OpenEditor"/>
+                        <Image Grid.Column="1" Tag="{Binding Path=Id}" Source="../Resources/Images/deleteRed.png" Width="15"
+                               Cursor="Hand" PreviewMouseDown="DeleteNote" ToolTip="Izbriši bilješku" ToolTipService.InitialShowDelay="500"/>
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="15"
+                               Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
                     </Grid>
 
                     <Grid Margin="2,8,0,0">

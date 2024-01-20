@@ -1,21 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TaskSharp;
-using TaskSharp.Classes;
 
 namespace SideBar_Nav.Pages
 {
@@ -100,16 +88,6 @@ namespace SideBar_Nav.Pages
             RefreshReminders();
         }
 
-        private void DebugNotes()
-        {
-            var uid = (int)Application.Current.Properties["uid"];
-            var notes = _context.Notes.Where(x => x.UserId == uid).OrderByDescending(x => x.Pinned).ToList();
-            foreach (var user in notes)
-            {
-                Debug.WriteLine($"BasenoteID: {user.Id}, UserID: {user.UserId}, datum kreiranja: {user.CreationDate}, name: {user.Name}, tags: {user.Tags}, pinned: {user.Pinned}, content: {user.Content}");
-            }
-        }
-
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Properties["noteType"] = 2;
@@ -120,7 +98,7 @@ namespace SideBar_Nav.Pages
             wnd.Close();
         }
 
-        private void PinUnpinEvent(object sender, MouseButtonEventArgs e)
+        private void PinUnpinReminder(object sender, MouseButtonEventArgs e)
         {
             var reminderID = (int)((Image)sender).Tag;
             var uid = (int)Application.Current.Properties["uid"];
@@ -153,8 +131,8 @@ namespace SideBar_Nav.Pages
                 var reminderID = (int)((Image)sender).Tag;
                 var uid = (int)Application.Current.Properties["uid"];
 
-                var reminder = _context.Events.Where(x => x.UserId == uid && x.Id == reminderID).First();
-                _context.Events.Remove(reminder);
+                var reminder = _context.Reminders.Where(x => x.UserId == uid && x.Id == reminderID).First();
+                _context.Reminders.Remove(reminder);
                 _context.SaveChanges();
 
                 MessageBox.Show("Događaj uspješno izbrisan!", "Brisanje događaja", MessageBoxButton.OK, MessageBoxImage.Information);

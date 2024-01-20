@@ -105,9 +105,18 @@ namespace TaskSharp
         {
             if (todos.Count < 10)
             {
-                StackPanel stk = new StackPanel { Name = $"todo{todos.Last() + 1}", Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
+                StackPanel stk = new StackPanel {
+                    Name = $"todo{todos.Last() + 1}",
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
                 todos.Add(todos.Last() + 1);
-                TextBox txt = new TextBox { Margin = new Thickness(left: 15, top: 0, right: 0, bottom: 0), MaxLength = 50, Width = 175, Text = $"Todo #{todos.Last()}" };
+                TextBox txt = new TextBox {
+                    Margin = new Thickness(left: 15, top: 0, right: 0, bottom: 0),
+                    MaxLength = 50,
+                    Width = 175,
+                    Text = $"Todo #{todos.Last()}"
+                };
 
                 Separator sep = new Separator
                 {
@@ -119,8 +128,16 @@ namespace TaskSharp
                 {
                     Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 7)
                 };
-                CheckBox chk = new CheckBox { VerticalAlignment = VerticalAlignment.Center, Padding = new Thickness(left: 0, top: 0, right: 10, bottom: 0) };
-                Image img = new Image { Width = 15, Source = new BitmapImage(new Uri(@"/Resources/Images/delete.png", UriKind.Relative)) };
+                CheckBox chk = new CheckBox {
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Padding = new Thickness(left: 0, top: 0, right: 10, bottom: 0)
+                };
+                Image img = new Image {
+                    Width = 15,
+                    Source = new BitmapImage(new Uri(@"/Resources/Images/delete.png", UriKind.Relative)),
+                    Cursor = Cursors.Hand,
+                    ToolTip = new ToolTip() {Content="Izbriši stavku"}
+                };
                 img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
 
                 stk.Children.Add(txt);
@@ -246,6 +263,7 @@ namespace TaskSharp
                         var todo = ((child as Border).Child as StackPanel).Children;
                         TodoDict[(todo[0] as TextBox).Text] = (todo[2] as CheckBox).IsChecked.Value;
                         Debug.WriteLine($"{(todo[0] as TextBox).Text}-{(todo[2] as CheckBox).IsChecked.Value}");
+
                         if ((todo[0] as TextBox).Text == "")
                         {
                             MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);

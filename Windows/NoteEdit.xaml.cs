@@ -107,7 +107,12 @@ namespace TaskSharp
         {
             if (todos.Count < 10)
             {
-                StackPanel stk = new StackPanel { Name = $"todo{todos.Last() + 1}", Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
+                StackPanel stk = new StackPanel {
+                    Name = $"todo{todos.Last() + 1}",
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+
                 todos.Add(todos.Last() + 1);
                 TextBox txt;
                 if (content == null)
@@ -118,6 +123,7 @@ namespace TaskSharp
                 {
                     txt = new TextBox { Margin = new Thickness(left: 15, top: 0, right: 0, bottom: 0), MaxLength = 50, Width = 175, Text = content };
                 }
+
                 Separator sep = new Separator
                 {
                     Name = $"septodo{todos.Last()}",
@@ -128,8 +134,17 @@ namespace TaskSharp
                 {
                     Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 7)
                 };
-                CheckBox chk = new CheckBox { IsChecked = check, VerticalAlignment = VerticalAlignment.Center, Padding = new Thickness(left: 0, top: 0, right: 10, bottom: 0) };
-                Image img = new Image { Width = 15, Source = new BitmapImage(new Uri(@"/Resources/Images/delete.png", UriKind.Relative)) };
+                CheckBox chk = new CheckBox {
+                    IsChecked = check,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Padding = new Thickness(left: 0, top: 0, right: 10, bottom: 0)
+                };
+                Image img = new Image {
+                    Width = 15,
+                    Source = new BitmapImage(new Uri(@"/Resources/Images/delete.png", UriKind.Relative)),
+                    Cursor = Cursors.Hand,
+                    ToolTip = new ToolTip() { Content = "Izbriši stavku" }
+                };
                 img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
 
                 stk.Children.Add(txt);
