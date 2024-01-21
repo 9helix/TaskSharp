@@ -4,6 +4,19 @@
              xmlns:local="clr-namespace:TaskSharp" xmlns:sys="clr-namespace:System;assembly=netstandard"
              StartupUri="Windows/Login.xaml">
     <Application.Resources>
-        <!--<sys:String x:Key="strApp">Hello, Application world!</sys:String>-->
+
+        <ResourceDictionary>
+            <FontFamily x:Key="TextFont">#Poppins Regular</FontFamily>
+            <SolidColorBrush x:Key="PrimaryColor" Color="#4F80FF" />
+            <SolidColorBrush x:Key="TextColor2" Color="#002480"/>
+
+            <SolidColorBrush x:Key="TextColor" Color="#050505" />
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="Themes/MenuButtonTheme.xaml"/>
+                <ResourceDictionary Source="Themes/svgIcons.xaml"/>
+                <ResourceDictionary Source="Themes/TextboxTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

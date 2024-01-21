@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\Poppins-Regular.ttf" />
     <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\confirm.png" />
     <None Remove="Resources\Images\delete.png" />
@@ -18,9 +19,13 @@
     <None Remove="Resources\Images\hide.png" />
     <None Remove="Resources\Images\key.png" />
     <None Remove="Resources\Images\logout.png" />
+    <None Remove="Resources\Images\Notes\event-white.png" />
     <None Remove="Resources\Images\Notes\event.png" />
+    <None Remove="Resources\Images\Notes\note-white.png" />
     <None Remove="Resources\Images\Notes\note.png" />
+    <None Remove="Resources\Images\Notes\reminder-white.png" />
     <None Remove="Resources\Images\Notes\reminder.png" />
+    <None Remove="Resources\Images\Notes\todo-white.png" />
     <None Remove="Resources\Images\Notes\todo.png" />
     <None Remove="Resources\Images\pin.png" />
     <None Remove="Resources\Images\show.png" />
@@ -31,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Fonts\Poppins-Regular.ttf" />
     <Resource Include="Resources\Images\add.png" />
     <Resource Include="Resources\Images\confirm.png" />
     <Resource Include="Resources\Images\delete.png" />
@@ -40,8 +46,12 @@
     <Resource Include="Resources\Images\hide.png" />
     <Resource Include="Resources\Images\key.png" />
     <Resource Include="Resources\Images\logout.png" />
+    <Resource Include="Resources\Images\Notes\event-white.png" />
     <Resource Include="Resources\Images\Notes\event.png" />
+    <Resource Include="Resources\Images\Notes\note-white.png" />
     <Resource Include="Resources\Images\Notes\note.png" />
+    <Resource Include="Resources\Images\Notes\reminder-white.png" />
+    <Resource Include="Resources\Images\Notes\todo-white.png" />
     <Resource Include="Resources\Images\Notes\todo.png" />
     <Resource Include="Resources\Images\Notes\reminder.png" />
     <Resource Include="Resources\Images\pin.png" />
@@ -49,10 +59,6 @@
     <Resource Include="Resources\Images\unpin.png" />
     <Resource Include="Resources\Images\user-xmark.png" />
     <Resource Include="Resources\Images\user.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Fonts\" />
   </ItemGroup>
 
   <ItemGroup>

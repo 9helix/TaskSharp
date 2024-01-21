@@ -1,19 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TaskSharp;
 
 namespace SideBar_Nav.Pages
@@ -41,8 +30,6 @@ namespace SideBar_Nav.Pages
             var username = _context.Users.Where(usr => usr.UserId == uid)
                 .Select(usr => usr.UserName)
                 .FirstOrDefault();
-
-            UsernameField.Text = username;
 
 
             //var todos = _context.TodoLists.Where(x => x.UserId == uid)

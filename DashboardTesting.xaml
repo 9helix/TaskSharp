@@ -5,77 +5,126 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
-        Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" ResizeMode="NoResize" Loaded="Dashboard_Loaded" Background="Transparent" AllowsTransparency="True" WindowStyle="None">
-    <Border Background="#272537" CornerRadius="20">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
+        Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" ResizeMode="NoResize"  Background="Transparent" AllowsTransparency="True" WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Dashboard_Loaded">
+    <Border Background="White" CornerRadius="15">
+
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <!--<Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
                 <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-        <TextBlock FontSize="40" HorizontalAlignment="Center" Width="110" TextAlignment="Center"><Run Text="Task"/><Run Text="#"/></TextBlock>
+            </Grid.RowDefinitions>-->
+            <Border Background="#B5E8FF" CornerRadius="15,0,0,15">
+                <Grid Background="transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-        <ListBox Grid.Column="0" Background="DeepSkyBlue" Foreground="White" x:Name="sidebar" Margin="0,67,0,0" Padding="5,0,0,0" BorderThickness="0" SelectionChanged="sidebar_SelectionChanged" FontWeight="DemiBold" FontSize="17">
-            <ListBoxItem Height="37" Margin="0,10,0,0" Cursor="Hand">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/Notes/note.png" Width="13"/>
-                    <TextBlock Margin="5,0,0,0"><Run Text="Bilješke"/></TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem Height="37" Cursor="Hand">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/Notes/event.png" Width="13"/>
-                    <TextBlock Margin="5,0,0,0"><Run Text="Događaji"/></TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem Height="37" Cursor="Hand">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/Notes/reminder.png" Width="13"/>
-                    <TextBlock Margin="5,0,0,0"><Run Text="Podsjetnici"/></TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem Height="37" Cursor="Hand">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/Notes/todo.png" Width="13"/>
-                    <TextBlock Margin="5,0,0,0"><Run Text="To-do liste"/></TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem Height="35" Margin="0,140,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock TextTrimming="CharacterEllipsis" Margin="0,0,0,0" Name="userChip" Width="133"></TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem Height="26" Cursor="Hand" Margin="0,5,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/user-xmark.png" Width="16"/>
-                    <TextBlock Margin="5,0,0,0">Ukloni račun</TextBlock>
 
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem Height="35" Cursor="Hand" Margin="0,5,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/Images/logout.png" Width="13"/>
-                    <TextBlock Margin="5,0,0,0"><Run Text="Odjava"/></TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-        </ListBox>
+                    <!--<Border  Grid.Column="0" Grid.RowSpan="2"
+        CornerRadius="20,0,0,20" Background="#ffffff">
+                    <Rectangle Grid.Column="0" Grid.RowSpan="1000">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0.5,1" >
+                            <GradientStop Color="#007bff" Offset="0" />
+                            <GradientStop Color="White" Offset="1.2" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                </Border>-->
+                    <TextBlock FontFamily="{StaticResource TextFont}" FontSize="40" Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Task#" Margin="20,0,0,0"/>
 
-        <Frame Grid.Column="1" x:Name="navframe" NavigationUIVisibility="Hidden" Background="white" />
 
-        <Button Click="Create_Click" Background="DeepSkyBlue" Foreground="White" FontSize="14" x:Name="CreateButton" Margin="0,435,34,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="110" Padding="1,1,1,3" Grid.IsSharedSizeScope="True" Height="25" Cursor="Hand">
-            <Button.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Button.Resources>
-            <StackPanel Orientation="Horizontal">
-                <Image Source="/Resources/Images/add.png" Width="13"/>
-                <TextBlock Margin="5,0,0,0"><Run Text="Dodaj novo"/></TextBlock>
-            </StackPanel>
-        </Button>
-    </Grid>
+                    <StackPanel Grid.Row="1">
+                        <RadioButton Name="p1" Unchecked="NoteUnchecked"  Checked="NoteChecked" Tag="/Resources/Images/Notes/note.png" Content="Bilješke" Height="50" FontSize="14"  Style="{StaticResource MenuButtonTheme}"/>
+                        <RadioButton Name="p2" Unchecked="NoteUnchecked" Checked="NoteChecked" Tag="/Resources/Images/Notes/event.png" Content="Događaji" Height="50" FontSize="14" Style="{StaticResource MenuButtonTheme}"/>
+                        <RadioButton Name="p3" Unchecked="NoteUnchecked" Checked="NoteChecked" Tag="/Resources/Images/Notes/reminder.png" Content="Podsjetnici" Height="50" FontSize="14"  Style="{StaticResource MenuButtonTheme}"/>
+                        <RadioButton Name="p4" Unchecked="NoteUnchecked" Checked="NoteChecked" Tag="/Resources/Images/Notes/todo.png" Content="To-Do liste" Height="50" FontSize="14"  Style="{StaticResource MenuButtonTheme}"/>
+                        <Separator Height="99" Background="Transparent"/>
+                        <TextBlock TextAlignment="Center" Padding="0,0,0,0" TextTrimming="CharacterEllipsis"  Width="133" FontSize="18" Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" Margin="25,0,0,0" Height="41">
+                Korisnik: <Run Name="userChip" FontWeight="Bold"/>
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <Border Cursor="Hand" ToolTip="Brisanje računa" Name="deleteControl" Background="Transparent" MouseLeftButtonDown="Path_MouseLeftButtonDown_1">
+                                <Path   Width="25" Height ="25"  Data="{StaticResource deleteAccIcon}"  Stretch="Fill"  >
+                                    <Path.Style>
+                                        <Style>
+                                            <Setter Property="Path.Fill" Value="{StaticResource TextColor}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=deleteControl, Path=IsMouseOver}" Value="true">
+                                                    <Setter Property="Path.Fill" Value="#dd0000"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
+                            </Border>
+                            <Separator Width="25" Background="Transparent"/>
+
+                            <Border Cursor="Hand" ToolTip="Odjava" Name="logoutControl" MouseLeftButtonDown="Path_MouseLeftButtonDown" Background="Transparent">
+
+                                <Path Width="25" Height ="25"  Data="{StaticResource logoutIcon}" Stretch="Fill"   >
+                                    <Path.Style>
+                                        <Style>
+                                            <Setter Property="Path.Fill" Value="{StaticResource TextColor}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=logoutControl, Path=IsMouseOver}" Value="true">
+                                                    <Setter Property="Path.Fill" Value="#dd0000"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Border Grid.Column="2" CornerRadius="0,15,15,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.3" Color="#d6edf6" />
+                            <GradientStop Offset="3.5" Color="#4F80FF" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Grid Grid.Column="2" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Name="noteTitle" FontFamily="#Open Sans Regular" Foreground="{StaticResource TextColor}" FontWeight="Medium" HorizontalAlignment="Center" FontSize="30" VerticalAlignment="Center" Text="BILJEŠKE"/>
+
+
+                    <TextBox Width="504" Height="40" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,155,0,0" Grid.Column="1" Style="{StaticResource ModernTextbox}"/>
+
+                    <Frame Grid.Row="1" x:Name="navframe" NavigationUIVisibility="Hidden" Background="Transparent" Margin="0,0,10,10" />
+
+                    <Canvas ToolTip="Dodaj zapis" Cursor="Hand" Height="50" Width="50" Grid.Row="1" Margin="537,244,33,26">
+                        <Ellipse MouseLeftButtonDown="Create_Click"  StrokeThickness="2" Stroke="{StaticResource TextColor2}" Width="50" Height="50">
+                            <Ellipse.Style>
+                                <Style>
+                                    <Setter Property="Ellipse.Fill" Value="#B5E8FF" />
+                                    <Style.Triggers>
+                                        <Trigger Property="Ellipse.IsMouseOver" Value="True">
+                                            <Setter Property="Ellipse.Fill" Value="#83D3F7" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                        <Path Data="{StaticResource plusIcon}" Fill="{StaticResource TextColor2}" Stretch="Fill" Margin="12.5" Height="25" Width="25" />
+                    </Canvas>
+                </Grid>
+            </Border>
+        </Grid>
     </Border>
 </Window>

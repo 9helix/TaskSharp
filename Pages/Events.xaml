@@ -164,18 +164,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Background="White">
             <StackPanel HorizontalAlignment="center" Margin="50,0,0,30">
-                <TextBlock FontSize="30" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">Događaji</TextBlock>
 
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                    <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
-                        Pozdrav
-                    </TextBlock>
-                    <Separator Width="5" Background="Transparent"></Separator>
-                    <TextBlock FontSize="15" x:Name="UsernameField" HorizontalAlignment="Center" Margin="0,30,0,0" FontWeight="Bold" />
-                    <TextBlock FontSize="15" HorizontalAlignment="Center" Margin="0,30,0,0">
-                        , ovdje možete vidjeti sve svoje događaje.
-                    </TextBlock>
-                </StackPanel>
 
                 <StackPanel Name="Events" Visibility="Visible">
                     <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -52,8 +51,6 @@ namespace SideBar_Nav.Pages
             var username = _context.Users.Where(usr => usr.UserId == uid)
                 .Select(usr => usr.UserName)
                 .FirstOrDefault();
-
-            UsernameField.Text = username;
             RefreshNotes();
         }
 

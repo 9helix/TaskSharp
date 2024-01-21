@@ -12,6 +12,7 @@ namespace TaskSharp
 
             // Create the startup window
             MainWindow wnd = new MainWindow();
+            //DashboardTesting wnd = new DashboardTesting();
             //NoteCreate wnd = new NoteCreate();
             // Do stuff here, e.g. to the window
             //wnd.Title = "Something else";

@@ -124,7 +124,8 @@ namespace TaskSharp
                     var uid = loguser.Select(usr => usr.UserId).First();
                     Application.Current.Properties["uid"] = uid;
 
-                    var dashboard = new Dashboard();
+                    //var dashboard = new Dashboard();
+                    var dashboard = new DashboardTesting();
                     dashboard.Show();
                     this.Close();
                 }

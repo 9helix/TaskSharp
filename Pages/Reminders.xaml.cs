@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -84,7 +83,6 @@ namespace SideBar_Nav.Pages
                 .Select(usr => usr.UserName)
                 .FirstOrDefault();
 
-            UsernameField.Text = username;
             RefreshReminders();
         }
 

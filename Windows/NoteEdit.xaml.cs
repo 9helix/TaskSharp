@@ -47,9 +47,9 @@ namespace TaskSharp
                     tags.Text = temp2.Tags;
                     flag.IsChecked = temp2.Pinned;
 
-                    EventStartPick.BlackoutDates.AddDatesInPast();
+                    //EventStartPick.BlackoutDates.AddDatesInPast();
                     EventStartPick.SelectedDate = temp2.StartDate;
-                    EventEndPick.BlackoutDates.AddDatesInPast();
+                    //EventEndPick.BlackoutDates.AddDatesInPast();
                     EventEndPick.SelectedDate = temp2.EndDate;
 
                     location.Text = temp2.Location;
@@ -66,7 +66,7 @@ namespace TaskSharp
                     tags.Text = temp3.Tags;
                     flag.IsChecked = temp3.Pinned;
 
-                    ReminderDuePick.BlackoutDates.AddDatesInPast();
+                    //ReminderDuePick.BlackoutDates.AddDatesInPast();
                     ReminderDuePick.SelectedDate = temp3.DueDate;
                     ReminderDue.Visibility = Visibility.Visible;
 
@@ -107,7 +107,8 @@ namespace TaskSharp
         {
             if (todos.Count < 10)
             {
-                StackPanel stk = new StackPanel {
+                StackPanel stk = new StackPanel
+                {
                     Name = $"todo{todos.Last() + 1}",
                     Orientation = Orientation.Horizontal,
                     HorizontalAlignment = HorizontalAlignment.Center
@@ -134,12 +135,14 @@ namespace TaskSharp
                 {
                     Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 7)
                 };
-                CheckBox chk = new CheckBox {
+                CheckBox chk = new CheckBox
+                {
                     IsChecked = check,
                     VerticalAlignment = VerticalAlignment.Center,
                     Padding = new Thickness(left: 0, top: 0, right: 10, bottom: 0)
                 };
-                Image img = new Image {
+                Image img = new Image
+                {
                     Width = 15,
                     Source = new BitmapImage(new Uri(@"/Resources/Images/delete.png", UriKind.Relative)),
                     Cursor = Cursors.Hand,
@@ -283,7 +286,7 @@ namespace TaskSharp
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _context.Dispose();
-            var dashboard = new Dashboard();
+            var dashboard = new DashboardTesting();
             dashboard.Show();
         }
     }
