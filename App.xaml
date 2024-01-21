@@ -8,6 +8,7 @@
         <ResourceDictionary>
             <FontFamily x:Key="TextFont">#Poppins Regular</FontFamily>
             <SolidColorBrush x:Key="PrimaryColor" Color="#4F80FF" />
+            <SolidColorBrush x:Key="SecondaryColor" Color="#B5E8FF" />
             <SolidColorBrush x:Key="TextColor2" Color="#002480"/>
 
             <SolidColorBrush x:Key="TextColor" Color="#050505" />

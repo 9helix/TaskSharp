@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
-        Title="TaskSharp - Nadzorna ploča" Height="520" Width="800" ResizeMode="NoResize"  Background="Transparent" AllowsTransparency="True" WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Dashboard_Loaded">
+        Title="TaskSharp - Nadzorna ploča" WindowStartupLocation="CenterScreen" Height="520" Width="800" ResizeMode="NoResize"  Background="Transparent" AllowsTransparency="True" WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Dashboard_Loaded">
     <Border Background="White" CornerRadius="15">
 
         <Grid >
@@ -13,29 +13,13 @@
                 <ColumnDefinition Width="180"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <!--<Grid.RowDefinitions>
-                <RowDefinition Height="120"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>-->
-            <Border Background="#B5E8FF" CornerRadius="15,0,0,15">
+            <Border Background="{StaticResource SecondaryColor}" CornerRadius="15,0,0,15">
                 <Grid Background="transparent">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="120"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-
-                    <!--<Border  Grid.Column="0" Grid.RowSpan="2"
-        CornerRadius="20,0,0,20" Background="#ffffff">
-                    <Rectangle Grid.Column="0" Grid.RowSpan="1000">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0.5,1" >
-                            <GradientStop Color="#007bff" Offset="0" />
-                            <GradientStop Color="White" Offset="1.2" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                </Border>-->
                     <TextBlock FontFamily="{StaticResource TextFont}" FontSize="40" Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Task#" Margin="20,0,0,0"/>
 
 
@@ -50,7 +34,7 @@
                         </TextBlock>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
-                            <Border Cursor="Hand" ToolTip="Brisanje računa" Name="deleteControl" Background="Transparent" MouseLeftButtonDown="Path_MouseLeftButtonDown_1">
+                            <Border Cursor="Hand" ToolTip="Brisanje računa" ToolTipService.InitialShowDelay="500" Name="deleteControl" Background="Transparent" MouseLeftButtonDown="Path_MouseLeftButtonDown_1">
                                 <Path   Width="25" Height ="25"  Data="{StaticResource deleteAccIcon}"  Stretch="Fill"  >
                                     <Path.Style>
                                         <Style>
@@ -66,7 +50,7 @@
                             </Border>
                             <Separator Width="25" Background="Transparent"/>
 
-                            <Border Cursor="Hand" ToolTip="Odjava" Name="logoutControl" MouseLeftButtonDown="Path_MouseLeftButtonDown" Background="Transparent">
+                            <Border Cursor="Hand" ToolTip="Odjava" ToolTipService.InitialShowDelay="500" Name="logoutControl" MouseLeftButtonDown="Path_MouseLeftButtonDown" Background="Transparent">
 
                                 <Path Width="25" Height ="25"  Data="{StaticResource logoutIcon}" Stretch="Fill"   >
                                     <Path.Style>
@@ -90,7 +74,7 @@
                     <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
                         <LinearGradientBrush.GradientStops>
                             <GradientStop Offset="0.3" Color="#d6edf6" />
-                            <GradientStop Offset="3.5" Color="#4F80FF" />
+                            <GradientStop Offset="4" Color="#4F80FF" />
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
                 </Border.Background>
@@ -108,15 +92,15 @@
 
                     <Frame Grid.Row="1" x:Name="navframe" NavigationUIVisibility="Hidden" Background="Transparent" Margin="0,0,10,10" />
 
-                    <Canvas ToolTip="Dodaj zapis" Cursor="Hand" Height="50" Width="50" Grid.Row="1" Margin="537,244,33,26">
+                    <Canvas Name="plus" ToolTip="Dodaj zapis" ToolTipService.InitialShowDelay="500" Cursor="Hand" Height="50" Width="50" Grid.Row="1" Margin="529,244,41,26">
                         <Ellipse MouseLeftButtonDown="Create_Click"  StrokeThickness="2" Stroke="{StaticResource TextColor2}" Width="50" Height="50">
                             <Ellipse.Style>
                                 <Style>
                                     <Setter Property="Ellipse.Fill" Value="#B5E8FF" />
                                     <Style.Triggers>
-                                        <Trigger Property="Ellipse.IsMouseOver" Value="True">
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=plus}" Value="True">
                                             <Setter Property="Ellipse.Fill" Value="#83D3F7" />
-                                        </Trigger>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Ellipse.Style>

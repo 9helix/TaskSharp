@@ -162,8 +162,8 @@
     </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Background="White">
-            <StackPanel HorizontalAlignment="center" Margin="50,0,0,30">
+        <Grid Background="Transparent">
+            <StackPanel HorizontalAlignment="center" Margin="0,0,0,30">
 
 
                 <StackPanel Name="Events" Visibility="Visible">
