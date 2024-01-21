@@ -15,11 +15,7 @@ namespace TaskSharp.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true);
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
 
             modelBuilder.Entity("TaskSharp.Classes.Event", b =>
                 {
@@ -148,6 +144,10 @@ namespace TaskSharp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Todos")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

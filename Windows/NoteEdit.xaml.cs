@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -76,9 +77,14 @@ namespace TaskSharp
 
                 case 3:
                     txtNoteType.Text = "To-Do lista";
-                    var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First();
+                    var temp4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First();
+                    var todos = JsonSerializer.Deserialize<Dictionary<string, bool>>(temp4.Todos);
 
-                    foreach (KeyValuePair<string, bool> entry in note4.Todos)
+                    note_name.Text = temp4.Name;
+                    tags.Text = temp4.Tags;
+                    flag.IsChecked = temp4.Pinned;
+
+                    foreach (KeyValuePair<string, bool> entry in todos)
                     {
                         AddTodo2(entry.Key, entry.Value);
                     }
@@ -274,7 +280,7 @@ namespace TaskSharp
                     var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First<TodoList>();
                     note4.Name = name;
                     note4.Tags = tags;
-                    note4.Todos = TodoDict;
+                    note4.Todos = JsonSerializer.Serialize(TodoDict);
                     note4.Pinned = Pin;
                     break;
             }

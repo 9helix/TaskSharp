@@ -14,7 +14,6 @@ namespace TaskSharp
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=notes.db");
-            optionsBuilder.UseLazyLoadingProxies();
         }
     }
 }

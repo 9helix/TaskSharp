@@ -40,7 +40,6 @@ namespace TaskSharp.Classes
 
     public class TodoList : BaseNote
     {
-        [NotMapped]
-        public Dictionary<string, bool> Todos { get; set; }
+        public string Todos { get; set; }
     }
 }

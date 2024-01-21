@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TaskSharp.Classes;
+using System.Text.Json;
 
 namespace TaskSharp
 {
@@ -280,7 +281,7 @@ namespace TaskSharp
                         Name = name,
                         CreationDate = dateCreate,
                         Tags = tags,
-                        Todos = TodoDict,
+                        Todos = JsonSerializer.Serialize(TodoDict),
                         Pinned = Pin
                     };
                     _context.TodoLists.Add(newTodoList);

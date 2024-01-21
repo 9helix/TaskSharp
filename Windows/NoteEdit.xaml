@@ -84,16 +84,7 @@
             </StackPanel>
             <ScrollViewer  Height="100" Margin="10,10,0,0"
                Width="300" VerticalScrollBarVisibility="Auto">
-                <StackPanel Name="scroll" >
-                    <Border Name="todo1" Padding="0,0,0,7">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBox MaxLength="50" Width="175" Text="Todo #1"></TextBox>
-                            <Separator Width="10" Background="Transparent"/>
-                            <CheckBox VerticalAlignment="Center" Padding="0,0,10,0"></CheckBox>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-
+                <StackPanel Name="scroll" />
             </ScrollViewer>
         </StackPanel>
         <Separator Height="30" Background="Transparent"/>

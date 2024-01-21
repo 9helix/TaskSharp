@@ -32,10 +32,11 @@ namespace SideBar_Nav.Pages
                 .FirstOrDefault();
 
 
-            //var todos = _context.TodoLists.Where(x => x.UserId == uid)
-            //    .OrderByDescending(x => x.Pinned)
-            //    .ToList();
+            var todos = _context.TodoLists.Where(x => x.UserId == uid)
+                .OrderByDescending(x => x.Pinned)
+                .ToList();
             DebugNotes();
+            UndoneTodosContainer.ItemsSource = todos;
         }
 
         private void DebugNotes()
