@@ -8,11 +8,15 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Podsjetnici" Loaded="Reminders_Loaded" Unloaded="Reminders_Unloaded">
     <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+            <Setter Property="FontFamily" Value="{StaticResource TextFont}" />
+        </Style>
         <DataTemplate x:Key="UpcomingRemindersTemplate">
-            <Border Name="border" BorderBrush="LightSkyBlue" BorderThickness="1" Padding="5" Margin="2">
+            <Border Background="{StaticResource SecondaryColor}" Name="border"  Width="510" BorderBrush="{StaticResource TextColor2}" HorizontalAlignment="Center" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
-                        <Setter Property="Background" Value="AliceBlue"/>
+                        <Setter Property="Background" Value="{StaticResource SecondaryColor}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Pinned}" Value="False">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -30,16 +34,16 @@
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock TextWrapping="Wrap" FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <TextBlock Grid.Column="1">Stvoreno:</TextBlock>
-                            <Separator Width="3" Background="Transparent"/>
-                            <TextBlock Grid.Column="2" Text="{Binding Path=CreationDate, StringFormat=dd. MM. yyyy}"/>
-                        </StackPanel>
+                        <TextBlock Margin="5,0,0,0" TextWrapping="Wrap" FontSize="20" FontWeight="Bold" Text="{Binding Path=Name}" />
+                        <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=CreationDate, StringFormat=STVORENO: d. M. yyyy.}"/>
 
-                        <Image Grid.Column="2" Tag="{Binding Path=Id}" PreviewMouseDown="PinUnpinReminder"  Width="15" Cursor="Hand" ToolTipService.InitialShowDelay="500">
+
+
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" PreviewMouseDown="PinUnpinReminder" Width="20" Cursor="Hand" ToolTipService.InitialShowDelay="500">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
                                     <Setter Property="Source" Value="../Resources/Images/pin.png"/>
@@ -53,9 +57,25 @@
                                 </Style>
                             </Image.Style>
                         </Image>
+                        <Image Grid.Column="3" Tag="{Binding Path=Id}" Width="20"
+                               Cursor="Hand" PreviewMouseDown="DeleteReminder" ToolTip="Izbriši bilješku" ToolTipService.InitialShowDelay="500">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Source" Value="../Resources/Images/delete.png"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Source" Value="../Resources/Images/deleteRed.png"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <Image Grid.Column="4" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="20"
+                               Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
+
                     </Grid>
 
-                    <Grid Margin="2,5,0,0">
+                    <Grid Margin="5,5,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
@@ -65,11 +85,13 @@
                             <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Foreground="DarkGray" Text="{Binding Path=Tags}" />
-                        <Image Grid.Column="1" Tag="{Binding Path=Id}" Source="../Resources/Images/deleteRed.png" Width="15"
-                               Cursor="Hand" PreviewMouseDown="DeleteReminder" ToolTip="Izbriši bilješku" ToolTipService.InitialShowDelay="500"/>
-                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="15"
-                               Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
+                        <TextBlock TextTrimming="WordEllipsis" Foreground="{StaticResource TextColor2}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="OZNAKE: {0}">
+                                    <Binding Path="Tags" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </Grid>
 
                     <Grid Margin="2,8,0,0">
@@ -83,7 +105,7 @@
 
                         <StackPanel Orientation="Vertical">
                             <TextBlock FontSize="14" TextAlignment="Center" Text="Datum podsjećanja:" />
-                            <TextBlock FontSize="14" TextAlignment="Center" FontWeight="Bold" Text="{Binding Path=DueDate, StringFormat=dd. MM. yyyy}" />
+                            <TextBlock FontSize="14" TextAlignment="Center" FontWeight="Bold" Text="{Binding Path=DueDate, StringFormat=d. M. yyyy.}" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Vertical">
                             <TextBlock FontSize="14" TextAlignment="Center" Text="Prioritet:" />
@@ -95,7 +117,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ExpiredRemindersTemplate">
-            <Border Name="border" BorderBrush="LightGray" Background="LightGray" BorderThickness="1" Padding="5" Margin="2">
+            <Border HorizontalAlignment="Center" Width="510" Name="border" Background="{StaticResource SecondaryColor}" BorderBrush="{StaticResource TextColor2}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
                 <StackPanel Orientation="Vertical">
                     <Grid Margin="2,5,0,0">
                         <Grid.RowDefinitions>
@@ -104,14 +126,31 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="2*" />
+
+                            <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock TextWrapping="Wrap" FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <TextBlock Grid.Column="1">Stvoreno:</TextBlock>
-                            <Separator Width="3" Background="Transparent"/>
-                            <TextBlock Grid.Column="2" Text="{Binding Path=CreationDate, StringFormat=dd. MM. yyyy}"/>
-                        </StackPanel>
+                        <TextBlock Margin="5,0,0,0" TextWrapping="Wrap" FontSize="20" FontWeight="Bold" Text="{Binding Path=Name}" />
+
+                        <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=CreationDate, StringFormat=STVORENO: d. M. yyyy.}"/>
+
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Width="20"
+                               Cursor="Hand" PreviewMouseDown="DeleteReminder" ToolTip="Izbriši bilješku" ToolTipService.InitialShowDelay="500">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Source" Value="../Resources/Images/delete.png"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Source" Value="../Resources/Images/deleteRed.png"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <Image Grid.Column="3" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="20"
+                               Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
+
                     </Grid>
 
                     <Grid Margin="2,5,0,0">
@@ -120,13 +159,10 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*" />
-                            <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Foreground="DarkGray" Text="{Binding Path=Tags}" />
-                        <Image Grid.Column="1" Tag="{Binding Path=Id}" Source="../Resources/Images/deleteRed.png" Width="15"
-                               Cursor="Hand" PreviewMouseDown="DeleteReminder" ToolTip="Izbriši bilješku" ToolTipService.InitialShowDelay="500"/>
-                    </Grid>
+                        <TextBlock Foreground="{StaticResource TextColor2}" Text="{Binding Path=Tags}" />
+                        </Grid>
 
                     <Grid Margin="2,8,0,0">
                         <Grid.RowDefinitions>
@@ -154,33 +190,32 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Background="Transparent">
             <StackPanel HorizontalAlignment="center" Margin="0,0,0,30">
-                
+
 
                 <StackPanel Name="Reminders" Visibility="Visible">
                     <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">
                         Nadolazeći podsjetnici
                     </TextBlock>
-                    <ItemsControl Width="450" BorderThickness="0" Margin="0,20,0,10" x:Name="UpcomingRemindersContainer" HorizontalContentAlignment="Stretch"
+                    <ItemsControl BorderThickness="0" Margin="0,20,0,10" x:Name="UpcomingRemindersContainer" HorizontalContentAlignment="Stretch"
                         ItemTemplate="{StaticResource UpcomingRemindersTemplate}"/>
-                    <TextBlock Visibility="Collapsed" Name="UpcomingRemindersEmpty" Foreground="DarkGray" FontSize="15" Margin="0,20,0,0">
-                        Trenutno nema nadolazećih podsjetnika
+                    <TextBlock Visibility="Collapsed" Name="UpcomingRemindersEmpty" FontSize="15" Margin="0,20,0,0">
+                        Trenutno nema nadolazećih podsjetnika.
                     </TextBlock>
 
                     <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,20,0,0">
                         Prošli podsjetnici
                     </TextBlock>
-                    <ItemsControl Width="450" BorderThickness="0" Margin="0,20,0,10" x:Name="ExpiredRemindersContainer" HorizontalContentAlignment="Stretch"
+                    <ItemsControl BorderThickness="0" Margin="0,20,0,10" x:Name="ExpiredRemindersContainer" HorizontalContentAlignment="Stretch"
                         ItemTemplate="{StaticResource ExpiredRemindersTemplate}"/>
-                    <TextBlock Visibility="Collapsed" Name="ExpiredRemindersEmpty" Foreground="DarkGray" FontSize="15" Margin="0,20,0,0">
-                        Trenutno nema prošlih podsjetnika
+                    <TextBlock Visibility="Collapsed" Name="ExpiredRemindersEmpty" FontSize="15" Margin="0,20,0,0">
+                        Trenutno nema prošlih podsjetnika.
                     </TextBlock>
                 </StackPanel>
 
                 <StackPanel Name="RemindersEmpty" Visibility="Collapsed" Margin="0,17,0,0">
-                    <TextBlock Foreground="DarkGray" FontSize="15">
-                        Izgleda da niste unijeli nijedan podsjetnik...
-                    </TextBlock>
-                    <TextBlock Foreground="DarkGray" FontSize="15">
+                    <TextBlock FontSize="15">
+                        Izgleda da niste unijeli nijedan podsjetnik...<LineBreak/>
+
                         Bez brige, to možete ispraviti <Hyperlink Click="Hyperlink_Click" Cursor="Hand">izradom prvog podsjetnika</Hyperlink>.
                     </TextBlock>
                 </StackPanel>
