@@ -15,8 +15,10 @@
             <ResourceDictionary.MergedDictionaries>
 
                 <ResourceDictionary Source="Themes/MenuButtonTheme.xaml"/>
-                <ResourceDictionary Source="Themes/svgIcons.xaml"/>
+                <ResourceDictionary Source="Themes/SvgIcons.xaml"/>
                 <ResourceDictionary Source="Themes/TextboxTheme.xaml"/>
+
+                
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

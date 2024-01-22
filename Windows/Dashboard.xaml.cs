@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SideBar_Nav.Pages;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace TaskSharp
 {
@@ -18,93 +18,144 @@ namespace TaskSharp
             _context.Database.EnsureCreated();
             _context.Users.Load();
             _context.Notes.Load();
+
         }
 
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
         {
-            navframe.Navigate(new Uri("../Pages/Notes.xaml", UriKind.Relative));
+            //NoteView();
 
             var uid = (int)Application.Current.Properties["uid"];
             var username = _context.Users.Where(usr => usr.UserId == uid)
                             .Select(usr => usr.UserName)
                             .First();
-            userChip.Inlines.Add(new Run("Korisnik: "));
-            userChip.Inlines.Add(new Bold(new Run($"{username}")));
-        }
-
-        private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ListBox lb = (ListBox)sender;
-            switch (lb.SelectedIndex)
+            userChip.Text = $"{username}";
+            if (Application.Current.Properties["noteType"] == null || (int)Application.Current.Properties["noteType"] == 0)
+                p1.IsChecked = true;
+            else
             {
-                case 0:
+                if ((int)Application.Current.Properties["noteType"] == 1)
+                    p2.IsChecked = true;
+                if ((int)Application.Current.Properties["noteType"] == 2)
+                    p3.IsChecked = true;
+                if ((int)Application.Current.Properties["noteType"] == 3)
+                    p4.IsChecked = true;
+            }
+        }
+        private void NoteChecked(object sender, RoutedEventArgs e)
+        {
+            string x = ((RadioButton)sender).Name;
+            switch (x)
+            {
+                case "p1":
+                    ((RadioButton)sender).Tag = "/Resources/Images/Notes/note-white.png";
+                    noteTitle.Text = "Bilješke";
                     Application.Current.Properties["noteType"] = 0;
-                    navframe.Navigate(new Uri("../Pages/Notes.xaml", UriKind.Relative));
+                    navframe.Navigate(new Page1());
                     break;
 
-                case 1:
+                case "p2":
+                    ((RadioButton)sender).Tag = "/Resources/Images/Notes/event-white.png";
+                    noteTitle.Text = "Događaji";
                     Application.Current.Properties["noteType"] = 1;
-                    navframe.Navigate(new Uri("../Pages/Events.xaml", UriKind.Relative));
+                    navframe.Navigate(new Page2());
                     break;
-
-                case 2:
+                case "p3":
+                    ((RadioButton)sender).Tag = "/Resources/Images/Notes/reminder-white.png";
+                    noteTitle.Text = "Podsjetnici";
                     Application.Current.Properties["noteType"] = 2;
-                    navframe.Navigate(new Uri("../Pages/Reminders.xaml", UriKind.Relative));
+                    navframe.Navigate(new Page3());
                     break;
-
-                case 3:
+                case "p4":
+                    ((RadioButton)sender).Tag = "/Resources/Images/Notes/todo-white.png";
+                    noteTitle.Text = "To-Do liste";
                     Application.Current.Properties["noteType"] = 3;
-                    navframe.Navigate(new Uri("../Pages/TodoLists.xaml", UriKind.Relative));
+                    navframe.Navigate(new Page4());
                     break;
 
-                case 4:
-                    var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati vaš račun? Time ćete pobrisati i sve svoje spremljene bilješke.", "Brisanje računa", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-                    if (choice == MessageBoxResult.Yes)
-                    {
-                        var uid = (int)Application.Current.Properties["uid"];
-
-                        var notes = _context.Notes.Where(x => x.UserId == uid).ToList();
-                        _context.Notes.RemoveRange(notes);
-                        var events = _context.Events.Where(x => x.UserId == uid).ToList();
-                        _context.Events.RemoveRange(events);
-                        var reminders = _context.Reminders.Where(x => x.UserId == uid).ToList();
-                        _context.Reminders.RemoveRange(reminders);
-                        var todos = _context.TodoLists.Where(x => x.UserId == uid).ToList();
-                        _context.TodoLists.RemoveRange(todos);
-
-                        var user = _context.Users.Where(x => x.UserId == uid).First();
-                        _context.Users.Remove(user);
-                        _context.SaveChanges();
-
-                        MessageBox.Show("Uspješno izbrisan korisnički račun!", "Brisanje korisničkog računa", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                        var win2 = new MainWindow();
-                        win2.Show();
-                        this.Close();
-                    }
-                    break;
-
-                case 5:
-                    MessageBox.Show($"Odjava uspješna!", "Odjava", MessageBoxButton.OK, MessageBoxImage.Information);
-                    var win = new MainWindow();
-                    win.Show();
-
-                    this.Close();
-                    break;
             }
         }
 
-        private void Create_Click(object sender, RoutedEventArgs e)
+
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+            DragMove();
+        }
+
+
+        private void Create_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var noteCreate = new NoteCreate();
             noteCreate.Show();
             this.Close();
         }
 
-        private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Path_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            _context.Dispose();
+            e.Handled = true;
+            var choice2 = MessageBox.Show("Jeste li sigurni da se želite odjaviti?", "Odjava", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (choice2 == MessageBoxResult.Yes)
+            {
+                MessageBox.Show($"Odjava uspješna!", "Odjava", MessageBoxButton.OK, MessageBoxImage.Information);
+                var win = new Login();
+                win.Show();
+
+                this.Close();
+            }
+        }
+
+        private void Path_MouseLeftButtonDown_1(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati vaš račun? Time ćete pobrisati i sve svoje spremljene bilješke.", "Brisanje računa", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (choice == MessageBoxResult.Yes)
+            {
+                var uid = (int)Application.Current.Properties["uid"];
+
+                var notes = _context.Notes.Where(x => x.UserId == uid).ToList();
+                _context.Notes.RemoveRange(notes);
+                var events = _context.Events.Where(x => x.UserId == uid).ToList();
+                _context.Events.RemoveRange(events);
+                var reminders = _context.Reminders.Where(x => x.UserId == uid).ToList();
+                _context.Reminders.RemoveRange(reminders);
+                var todos = _context.TodoLists.Where(x => x.UserId == uid).ToList();
+                _context.TodoLists.RemoveRange(todos);
+
+                var user = _context.Users.Where(x => x.UserId == uid).First();
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+
+                MessageBox.Show("Uspješno izbrisan korisnički račun!", "Brisanje korisničkog računa", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                var win2 = new MainWindow();
+                win2.Show();
+                this.Close();
+            }
+        }
+
+        private void NoteUnchecked(object sender, RoutedEventArgs e)
+        {
+            string x = ((RadioButton)sender).Name;
+            switch (x)
+            {
+                case "p1":
+                    ((RadioButton)sender).Tag = "/Resources/Images/Notes/note.png";
+                    break;
+
+                case "p2":
+                    ((RadioButton)sender).Tag = "/Resources/Images/Notes/event.png";
+                    break;
+                case "p3":
+                    ((RadioButton)sender).Tag = "/Resources/Images/Notes/reminder.png";
+                    break;
+                case "p4":
+                    ((RadioButton)sender).Tag = "/Resources/Images/Notes/todo.png";
+                    break;
+
+            }
         }
     }
 }

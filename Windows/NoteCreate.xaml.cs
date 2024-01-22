@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TaskSharp.Classes;
-using System.Text.Json;
 
 namespace TaskSharp
 {
@@ -288,7 +288,7 @@ namespace TaskSharp
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _context.Dispose();
-            var dashboard = new DashboardTesting();
+            var dashboard = new Dashboard();
             dashboard.Show();
         }
     }

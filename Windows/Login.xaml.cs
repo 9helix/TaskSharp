@@ -2,63 +2,76 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using TaskSharp.Classes;
 
 namespace TaskSharp
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Login : Window
     {
         private readonly NotesContext _context =
-            new NotesContext();
+    new NotesContext();
         bool registration = false;
-
-        public MainWindow()
+        public Login()
         {
             InitializeComponent();
-            //PurgeDatabase();
         }
 
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            System.Diagnostics.Process.Start(new ProcessStartInfo
-            {
-                FileName = e.Uri.AbsoluteUri,
-                UseShellExecute = true
-            });
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
         }
 
-        private void Login_Loaded(object sender, RoutedEventArgs e)
+        private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
             _context.Users.Load();
         }
 
-        /*private void Login_Click(object sender, RoutedEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            string user = txtUser.Text;
-            if (user.Length < 2)
-                MessageBox.Show("Korisničko ime mora imati bar 2 znaka.", "Greška prijave", MessageBoxButton.OK, MessageBoxImage.Warning);
-            string pass = txtPass.Password;
-            if (pass.Length < 4)
-                MessageBox.Show("Lozinka mora sadržavati bar 4 znaka.", "Greška prijave", MessageBoxButton.OK, MessageBoxImage.Warning);
+            _context.Dispose();
         }
-        */
-        private void ShowPassword_Checked(object sender, RoutedEventArgs e)
+
+        private void LoginSwitch()
         {
-            PasswordUnmask.Visibility = Visibility.Visible;
-            txtPass.Visibility = Visibility.Collapsed;
-            PasswordUnmask.Text = txtPass.Password;
+
+            title.Text = "Dobrodošli natrag!";
+            description.Text = "Prijavite se u postojeći račun";
+            secondBtn.Content = "Stvorite račun";
+            firstBtn.Content = "Prijava";
+            txtConf.Password = "";
+            txtConf.Visibility = Visibility.Collapsed;
         }
-        private void ShowPassword_Unchecked(object sender, RoutedEventArgs e)
+        private void secondBtn_Click(object sender, RoutedEventArgs e)
         {
-            PasswordUnmask.Visibility = Visibility.Collapsed;
-            txtPass.Visibility = Visibility.Visible;
+            if (!registration)
+            {
+                title.Text = "Pozdrav!";
+                description.Text = "Stvorite novi korisnički račun";
+                firstBtn.Content = "Registracija";
+                secondBtn.Content = "Postojeći račun";
+                txtConf.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                LoginSwitch();
+            }
+            txtUser.Text = "";
+            txtPass.Password = "";
+            registration = !registration;
         }
-        private void Login_Click(object sender, RoutedEventArgs e)
+
+        private void firstBtn_Click(object sender, RoutedEventArgs e)
         {
             string username = txtUser.Text;
 
@@ -85,7 +98,7 @@ namespace TaskSharp
             }
             if (registration)
             {
-                if (txtPassConf.Password != txtPass.Password)
+                if (txtConf.Password != txtPass.Password)
                 {
                     MessageBox.Show("Lozinke se ne poklapaju.", "Greška registracije", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -125,94 +138,23 @@ namespace TaskSharp
                     Application.Current.Properties["uid"] = uid;
 
                     //var dashboard = new Dashboard();
-                    var dashboard = new DashboardTesting();
+                    var dashboard = new Dashboard();
                     dashboard.Show();
                     this.Close();
                 }
 
                 else
                     MessageBox.Show("Krivi korisnički podaci! Pokušajte ponovo.", "Prijava", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                // login logic
             }
         }
-        private void LoginSwitch()
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            Title.Text = "Prijava";
-            AccButton.Content = "Prijavi se";
-            AccButton.Width = 110;
-            PassConf.Visibility = Visibility.Collapsed;
-            RegisterCall.Visibility = Visibility.Visible;
-            registration = false;
-            txtPass.Password = "";
-            txtUser.Text = "";
-            LoginCall.Visibility = Visibility.Collapsed;
-            txtPassConf.Password = "";
-        }
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            if (!registration)
+            System.Diagnostics.Process.Start(new ProcessStartInfo
             {
-                //this.NavigationService.Navigate(new Page2());
-                txtPassConf.Width = txtPass.Width;
-                Title.Text = "Registracija";
-                AccButton.Content = "Registriraj se";
-                AccButton.Width = 130;
-                PassConf.Visibility = Visibility.Visible;
-                RegisterCall.Visibility = Visibility.Collapsed;
-                registration = true;
-                txtPass.Password = "";
-                txtUser.Text = "";
-                LoginCall.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                LoginSwitch();
-            }
-
-        }
-
-        private void PurgeDatabase()
-        {
-            var allUsers = _context.Users.ToList();
-
-            _context.Users.RemoveRange(allUsers);
-            _context.SaveChanges();
-
-        }
-        private void DebugUsers()
-        {
-            var usrs = _context.Users.ToList();
-            foreach (var user in usrs)
-            {
-                Debug.WriteLine($"ID: {user.UserId}, Ime: {user.UserName}, Pass: {user.Password}");
-            }
-        }
-
-        private void ShowPassword()
-        {
-            PasswordUnmask.Visibility = Visibility.Visible;
-            txtPass.Visibility = Visibility.Collapsed;
-            PasswordUnmask.Text = txtPass.Password;
-            ShowPass.Source = new BitmapImage(new Uri(@"../Resources/Images/hide.png", UriKind.Relative));
-        }
-
-        private void HidePassword()
-        {
-            PasswordUnmask.Visibility = Visibility.Collapsed;
-            txtPass.Visibility = Visibility.Visible;
-            ShowPass.Source = new BitmapImage(new Uri(@"../Resources/Images/show.png", UriKind.Relative));
-
-        }
-
-        private void Image_MouseLeave(object sender, MouseEventArgs e) => HidePassword();
-        private void Image_PreviewMouseDown(object sender, MouseButtonEventArgs e) => ShowPassword();
-        private void Image_PreviewMouseUp(object sender, MouseButtonEventArgs e) => HidePassword();
-
-        private void Login_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            DebugUsers();
-            _context.Dispose();
+                FileName = e.Uri.AbsoluteUri,
+                UseShellExecute = true
+            });
         }
     }
 }

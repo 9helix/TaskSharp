@@ -1,78 +1,82 @@
-﻿<Window x:Class="TaskSharp.MainWindow"
+﻿<Window x:Class="TaskSharp.Login"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TaskSharp" xmlns:sys="clr-namespace:System;assembly=netstandard"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
-        Title="TaskSharp" Height="530" Width="800" ResizeMode="CanMinimize" Loaded="Login_Loaded" Closing="Login_Closing">
+        Title="Prijava" Height="770" Width="450" Loaded="Window_Loaded" Closing="Window_Closing" TextElement.Foreground="{DynamicResource MaterialDesignBody}" Background="{x:Null}" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
-    <StackPanel HorizontalAlignment="center">
-        <TextBlock FontSize="65" HorizontalAlignment="Center" Margin="0,0,0,20">Task#</TextBlock>
-        <TextBlock FontWeight="Bold" FontSize="20" Margin="0,0,0,5" Name="Title">Prijava</TextBlock>
-        <Label>
-            <StackPanel Orientation="Horizontal">
-                <Image Source="../Resources/Images/user.png" Width="13"/>
-                <TextBlock Margin="5,0,0,0"><Run Text="Korisničko ime:"/></TextBlock>
-            </StackPanel>
-        </Label>
-        <StackPanel FocusManager.FocusedElement="{Binding ElementName=txtUser}">
-            <TextBox x:Name="txtUser" MaxLength="15" Width="188" HorizontalAlignment="Left"/>
-        </StackPanel>
-        <Separator Height="5" Background="Transparent"/>
-        <Label>
-            <StackPanel Orientation="Horizontal">
-                <Image Source="../Resources/Images/key.png" Width="13"/>
-                <TextBlock Margin="5,0,0,0"><Run Text="Lozinka:"/></TextBlock>
-            </StackPanel>
-        </Label>
-        <StackPanel Orientation="Horizontal">
-        <PasswordBox Name="txtPass" MaxLength="12" Width="188" >
-        </PasswordBox>
 
-            <TextBox Name="PasswordUnmask" Visibility="Collapsed" Width="188"/>
-        <!--<CheckBox x:Name="ShowPasswordCheckBox" Content="Prikaži lozinku" Checked="ShowPassword_Checked" Unchecked="ShowPassword_Unchecked" />-->
-            <Image x:Name="ShowPass" Source="../Resources/Images/show.png" Width="15" Margin="5,0,0,0" PreviewMouseDown="Image_PreviewMouseDown" PreviewMouseUp="Image_PreviewMouseUp" MouseLeave="Image_MouseLeave" Cursor="Hand"/>
-        </StackPanel>
-        <Separator Height="5" Background="Transparent"/>
-        <StackPanel Visibility="Collapsed" Name="PassConf">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="../Resources/Images/confirm.png" Width="13"/>
-                    <TextBlock Margin="5,0,0,0"><Run Text="Potvrdi lozinku:"/></TextBlock>
+    <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
+            <StackPanel>
+                <StackPanel Cursor="Hand" ToolTip="Zatvori aplikaciju" ToolTipService.InitialShowDelay="500" HorizontalAlignment="Right" Margin="0,20,25,0" Orientation="Horizontal" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown">
+                    <TextBlock  FontWeight="SemiBold" FontSize="20" Text="Izlaz "/>
+                    <Path Width="15" Height ="15" Margin="0,5,0,0" VerticalAlignment="Center"  Data="{StaticResource crossIcon}" Fill="{DynamicResource MaterialDesignBody}" Stretch="Fill"   />
                 </StackPanel>
-                <PasswordBox Name="txtPassConf" MaxLength="12" Width="188" HorizontalAlignment="Left">
+
+                <Image Margin="0,20,0,5" Source="../Resources/Images/logo.png" Height="100"/>
+                <TextBlock Name="title" Margin="0,15,0,5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Dobrodošli natrag!"/>
+                <TextBlock Name="description" HorizontalAlignment="Center" FontSize="17" FontWeight="SemiBold" Text="Prijavite se u postojeći račun"/>
+                <!--BorderBrush="{DynamicResource MaterialDesignDivider}"-->
+                <TextBox materialDesign:TextFieldAssist.HasClearButton="True" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed" MaxLength="15" Margin="0,30,0,0" x:Name="txtUser" Width="280" FontSize="15"  BorderBrush="#74828E" Foreground="{DynamicResource MaterialDesignBody}" Style="{StaticResource MaterialDesignOutlinedTextBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <StackPanel
+      Margin="0,0,0,0"
+      Orientation="Horizontal">
+                            <Image Source="../Resources/Images/user.png" Width="17"/>
+                            <TextBlock
+        Text="Korisničko ime" Padding="5,0,0,0"/>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+
+                </TextBox>
+                <PasswordBox Foreground="{DynamicResource MaterialDesignBody}" materialDesign:TextFieldAssist.HasClearButton="True" Margin="0,20,0,0" x:Name="txtPass" Width="280" FontSize="15" BorderBrush="#74828E" Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                            <Image Source="../Resources/Images/key.png" Width="17"/>
+                            <TextBlock Text="Lozinka" Padding="5,0,0,0"/>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
                 </PasswordBox>
-            <Separator Height="5" Background="Transparent"/>
-            </StackPanel>
+
+                <PasswordBox Foreground="{DynamicResource MaterialDesignBody}" Visibility="Collapsed" Margin="0,20,0,0" x:Name="txtConf" Width="280" FontSize="15"  BorderBrush="#74828E" 
+     Style="{StaticResource MaterialDesignOutlinedPasswordBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                            <Image Source="../Resources/Images/confirm.png" Width="17"/>
+                            <TextBlock Text="Potvrdite lozinku" Padding="5,0,0,0"/>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </PasswordBox>
 
 
-        <Separator Height="5" Background="Transparent"/>
-        <Button IsDefault="True" Click="Login_Click" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="110" Name="AccButton" Cursor="Hand">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Button.Resources> Prijavi se
-        </Button>
-        <StackPanel Name="RegisterCall"
-Visibility="Visible">
-            <Separator Height="7" Background="Transparent"/>
-            <TextBlock TextAlignment="Center">Novi korisnik? <Hyperlink Click="Hyperlink_Click" Cursor="Hand">Registriraj se.</Hyperlink></TextBlock>
-        </StackPanel>
-        <StackPanel Name="LoginCall"
-Visibility="Collapsed">
-            <Separator Height="7" Background="Transparent"/>
-            <TextBlock TextAlignment="Center">Postojeći korisnik? <Hyperlink Click="Hyperlink_Click" Cursor="Hand">Prijavi se.</Hyperlink></TextBlock>
-        </StackPanel>
+                <Button IsDefault="True" Click="firstBtn_Click" Margin="0,20,0,0" x:Name="firstBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="45" Width="230" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Prijava"/>
 
-        <Separator Height="35" Width="120"/>
-        <TextBlock HorizontalAlignment="Center" Padding="0,0,0,5">
+                <Button Click="secondBtn_Click" Margin="0,10,0,0" x:Name="secondBtn" Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="40" Width="230" materialDesign:ButtonAssist.CornerRadius="10" FontSize="16" Content="Stvorite račun" />
+
+                <Separator Height="15" Width="120" Background="Transparent"/>
+                <TextBlock HorizontalAlignment="Center" Padding="0,0,0,5">
             <Hyperlink NavigateUri="https://github.com/9helix/TaskSharp" RequestNavigate="Hyperlink_RequestNavigate" TextDecorations="None">
                 <Image Source="../Resources/Images/github.png" Width="40"></Image>
             </Hyperlink>
-        </TextBlock>
-        <TextBlock HorizontalAlignment="Center" Foreground="Gray" TextAlignment="Center">v0.1.0<LineBreak/>Autori: Dino Gržinić, Marin Rabađija</TextBlock>
-    </StackPanel>
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Center" Foreground="{DynamicResource MaterialDesignBody}" TextAlignment="Center">v0.1.0<LineBreak/>Autori: Dino Gržinić, Marin Rabađija</TextBlock>
+
+            </StackPanel>
+        </materialDesign:DialogHost>
+    </materialDesign:Card>
 
 </Window>

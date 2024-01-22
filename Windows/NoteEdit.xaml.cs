@@ -293,7 +293,7 @@ namespace TaskSharp
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _context.Dispose();
-            var dashboard = new DashboardTesting();
+            var dashboard = new Dashboard();
             dashboard.Show();
         }
     }
