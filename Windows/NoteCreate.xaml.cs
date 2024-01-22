@@ -101,7 +101,7 @@ namespace TaskSharp
             this.Close();
         }
 
-        private void AddTodo(object sender, MouseButtonEventArgs e)
+        private void AddTodo(object sender, RoutedEventArgs e)
         {
             if (todos.Count < 10)
             {
@@ -130,11 +130,6 @@ namespace TaskSharp
                 {
                     Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 7)
                 };
-                CheckBox chk = new CheckBox
-                {
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Padding = new Thickness(left: 0, top: 0, right: 10, bottom: 0)
-                };
                 Image img = new Image
                 {
                     Width = 15,
@@ -146,7 +141,6 @@ namespace TaskSharp
 
                 stk.Children.Add(txt);
                 stk.Children.Add(sep);
-                stk.Children.Add(chk);
                 stk.Children.Add(img);
                 border.Child = stk;
                 scroll.Children.Add(border);
@@ -265,8 +259,7 @@ namespace TaskSharp
                     foreach (var child in todos)
                     {
                         var todo = ((child as Border).Child as StackPanel).Children;
-                        TodoDict[(todo[0] as TextBox).Text] = (todo[2] as CheckBox).IsChecked.Value;
-                        Debug.WriteLine($"{(todo[0] as TextBox).Text}-{(todo[2] as CheckBox).IsChecked.Value}");
+                        TodoDict[(todo[0] as TextBox).Text] = false;
 
                         if ((todo[0] as TextBox).Text == "")
                         {

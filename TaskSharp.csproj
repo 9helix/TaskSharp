@@ -11,7 +11,6 @@
   <ItemGroup>
     <None Remove="Resources\Fonts\Poppins-Regular.ttf" />
     <None Remove="Resources\Images\add.png" />
-    <None Remove="Resources\Images\arrow-circle-right.png" />
     <None Remove="Resources\Images\check.png" />
     <None Remove="Resources\Images\confirm.png" />
     <None Remove="Resources\Images\delete.png" />
@@ -32,6 +31,7 @@
     <None Remove="Resources\Images\pin.png" />
     <None Remove="Resources\Images\show.png" />
     <None Remove="Resources\Images\thumbtack.png" />
+    <None Remove="Resources\Images\to-do.png" />
     <None Remove="Resources\Images\unpin.png" />
     <None Remove="Resources\Images\user-xmark.png" />
     <None Remove="Resources\Images\user.png" />
@@ -40,7 +40,6 @@
   <ItemGroup>
     <Resource Include="Resources\Fonts\Poppins-Regular.ttf" />
     <Resource Include="Resources\Images\add.png" />
-    <Resource Include="Resources\Images\arrow-circle-right.png" />
     <Resource Include="Resources\Images\check.png" />
     <Resource Include="Resources\Images\confirm.png" />
     <Resource Include="Resources\Images\delete.png" />
@@ -60,6 +59,7 @@
     <Resource Include="Resources\Images\Notes\reminder.png" />
     <Resource Include="Resources\Images\pin.png" />
     <Resource Include="Resources\Images\show.png" />
+    <Resource Include="Resources\Images\to-do.png" />
     <Resource Include="Resources\Images\unpin.png" />
     <Resource Include="Resources\Images\user-xmark.png" />
     <Resource Include="Resources\Images\user.png" />

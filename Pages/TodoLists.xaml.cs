@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,35 +20,62 @@ namespace SideBar_Nav.Pages
             InitializeComponent();
         }
 
+        public void RefreshTodos()
+        {
+            var uid = (int)Application.Current.Properties["uid"];
+            var undoneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == false)
+                .OrderByDescending(x => x.Pinned)
+                .ToList();
+            var doneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == true)
+                .ToList();
+
+            if (undoneTodos.Count == 0 && doneTodos.Count == 0)
+            {
+                Todos.Visibility = Visibility.Collapsed;
+                TodosEmpty.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TodosEmpty.Visibility = Visibility.Collapsed;
+                Todos.Visibility = Visibility.Visible;
+
+                if (undoneTodos.Count == 0)
+                {
+                    UndoneTodosContainer.Visibility = Visibility.Collapsed;
+                    UndoneTodoEmpty.Visibility = Visibility.Visible;
+
+                    DoneTodosContainer.Visibility = Visibility.Visible;
+                    DoneTodoEmpty.Visibility = Visibility.Collapsed;
+                    DoneTodosContainer.ItemsSource = doneTodos;
+                }
+                else if (doneTodos.Count == 0)
+                {
+                    UndoneTodosContainer.Visibility = Visibility.Visible;
+                    UndoneTodoEmpty.Visibility = Visibility.Collapsed;
+                    UndoneTodosContainer.ItemsSource = undoneTodos;
+
+                    DoneTodosContainer.Visibility = Visibility.Collapsed;
+                    DoneTodoEmpty.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    DoneTodosContainer.Visibility = Visibility.Visible;
+                    DoneTodoEmpty.Visibility = Visibility.Collapsed;
+                    DoneTodosContainer.ItemsSource = doneTodos;
+
+                    UndoneTodosContainer.Visibility = Visibility.Visible;
+                    UndoneTodoEmpty.Visibility = Visibility.Collapsed;
+                    UndoneTodosContainer.ItemsSource = undoneTodos;
+                }
+            }
+        }
+
         private void Todos_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
             _context.Users.Load();
             _context.TodoLists.Load();
-
-            var uid = (int)Application.Current.Properties["uid"];
-            var todos = _context.TodoLists.Where(x => x.UserId == uid)
-                .OrderByDescending(x => x.Pinned)
-                .ToList();
-            
-            UndoneTodosContainer.ItemsSource = todos;
-        }
-
-        private void DebugNotes()
-        {
-            var uid = (int)Application.Current.Properties["uid"];
-            var todos = _context.TodoLists.Where(x => x.UserId == uid)
-                .OrderByDescending(x => x.Pinned)
-                .ToList();
-            foreach (var user in todos)
-            {
-                Debug.WriteLine($"BasenoteID: {user.Id}, UserID: {user.UserId}, datum kreiranja: {user.CreationDate}, name: {user.Name}, tags: {user.Tags}, pinned: {user.Pinned}, todos: {user.Todos}");
-                var x = JsonSerializer.Deserialize<Dictionary<string, bool>>(user.Todos);
-                foreach (var test in x)
-                {
-                    Debug.WriteLine($"{test}");
-                }
-            }
+            RefreshTodos();
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
@@ -71,7 +96,7 @@ namespace SideBar_Nav.Pages
 
             todo.Pinned = !todo.Pinned;
             _context.SaveChanges();
-            //RefreshTodos();
+            RefreshTodos();
         }
 
         private void OpenEditor(object sender, MouseButtonEventArgs e)
@@ -101,7 +126,7 @@ namespace SideBar_Nav.Pages
                 _context.SaveChanges();
 
                 MessageBox.Show("To-do lista uspješno izbrisana!", "Brisanje to-do liste", MessageBoxButton.OK, MessageBoxImage.Information);
-                //RefreshTodos();
+                RefreshTodos();
             }
         }
 

@@ -72,7 +72,6 @@
                         </Image>
                         <Image Grid.Column="4" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="20"
                                Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
-
                     </Grid>
 
                     <Grid Margin="5,5,0,0">
@@ -130,6 +129,7 @@
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock TextWrapping="Wrap" FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
@@ -149,6 +149,8 @@
                                 </Style>
                             </Image.Style>
                         </Image>
+                        <Image Grid.Column="4" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="20"
+                            Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
                     </Grid>
 
                     <Grid Margin="2,5,0,0">
@@ -201,16 +203,16 @@
             <StackPanel HorizontalAlignment="Center" Margin="0,0,0,30">
                 
                 <StackPanel Name="Events" Visibility="Visible">
-                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,25,0,0">
+                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,35,0,0">
                         Nadolazeći događaji
                     </TextBlock>
                     <ItemsControl BorderThickness="0" Margin="0,20,0,10" x:Name="UpcomingEventsContainer" HorizontalContentAlignment="Stretch"
                         ItemTemplate="{StaticResource UpcomingEventsTemplate}"/>
-                    <TextBlock Visibility="Collapsed" Name="UpcomingEventsEmpty" FontSize="15" Margin="0,20,0,0">
+                    <TextBlock Visibility="Collapsed" Name="UpcomingEventsEmpty" FontSize="15" Margin="0,20,0,10">
                         Trenutno nema nadolazećih događaja.
                     </TextBlock>
 
-                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,20,0,0">
+                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,30,0,0">
                         Prošli događaji
                     </TextBlock>
                     <ItemsControl BorderThickness="0" Margin="0,20,0,10" x:Name="ExpiredEventsContainer" HorizontalContentAlignment="Stretch"

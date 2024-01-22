@@ -84,9 +84,9 @@ namespace TaskSharp
                     tags.Text = temp4.Tags;
                     flag.IsChecked = temp4.Pinned;
 
-                    foreach (KeyValuePair<string, bool> entry in todos)
+                    foreach (var entry in todos)
                     {
-                        AddTodo2(entry.Key, entry.Value);
+                        AddTodo2(entry.Key);
                     }
                     TodoList.Visibility = Visibility.Visible;
                     break;
@@ -103,12 +103,12 @@ namespace TaskSharp
         {
             this.Close();
         }
-        private void AddTodo(object sender, MouseButtonEventArgs e)
+        private void AddTodo(object sender, RoutedEventArgs e)
         {
             AddTodo2();
         }
 
-        private void AddTodo2(string content = null, bool check = false)
+        private void AddTodo2(string content = null)
         {
             if (todos.Count < 10)
             {
@@ -140,12 +140,6 @@ namespace TaskSharp
                 {
                     Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 7)
                 };
-                CheckBox chk = new CheckBox
-                {
-                    IsChecked = check,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Padding = new Thickness(left: 0, top: 0, right: 10, bottom: 0)
-                };
                 Image img = new Image
                 {
                     Width = 15,
@@ -157,7 +151,6 @@ namespace TaskSharp
 
                 stk.Children.Add(txt);
                 stk.Children.Add(sep);
-                stk.Children.Add(chk);
                 stk.Children.Add(img);
                 border.Child = stk;
                 scroll.Children.Add(border);
@@ -270,8 +263,6 @@ namespace TaskSharp
                         foreach (var child in todos)
                         {
                             var todo = ((child as Border).Child as StackPanel).Children;
-                            TodoDict[(todo[0] as TextBox).Text] = (todo[2] as CheckBox).IsChecked.Value;
-                            Debug.WriteLine($"{(todo[0] as TextBox).Text}-{(todo[2] as CheckBox).IsChecked.Value}");
                             if ((todo[0] as TextBox).Text == "")
                             {
                                 MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -284,6 +275,7 @@ namespace TaskSharp
                         note4.Tags = tags;
                         note4.Todos = JsonSerializer.Serialize(TodoDict);
                         note4.Pinned = Pin;
+                        note4.Done = false;
                     }
                     else
                     {

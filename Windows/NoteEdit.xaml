@@ -78,18 +78,29 @@
         </StackPanel>
 
         <StackPanel Visibility="Collapsed" Name="TodoList" HorizontalAlignment="Center">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Padding="0,0,5,0">To-Do lista:</TextBlock>
-                <Image Source="../Resources/Images/add.png" Width="15" PreviewMouseDown="AddTodo" Cursor="Hand" ToolTip="Dodaj stavku" ToolTipService.InitialShowDelay="500"/>
-            </StackPanel>
             <ScrollViewer  Height="100" Margin="10,10,0,0"
                Width="300" VerticalScrollBarVisibility="Auto">
                 <StackPanel Name="scroll" />
             </ScrollViewer>
+
+            <Button IsDefault="True" FontWeight="Bold" FontSize="13"
+                    Click="AddTodo" Cursor="Hand" Padding="3" Width="120" Margin="0,10,0,0">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Margin="0,0,5,0">Dodaj to-do</TextBlock>
+                    <Image Source="../Resources/Images/add.png" Width="15"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
         <Separator Height="30" Background="Transparent"/>
+        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button IsDefault="True" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15" Width="110" Name="SaveNoteBtn" Click="SaveNote">
+            <Button IsDefault="True" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold"
+                    FontSize="15" Width="110" Name="SaveNoteBtn" Click="SaveNote" Cursor="Hand">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -97,7 +108,8 @@
                 </Button.Resources> Uredi zapis
             </Button>
             <Separator Width="10" Background="transparent"/>
-            <Button IsCancel="True" Background="LightGray" Foreground="black" FontWeight="Bold" FontSize="15" Width="100" Name="CancelBtn" Click="CancelBtn_Click">
+            <Button IsCancel="True" Background="LightGray" Foreground="black" FontWeight="Bold"
+                    FontSize="15" Width="100" Name="CancelBtn" Click="CancelBtn_Click" Cursor="Hand">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>

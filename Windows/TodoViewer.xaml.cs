@@ -1,19 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TaskSharp.Windows
 {
@@ -33,7 +22,6 @@ namespace TaskSharp.Windows
         {
             var uid = (int)Application.Current.Properties["uid"];
             int NoteId = (int)Application.Current.Properties["noteId"];
-
             var todos = _context.TodoLists.Where(x => x.UserId == uid && x.Id == NoteId).First();
 
             TodoName.Text = todos.Name;
@@ -46,9 +34,11 @@ namespace TaskSharp.Windows
             {
                 if (!done)
                 {
+                    todos.Done = false;
                     return;
                 }
             }
+
             todos.Done = true;
             MessageBox.Show("To-do lista je obavljena!", "Obavljena to-do lista", MessageBoxButton.OK, MessageBoxImage.Information);
             _context.SaveChanges();
