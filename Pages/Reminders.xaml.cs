@@ -77,12 +77,6 @@ namespace SideBar_Nav.Pages
             _context.Database.EnsureCreated();
             _context.Users.Load();
             _context.Reminders.Load();
-
-            var uid = (int)Application.Current.Properties["uid"];
-            var username = _context.Users.Where(usr => usr.UserId == uid)
-                .Select(usr => usr.UserName)
-                .FirstOrDefault();
-
             RefreshReminders();
         }
 

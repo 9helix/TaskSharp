@@ -1,0 +1,90 @@
+﻿<Window x:Class="TaskSharp.Windows.TodoViewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskSharp.Windows"
+        mc:Ignorable="d"
+        Title="Pregled to-do stavki" Height="550" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+            <Setter Property="FontFamily" Value="{StaticResource TextFont}" />
+        </Style>
+
+        <DataTemplate x:Key="TodoElementsTemplate">
+            <Border HorizontalAlignment="Center" Width="310" Name="border" Background="{StaticResource SecondaryColor}" BorderBrush="{StaticResource TextColor2}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Background" Value="{StaticResource SecondaryColor}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Pinned}" Value="False">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <StackPanel Orientation="Vertical">
+                    <Grid Margin="2,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Margin="5,0,0,0" TextWrapping="Wrap" Text="{Binding Path=Key}" />
+
+                        <Image Grid.Column="2" Tag="{Binding Path=Key}" PreviewMouseDown="CheckUncheck" Width="20" Cursor="Hand"
+                               ToolTipService.InitialShowDelay="500" Source="../Resources/Images/check.png">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="ToolTip" Value="Označi obavljenim"/>
+                                    <Setter Property="Opacity" Value="0.3"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Value}" Value="True">
+                                            <Setter Property="ToolTip" Value="Označi neobavljenim"/>
+                                            <Setter Property="Opacity" Value="1"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical">
+            <TextBlock FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,0">Pregled to-do stavki</TextBlock>
+
+            <StackPanel Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Center">
+                <TextBlock FontSize="20" Margin="0,0,5,0" Text="Naziv:"/>
+                <TextBlock FontSize="20" FontWeight="Bold" Name="TodoName"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,25,0,0" HorizontalAlignment="Center">
+                <TextBlock FontSize="15" Margin="0,0,5,0" Text="Oznake:"/>
+                <TextBlock FontSize="15" Name="TodoTags"/>
+            </StackPanel>
+
+            <TextBlock HorizontalAlignment="Center" FontSize="15" Margin="0,30,0,0" Text="Stavke:"/>
+
+            <ItemsControl BorderThickness="0" Margin="0,15,0,10" x:Name="TodoElements"
+                Width="330" ItemTemplate="{StaticResource TodoElementsTemplate}"/>
+
+            <Button IsCancel="True" Background="LightGray" Foreground="black" FontWeight="Bold" FontSize="15"
+                    Width="100" Name="CancelBtn" Click="CancelBtn_Click" Margin="0,10,0,20">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources> Odustani
+            </Button>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

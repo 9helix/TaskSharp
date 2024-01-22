@@ -101,7 +101,6 @@ namespace TaskSharp
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            _context.Dispose();
             this.Close();
         }
         private void AddTodo(object sender, MouseButtonEventArgs e)
@@ -265,23 +264,33 @@ namespace TaskSharp
                 case 3://todo
                     var todos = scroll.Children;
                     Dictionary<string, bool> TodoDict = new();
-                    foreach (var child in todos)
-                    {
-                        var todo = ((child as Border).Child as StackPanel).Children;
-                        TodoDict[(todo[0] as TextBox).Text] = (todo[2] as CheckBox).IsChecked.Value;
-                        Debug.WriteLine($"{(todo[0] as TextBox).Text}-{(todo[2] as CheckBox).IsChecked.Value}");
-                        if ((todo[0] as TextBox).Text == "")
-                        {
-                            MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
-                    }
 
-                    var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First<TodoList>();
-                    note4.Name = name;
-                    note4.Tags = tags;
-                    note4.Todos = JsonSerializer.Serialize(TodoDict);
-                    note4.Pinned = Pin;
+                    if (todos.Count != 0)
+                    {
+                        foreach (var child in todos)
+                        {
+                            var todo = ((child as Border).Child as StackPanel).Children;
+                            TodoDict[(todo[0] as TextBox).Text] = (todo[2] as CheckBox).IsChecked.Value;
+                            Debug.WriteLine($"{(todo[0] as TextBox).Text}-{(todo[2] as CheckBox).IsChecked.Value}");
+                            if ((todo[0] as TextBox).Text == "")
+                            {
+                                MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
+                            }
+                        }
+
+                        var note4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First<TodoList>();
+                        note4.Name = name;
+                        note4.Tags = tags;
+                        note4.Todos = JsonSerializer.Serialize(TodoDict);
+                        note4.Pinned = Pin;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Morate imati barem jedan to-do u listi.", "Todo greška", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                    
                     break;
             }
             _context.SaveChanges();

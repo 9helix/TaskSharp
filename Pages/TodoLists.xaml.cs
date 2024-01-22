@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TaskSharp;
+using TaskSharp.Windows;
 
 namespace SideBar_Nav.Pages
 {
@@ -27,15 +29,10 @@ namespace SideBar_Nav.Pages
             _context.TodoLists.Load();
 
             var uid = (int)Application.Current.Properties["uid"];
-            var username = _context.Users.Where(usr => usr.UserId == uid)
-                .Select(usr => usr.UserName)
-                .FirstOrDefault();
-
-
             var todos = _context.TodoLists.Where(x => x.UserId == uid)
                 .OrderByDescending(x => x.Pinned)
                 .ToList();
-            DebugNotes();
+            
             UndoneTodosContainer.ItemsSource = todos;
         }
 
@@ -48,10 +45,11 @@ namespace SideBar_Nav.Pages
             foreach (var user in todos)
             {
                 Debug.WriteLine($"BasenoteID: {user.Id}, UserID: {user.UserId}, datum kreiranja: {user.CreationDate}, name: {user.Name}, tags: {user.Tags}, pinned: {user.Pinned}, todos: {user.Todos}");
-                //foreach (var test in user.Todos)
-                //{
-                //    Debug.WriteLine($"{test.Key}, {test.Value}");
-                //}
+                var x = JsonSerializer.Deserialize<Dictionary<string, bool>>(user.Todos);
+                foreach (var test in x)
+                {
+                    Debug.WriteLine($"{test}");
+                }
             }
         }
 
@@ -105,6 +103,18 @@ namespace SideBar_Nav.Pages
                 MessageBox.Show("To-do lista uspješno izbrisana!", "Brisanje to-do liste", MessageBoxButton.OK, MessageBoxImage.Information);
                 //RefreshTodos();
             }
+        }
+
+        private void ViewTodo(object sender, MouseButtonEventArgs e)
+        {
+            var todoID = (int)((StackPanel)sender).Tag;
+            Application.Current.Properties["noteId"] = todoID;
+
+            var todoView = new TodoViewer();
+            todoView.Show();
+
+            var wnd = Window.GetWindow(this);
+            wnd.Close();
         }
 
         private void Todos_Unloaded(object sender, RoutedEventArgs e)

@@ -79,9 +79,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3.5*" />
-                            <ColumnDefinition Width=".5*" />
-                            <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width="4*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock TextTrimming="WordEllipsis" Foreground="{StaticResource TextColor2}">

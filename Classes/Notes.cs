@@ -41,5 +41,6 @@ namespace TaskSharp.Classes
     public class TodoList : BaseNote
     {
         public string Todos { get; set; }
+        public bool Done { get; set; }
     }
 }

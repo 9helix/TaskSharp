@@ -98,7 +98,6 @@ namespace TaskSharp
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            _context.Dispose();
             this.Close();
         }
 
@@ -282,7 +281,8 @@ namespace TaskSharp
                         CreationDate = dateCreate,
                         Tags = tags,
                         Todos = JsonSerializer.Serialize(TodoDict),
-                        Pinned = Pin
+                        Pinned = Pin,
+                        Done = false
                     };
                     _context.TodoLists.Add(newTodoList);
                     break;

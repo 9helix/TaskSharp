@@ -12,6 +12,7 @@
             <Setter Property="Foreground" Value="{StaticResource TextColor}" />
             <Setter Property="FontFamily" Value="{StaticResource TextFont}" />
         </Style>
+        
         <DataTemplate x:Key="UndoneTodoTemplate">
             <Border HorizontalAlignment="Center" Width="510" Name="border" Background="{StaticResource SecondaryColor}" BorderBrush="{StaticResource TextColor2}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
                 <Border.Style>
@@ -72,18 +73,17 @@
                         </Image>
                         <Image Grid.Column="4" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="20"
                                Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
-
                     </Grid>
 
-                    <Grid Margin="5,5,0,0">
+                    <Grid Margin="5,10,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3.5*" />
-                            <ColumnDefinition Width=".5*" />
-                            <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width="1.2*" />
                         </Grid.ColumnDefinitions>
+                        
                         <TextBlock TextTrimming="WordEllipsis" Foreground="{StaticResource TextColor2}">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="OZNAKE: {0}">
@@ -91,17 +91,13 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                    </Grid>
 
-                    <Grid Margin="30,8,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-
+                        <StackPanel Tag="{Binding Path=Id}" Grid.Column="1" Cursor="Hand" PreviewMouseDown="ViewTodo"
+                                      Orientation="Horizontal" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500">
+                            <TextBlock Text="Pogledaj stavke" />
+                            <Separator Width="5" Background="Transparent"/>
+                            <Image Source="../Resources/Images/arrow-circle-right.png" Width="20"/>
+                        </StackPanel>
                     </Grid>
                 </StackPanel>
             </Border>
@@ -114,7 +110,7 @@
 
 
                 <StackPanel Name="Todos" Visibility="Visible">
-                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">
+                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,25,0,0">
                         Aktivne to-do liste
                     </TextBlock>
                     <ItemsControl BorderThickness="0" Margin="0,20,0,10" x:Name="UndoneTodosContainer" HorizontalContentAlignment="Stretch"

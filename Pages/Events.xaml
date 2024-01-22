@@ -80,9 +80,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3.5*" />
-                            <ColumnDefinition Width=".5*" />
-                            <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width="4*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock TextTrimming="WordEllipsis" Foreground="{StaticResource TextColor2}">
@@ -131,12 +129,26 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock TextWrapping="Wrap" FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
 
-                        <TextBlock Grid.Column="2" Text="{Binding Path=CreationDate, StringFormat=STVORENO: d. M. yyyy.}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=CreationDate, StringFormat=STVORENO: d. M. yyyy.}"/>
 
+                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Width="20" Cursor="Hand"
+                               PreviewMouseDown="DeleteEvent" ToolTip="Izbriši bilješku" ToolTipService.InitialShowDelay="500">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Source" Value="../Resources/Images/delete.png"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Source" Value="../Resources/Images/deleteRed.png"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
                     </Grid>
 
                     <Grid Margin="2,5,0,0">
@@ -145,13 +157,18 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*" />
-                            <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding Path=Tags}" />
-                        </Grid>
+                        <TextBlock TextTrimming="WordEllipsis" Foreground="{StaticResource TextColor2}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="OZNAKE: {0}">
+                                    <Binding Path="Tags" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
 
-                    <Grid Margin="2,8,0,0">
+                    <Grid Margin="30,8,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
@@ -182,10 +199,9 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Background="Transparent">
             <StackPanel HorizontalAlignment="Center" Margin="0,0,0,30">
-
-
+                
                 <StackPanel Name="Events" Visibility="Visible">
-                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,15,0,0">
+                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,25,0,0">
                         Nadolazeći događaji
                     </TextBlock>
                     <ItemsControl BorderThickness="0" Margin="0,20,0,10" x:Name="UpcomingEventsContainer" HorizontalContentAlignment="Stretch"
