@@ -149,7 +149,8 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="3.5*" />
+                            <ColumnDefinition Width="1.5*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock TextTrimming="WordEllipsis" Foreground="{StaticResource TextColor2}">
@@ -159,6 +160,12 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
+                        
+                        <StackPanel Tag="{Binding Path=Id}" Grid.Column="1" Cursor="Hand" PreviewMouseDown="ViewTodo" Orientation="Horizontal">
+                            <TextBlock Text="Pogledaj stavke" />
+                            <Separator Width="5" Background="Transparent"/>
+                            <Image Source="../Resources/Images/to-do.png" Width="20"/>
+                        </StackPanel>
                     </Grid>
                 </StackPanel>
             </Border>
