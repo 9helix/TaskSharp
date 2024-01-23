@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
-        Title="TaskSharp - Nadzorna ploča" WindowStartupLocation="CenterScreen" Height="520" Width="800" ResizeMode="NoResize"  Background="Transparent" AllowsTransparency="True" WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Dashboard_Loaded">
+        Title="TaskSharp - Nadzorna ploča" WindowStartupLocation="CenterScreen" Height="520" Width="800" ResizeMode="NoResize"  Background="Transparent" AllowsTransparency="True" WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Dashboard_Loaded" Closing="Dashboard_Closing">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource TextColor}" />
@@ -13,8 +13,7 @@
         </Style>
     </Window.Resources>
     <Border Background="White" CornerRadius="15">
-
-        <Grid >
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="180"/>
                 <ColumnDefinition />
@@ -30,10 +29,10 @@
 
 
                     <StackPanel Grid.Row="1">
-                        <RadioButton Name="p1" Unchecked="NoteUnchecked"  Checked="NoteChecked" Tag="../Resources/Images/Notes/note.png" Content="Bilješke" Height="50" FontSize="14"  Style="{StaticResource MenuButtonTheme}"/>
-                        <RadioButton Name="p2" Unchecked="NoteUnchecked" Checked="NoteChecked" Tag="../Resources/Images/Notes/event.png" Content="Događaji" Height="50" FontSize="14" Style="{StaticResource MenuButtonTheme}"/>
-                        <RadioButton Name="p3" Unchecked="NoteUnchecked" Checked="NoteChecked" Tag="../Resources/Images/Notes/reminder.png" Content="Podsjetnici" Height="50" FontSize="14"  Style="{StaticResource MenuButtonTheme}"/>
-                        <RadioButton Name="p4" Unchecked="NoteUnchecked" Checked="NoteChecked" Tag="../Resources/Images/Notes/todo.png" Content="To-Do liste" Height="50" FontSize="14"  Style="{StaticResource MenuButtonTheme}"/>
+                        <RadioButton Name="p1" Unchecked="NoteUnchecked"  Checked="NoteChecked" Tag="../Resources/Images/Notes/note.png" Content="Bilješke" Height="50" FontSize="14"  Style="{StaticResource MenuButtonTheme}" Cursor="Hand"/>
+                        <RadioButton Name="p2" Unchecked="NoteUnchecked" Checked="NoteChecked" Tag="../Resources/Images/Notes/event.png" Content="Događaji" Height="50" FontSize="14" Style="{StaticResource MenuButtonTheme}" Cursor="Hand"/>
+                        <RadioButton Name="p3" Unchecked="NoteUnchecked" Checked="NoteChecked" Tag="../Resources/Images/Notes/reminder.png" Content="Podsjetnici" Height="50" FontSize="14"  Style="{StaticResource MenuButtonTheme}" Cursor="Hand"/>
+                        <RadioButton Name="p4" Unchecked="NoteUnchecked" Checked="NoteChecked" Tag="../Resources/Images/Notes/todo.png" Content="To-Do liste" Height="50" FontSize="14"  Style="{StaticResource MenuButtonTheme}" Cursor="Hand"/>
                         <Separator Height="99" Background="Transparent"/>
                         <TextBlock TextAlignment="Center" Padding="0,0,0,0" TextTrimming="CharacterEllipsis"  Width="133" FontSize="18" Foreground="{StaticResource TextColor}" HorizontalAlignment="Left" Margin="25,0,0,0" Height="41">
                 Korisnik: <Run Name="userChip" FontWeight="Bold"/>
@@ -93,8 +92,8 @@
 
                     <TextBlock Name="noteTitle" Foreground="{StaticResource TextColor}" FontWeight="Medium" HorizontalAlignment="Center" FontSize="30" VerticalAlignment="Center" Text="BILJEŠKE"/>
 
-
-                    <TextBox Width="504" Height="40" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,155,0,0" Grid.Column="1" Style="{StaticResource ModernTextbox}"/>
+                    <TextBox Width="504" Height="40" VerticalAlignment="Top" HorizontalAlignment="Center"
+                             Margin="0,155,0,0" Grid.Column="1" Style="{StaticResource ModernTextbox}"/>
 
                     <Frame Grid.Row="1" x:Name="navframe" NavigationUIVisibility="Hidden" Background="Transparent" Margin="0,0,10,10" />
 

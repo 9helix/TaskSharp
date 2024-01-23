@@ -14,11 +14,11 @@ namespace TaskSharp
         private readonly NotesContext _context =
     new NotesContext();
         bool registration = false;
+
         public Login()
         {
             InitializeComponent();
         }
-
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {

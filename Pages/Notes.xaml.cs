@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,6 +19,17 @@ namespace SideBar_Nav.Pages
         public Page1()
         {
             InitializeComponent();
+        }
+        
+        public void pageHome_SomethingHappened(object sender, EventArgs e)
+        {
+            test();
+        }
+        
+
+        public void test()
+        {
+            Debug.WriteLine("Hi there!");
         }
 
         private void RefreshNotes()

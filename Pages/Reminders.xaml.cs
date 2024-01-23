@@ -77,12 +77,12 @@ namespace SideBar_Nav.Pages
                 {
                     UpcomingRemindersContainer.Visibility = Visibility.Visible;
                     UpcomingRemindersEmpty.Visibility = Visibility.Collapsed;
-                    UpcomingRemindersContainer.ItemsSource = upcomingReminders;
 
                     foreach (var reminder in upcomingReminders)
                     {
                         NotificationChecker(reminder);
                     }
+                    UpcomingRemindersContainer.ItemsSource = upcomingReminders;
 
                     ExpiredRemindersContainer.Visibility = Visibility.Collapsed;
                     ExpiredRemindersEmpty.Visibility = Visibility.Visible;
@@ -95,12 +95,11 @@ namespace SideBar_Nav.Pages
 
                     UpcomingRemindersContainer.Visibility = Visibility.Visible;
                     UpcomingRemindersEmpty.Visibility = Visibility.Collapsed;
-                    UpcomingRemindersContainer.ItemsSource = upcomingReminders;
-
                     foreach (var reminder in upcomingReminders)
                     {
                         NotificationChecker(reminder);
                     }
+                    UpcomingRemindersContainer.ItemsSource = upcomingReminders;
                 }
             }
         }

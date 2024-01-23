@@ -88,23 +88,23 @@ namespace SideBar_Nav.Pages
 
                     ExpiredEventsContainer.Visibility = Visibility.Visible;
                     ExpiredEventsEmpty.Visibility = Visibility.Collapsed;
-                    ExpiredEventsContainer.ItemsSource = expiredEvents.ToList();
 
                     foreach (var ev in expiredEvents)
                     {
                         NotificationChecker(ev, false);
                     }
+                    ExpiredEventsContainer.ItemsSource = expiredEvents.ToList();
                 }
                 else if (expiredEvents.ToList().Count == 0)
                 {
                     UpcomingEventsContainer.Visibility = Visibility.Visible;
                     UpcomingEventsEmpty.Visibility = Visibility.Collapsed;
-                    UpcomingEventsContainer.ItemsSource = upcomingEvents.ToList();
 
                     foreach (var ev in upcomingEvents)
                     {
                         NotificationChecker(ev, true);
                     }
+                    UpcomingEventsContainer.ItemsSource = upcomingEvents.ToList();
 
                     ExpiredEventsContainer.Visibility = Visibility.Collapsed;
                     ExpiredEventsEmpty.Visibility = Visibility.Visible;
@@ -113,21 +113,21 @@ namespace SideBar_Nav.Pages
                 {
                     ExpiredEventsContainer.Visibility = Visibility.Visible;
                     ExpiredEventsEmpty.Visibility = Visibility.Collapsed;
-                    ExpiredEventsContainer.ItemsSource = expiredEvents.ToList();
 
                     foreach (var ev in expiredEvents)
                     {
                         NotificationChecker(ev, false);
                     }
+                    ExpiredEventsContainer.ItemsSource = expiredEvents.ToList();
 
                     UpcomingEventsContainer.Visibility = Visibility.Visible;
                     UpcomingEventsEmpty.Visibility = Visibility.Collapsed;
-                    UpcomingEventsContainer.ItemsSource = upcomingEvents.ToList();
 
                     foreach (var ev in upcomingEvents)
                     {
                         NotificationChecker(ev, true);
                     }
+                    UpcomingEventsContainer.ItemsSource = upcomingEvents.ToList();
                 }
             }
         }
