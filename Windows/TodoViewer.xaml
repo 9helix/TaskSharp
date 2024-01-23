@@ -13,18 +13,8 @@
         </Style>
 
         <DataTemplate x:Key="TodoElementsTemplate">
-            <Border HorizontalAlignment="Center" Width="310" Name="border" Background="{StaticResource SecondaryColor}" BorderBrush="{StaticResource TextColor2}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
-                <Border.Style>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="Background" Value="{StaticResource SecondaryColor}"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Pinned}" Value="False">
-                                <Setter Property="Background" Value="Transparent"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-
+            <Border HorizontalAlignment="Center" Width="310" Name="border" Background="{StaticResource SecondaryColor}"
+                    BorderBrush="{StaticResource TextColor2}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
                 <StackPanel Orientation="Vertical">
                     <Grid Margin="2,5,0,0">
                         <Grid.RowDefinitions>

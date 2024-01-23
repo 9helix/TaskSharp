@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Notification.Wpf;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using TaskSharp;
+using TaskSharp.Classes;
 
 namespace SideBar_Nav.Pages
 {
@@ -17,6 +20,26 @@ namespace SideBar_Nav.Pages
         public Page3()
         {
             InitializeComponent();
+        }
+
+        public void NotificationChecker(Reminder row)
+        {
+            if (row.Notification && (row.DueDate == DateTime.Today))
+            {
+                Color color = (Color)ColorConverter.ConvertFromString("#fa7f05");
+                var notificationManager = new NotificationManager();
+                notificationManager.Show(new NotificationContent
+                {
+                    Title = "Podsjetnik!",
+                    Message = row.Name,
+                    Type = NotificationType.Information,
+                    CloseOnClick = true, // closes message when message is clicked
+                    Background = new SolidColorBrush(color)
+                });
+
+                row.Notification = false;
+                _context.SaveChanges();
+            }
         }
 
         private void RefreshReminders()
@@ -56,6 +79,11 @@ namespace SideBar_Nav.Pages
                     UpcomingRemindersEmpty.Visibility = Visibility.Collapsed;
                     UpcomingRemindersContainer.ItemsSource = upcomingReminders;
 
+                    foreach (var reminder in upcomingReminders)
+                    {
+                        NotificationChecker(reminder);
+                    }
+
                     ExpiredRemindersContainer.Visibility = Visibility.Collapsed;
                     ExpiredRemindersEmpty.Visibility = Visibility.Visible;
                 }
@@ -68,6 +96,11 @@ namespace SideBar_Nav.Pages
                     UpcomingRemindersContainer.Visibility = Visibility.Visible;
                     UpcomingRemindersEmpty.Visibility = Visibility.Collapsed;
                     UpcomingRemindersContainer.ItemsSource = upcomingReminders;
+
+                    foreach (var reminder in upcomingReminders)
+                    {
+                        NotificationChecker(reminder);
+                    }
                 }
             }
         }

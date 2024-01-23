@@ -49,8 +49,10 @@ namespace TaskSharp
             description.Text = "Prijavite se u postojeći račun";
             secondBtn.Content = "Stvorite račun";
             firstBtn.Content = "Prijava";
-            txtConf.Password = "";
+            txtUser.Text = "";
+            txtPass.Password = "";
             txtConf.Visibility = Visibility.Collapsed;
+            registration = !registration;
         }
         private void secondBtn_Click(object sender, RoutedEventArgs e)
         {

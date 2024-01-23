@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Notification.Wpf;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,12 +36,21 @@ namespace TaskSharp.Windows
                 if (!done)
                 {
                     todos.Done = false;
+                    _context.SaveChanges();
                     return;
                 }
             }
 
-            todos.Done = true;
-            MessageBox.Show("To-do lista je obavljena!", "Obavljena to-do lista", MessageBoxButton.OK, MessageBoxImage.Information);
+            todos.Done = true;          
+            var notificationManager = new NotificationManager();
+            notificationManager.Show(new NotificationContent
+            {
+                Title = todos.Name,
+                Message = "To-do lista je obavljena!",
+                Type = NotificationType.Information,
+                CloseOnClick = true // closes message when message is clicked
+            });
+
             _context.SaveChanges();
         }
 
@@ -75,7 +85,7 @@ namespace TaskSharp.Windows
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var dashboard = new DashboardTesting();
+            var dashboard = new Dashboard();
             dashboard.Show();
         }
     }

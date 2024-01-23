@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Notification.Wpf;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using TaskSharp;
+using TaskSharp.Classes;
 
 namespace SideBar_Nav.Pages
 {
@@ -19,18 +22,56 @@ namespace SideBar_Nav.Pages
             InitializeComponent();
         }
 
+        public void NotificationChecker(Event row, bool isDeadline)
+        {
+            if (isDeadline) // if event still ongoing
+            {
+                if (row.DeadlineNotification && (row.EndDate == DateTime.Today))
+                {
+                    Color color = (Color)ColorConverter.ConvertFromString("#fa7f05");
+                    var notificationManager = new NotificationManager();
+                    notificationManager.Show(new NotificationContent
+                    {
+                        Title = row.Name,
+                        Message = "Događaj završava danas!",
+                        Type = NotificationType.Information,
+                        CloseOnClick = true, // closes message when message is clicked
+                        Background = new SolidColorBrush(color)
+                    });
+
+                    row.DeadlineNotification = false;
+                    _context.SaveChanges();
+                }
+            }
+            else
+            { // if event was completed
+                if (row.ExpiredNotification && (row.EndDate < DateTime.Today))
+                {
+                    var notificationManager = new NotificationManager();
+                    notificationManager.Show(new NotificationContent
+                    {
+                        Title = row.Name,
+                        Message = "Događaj je završen!",
+                        Type = NotificationType.Information,
+                        CloseOnClick = true, // closes message when message is clicked
+                    });
+
+                    row.ExpiredNotification = false;
+                    _context.SaveChanges();
+                }
+            }
+        }
+
         private void RefreshEvents()
         {
             var uid = (int)Application.Current.Properties["uid"];
             var upcomingEvents = _context.Events.Where(x => x.UserId == uid && x.EndDate >= DateTime.Today)
                 .OrderByDescending(x => x.Pinned)
-                .ThenBy(x => x.EndDate)
-                .ToList();
+                .ThenBy(x => x.EndDate);
             var expiredEvents = _context.Events.Where(x => x.UserId == uid && x.EndDate < DateTime.Today)
-                .OrderByDescending(x => x.EndDate)
-                .ToList();
+                .OrderByDescending(x => x.EndDate);
 
-            if (upcomingEvents.Count == 0 && expiredEvents.Count == 0)
+            if (upcomingEvents.ToList().Count == 0 && expiredEvents.ToList().Count == 0)
             {
                 Events.Visibility = Visibility.Collapsed;
                 EventsEmpty.Visibility = Visibility.Visible;
@@ -40,20 +81,30 @@ namespace SideBar_Nav.Pages
                 EventsEmpty.Visibility = Visibility.Collapsed;
                 Events.Visibility = Visibility.Visible;
 
-                if (upcomingEvents.Count == 0)
+                if (upcomingEvents.ToList().Count == 0)
                 {
                     UpcomingEventsContainer.Visibility = Visibility.Collapsed;
                     UpcomingEventsEmpty.Visibility = Visibility.Visible;
 
                     ExpiredEventsContainer.Visibility = Visibility.Visible;
                     ExpiredEventsEmpty.Visibility = Visibility.Collapsed;
-                    ExpiredEventsContainer.ItemsSource = expiredEvents;
+                    ExpiredEventsContainer.ItemsSource = expiredEvents.ToList();
+
+                    foreach (var ev in expiredEvents)
+                    {
+                        NotificationChecker(ev, false);
+                    }
                 }
-                else if (expiredEvents.Count == 0)
+                else if (expiredEvents.ToList().Count == 0)
                 {
                     UpcomingEventsContainer.Visibility = Visibility.Visible;
                     UpcomingEventsEmpty.Visibility = Visibility.Collapsed;
-                    UpcomingEventsContainer.ItemsSource = upcomingEvents;
+                    UpcomingEventsContainer.ItemsSource = upcomingEvents.ToList();
+
+                    foreach (var ev in upcomingEvents)
+                    {
+                        NotificationChecker(ev, true);
+                    }
 
                     ExpiredEventsContainer.Visibility = Visibility.Collapsed;
                     ExpiredEventsEmpty.Visibility = Visibility.Visible;
@@ -62,11 +113,21 @@ namespace SideBar_Nav.Pages
                 {
                     ExpiredEventsContainer.Visibility = Visibility.Visible;
                     ExpiredEventsEmpty.Visibility = Visibility.Collapsed;
-                    ExpiredEventsContainer.ItemsSource = expiredEvents;
+                    ExpiredEventsContainer.ItemsSource = expiredEvents.ToList();
+
+                    foreach (var ev in expiredEvents)
+                    {
+                        NotificationChecker(ev, false);
+                    }
 
                     UpcomingEventsContainer.Visibility = Visibility.Visible;
                     UpcomingEventsEmpty.Visibility = Visibility.Collapsed;
-                    UpcomingEventsContainer.ItemsSource = upcomingEvents;
+                    UpcomingEventsContainer.ItemsSource = upcomingEvents.ToList();
+
+                    foreach (var ev in upcomingEvents)
+                    {
+                        NotificationChecker(ev, true);
+                    }
                 }
             }
         }

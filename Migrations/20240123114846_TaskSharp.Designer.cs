@@ -11,8 +11,8 @@ using TaskSharp;
 namespace TaskSharp.Migrations
 {
     [DbContext(typeof(NotesContext))]
-    [Migration("20240122140424_Test")]
-    partial class Test
+    [Migration("20240123114846_TaskSharp")]
+    partial class TaskSharp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,8 +29,14 @@ namespace TaskSharp.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("DeadlineNotification")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("ExpiredNotification")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -109,6 +115,9 @@ namespace TaskSharp.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Notification")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Pinned")
                         .HasColumnType("INTEGER");

@@ -79,6 +79,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Notification.WPF" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

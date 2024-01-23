@@ -225,7 +225,9 @@ namespace TaskSharp
                         StartDate = (DateTime)StartEvent,
                         EndDate = (DateTime)EndEvent,
                         Location = location,
-                        Pinned = Pin
+                        Pinned = Pin,
+                        DeadlineNotification = true,
+                        ExpiredNotification = true
                     };
                     _context.Events.Add(newEvent);
                     break;
@@ -248,7 +250,8 @@ namespace TaskSharp
                         Tags = tags,
                         Priority = priority,
                         DueDate = (DateTime)dueDate,
-                        Pinned = Pin
+                        Pinned = Pin,
+                        Notification = true
                     };
                     _context.Reminders.Add(newReminder);
                     break;

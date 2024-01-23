@@ -13,13 +13,13 @@
             <Setter Property="FontFamily" Value="{StaticResource TextFont}" />
         </Style>
         <DataTemplate x:Key="UpcomingEventsTemplate">
-            <Border HorizontalAlignment="Center" Width="510" Name="border" Background="{StaticResource SecondaryColor}" BorderBrush="{StaticResource TextColor2}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
+            <Border HorizontalAlignment="Center" Width="510" Name="border" Background="{StaticResource SecondaryColor}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
-                        <Setter Property="Background" Value="{StaticResource SecondaryColor}"/>
+                        <Setter Property="BorderBrush" Value="{StaticResource TextColor2}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Pinned}" Value="False">
-                                <Setter Property="Background" Value="Transparent"/>
+                            <DataTrigger Binding="{Binding DeadlineNotification}" Value="False">
+                                <Setter Property="BorderBrush" Value="Red"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -119,7 +119,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ExpiredEventsTemplate">
-            <Border HorizontalAlignment="Center" Width="510" Name="border" Background="{StaticResource SecondaryColor}" BorderBrush="{StaticResource TextColor2}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
+            <Border HorizontalAlignment="Center" Width="510" Name="border" Background="Lavender" BorderBrush="Gray" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
                 <StackPanel Orientation="Vertical">
                     <Grid Margin="2,5,0,0">
                         <Grid.RowDefinitions>

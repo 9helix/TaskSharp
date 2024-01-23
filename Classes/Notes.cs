@@ -30,12 +30,15 @@ namespace TaskSharp.Classes
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Location { get; set; }
+        public bool DeadlineNotification { get; set; }
+        public bool ExpiredNotification { get; set; }
     }
 
     public class Reminder : BaseNote
     {
         public DateTime DueDate { get; set; }
         public ReminderPriority Priority { get; set; }
+        public bool Notification { get; set; }
     }
 
     public class TodoList : BaseNote

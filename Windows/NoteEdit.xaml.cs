@@ -231,6 +231,8 @@ namespace TaskSharp
                     note2.EndDate = (DateTime)EndEvent;
                     note2.Location = location;
                     note2.Pinned = Pin;
+                    note2.DeadlineNotification = true;
+                    note2.DeadlineNotification = true;
                     break;
 
                 case 2: //podsjetnik
@@ -252,6 +254,7 @@ namespace TaskSharp
                     note3.Pinned = Pin;
                     note3.Priority = priority;
                     note3.DueDate = (DateTime)dueDate;
+                    note3.Notification = true;
                     break;
 
                 case 3://todo

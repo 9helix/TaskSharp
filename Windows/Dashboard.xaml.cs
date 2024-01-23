@@ -130,7 +130,7 @@ namespace TaskSharp
 
                 MessageBox.Show("Uspješno izbrisan korisnički račun!", "Brisanje korisničkog računa", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var win2 = new MainWindow();
+                var win2 = new Login();
                 win2.Show();
                 this.Close();
             }

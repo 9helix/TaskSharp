@@ -102,7 +102,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="DoneTodoTemplate">
-            <Border HorizontalAlignment="Center" Width="510" Name="border" Background="{StaticResource SecondaryColor}" BorderBrush="{StaticResource TextColor2}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
+            <Border HorizontalAlignment="Center" Width="510" Name="border" Background="Lavender" BorderBrush="Gray" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="Background" Value="{StaticResource SecondaryColor}"/>
