@@ -3,15 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TaskSharp"
         mc:Ignorable="d"
-        Title="Stvaranje zapisa" Height="550" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="Stvaranje zapisa" TextElement.Foreground="{DynamicResource MaterialDesignBody}" Height="550" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Window.Resources>
 
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <StackPanel Orientation="Vertical">
         <TextBlock FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,0">Stvaranje zapisa</TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,35,0,0" >
-            <TextBlock Margin="0,0,5,0" FontSize="15" VerticalAlignment="Center">Vrsta zapisa:</TextBlock>
-            <ComboBox Name="NoteTypeMenu" HorizontalAlignment="Center" Width="120" FontSize="15" SelectionChanged="ComboBox_SelectionChanged">
+            <!--<TextBlock Margin="0,0,5,0" FontSize="15" VerticalAlignment="Center">Vrsta zapisa:</TextBlock>-->
+            <ComboBox md:HintAssist.Hint="Vrsta zapisa" Name="NoteTypeMenu" HorizontalAlignment="Center" Width="120" FontSize="15" SelectionChanged="ComboBox_SelectionChanged">
                 <ComboBoxItem VerticalAlignment="Top" Name="NoteSelected">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Resources/Images/Notes/note.png" Width="16"></Image>
@@ -45,13 +56,13 @@
 
         <Separator Height="40" Width="150"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
-            <TextBlock Padding="0,0,5,0">Ime zapisa:</TextBlock>
-            <TextBox Width="100" Name="note_name"/>
+            <!--<TextBlock Padding="0,0,5,0">Ime zapisa:</TextBlock>-->
+            <TextBox Width="100" Name="note_name" md:HintAssist.Hint="Ime zapisa" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
-            <TextBlock Padding="0,0,5,0">Tagovi (odvojiti <Bold>zarezom</Bold>):</TextBlock>
-            <TextBox Width="100" Name="tags"/>
+            <!--<TextBlock Padding="0,0,5,0">Tagovi (odvojiti <Bold>zarezom</Bold>):</TextBlock>-->
+            <TextBox Width="100" Name="tags" md:HintAssist.Hint="Tagovi"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
@@ -130,26 +141,101 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        
+
         <Separator Height="30" Background="Transparent"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button IsDefault="True" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15"
+        <md:DialogHost
+  DialogClosed="Sample1_DialogHost_OnDialogClosed"
+  DialogClosing="Sample1_DialogHost_OnDialogClosing"
+  DialogTheme="Inherit"
+  DialogContentUniformCornerRadius="20">
+            <md:DialogHost.DialogContent>
+                <StackPanel
+      Margin="16">
+                    <TextBlock
+        Text="Add a new fruit." />
+                    <TextBox
+        x:Name="FruitTextBox"
+        Margin="0,8,0,0"
+        HorizontalAlignment="Stretch" />
+                    <StackPanel
+        HorizontalAlignment="Right"
+        Orientation="Horizontal">
+                        <ComboBox md:HintAssist.Hint="Vrsta zapisa" Name="NoteTypeMenu2" HorizontalAlignment="Center" Width="120" FontSize="15" SelectionChanged="ComboBox_SelectionChanged">
+                            <ComboBoxItem VerticalAlignment="Top" Name="NoteSelected2">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/Notes/note.png" Width="16"></Image>
+                                    <Separator Width="3"  Background="Transparent"/>
+                                    <TextBlock>Bilješka</TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem Name="EventSelected2">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/Notes/event.png" Width="16"></Image>
+                                    <Separator Width="3"  Background="Transparent"/>
+                                    <TextBlock>Događaj</TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem Name="ReminderSelected2">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/Notes/reminder.png" Width="16"></Image>
+                                    <Separator Width="3"  Background="Transparent"/>
+                                    <TextBlock>Podsjetnik</TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem Name="TodoSelected2">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/Notes/todo.png" Width="16"></Image>
+                                    <Separator Width="3" Background="Transparent"/>
+                                    <TextBlock>To-Do lista</TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                        </ComboBox>
+                        <Button
+          Margin="0,8,8,0"
+          Command="{x:Static md:DialogHost.CloseDialogCommand}"
+          Content="ACCEPT"
+          IsDefault="True"
+          Style="{StaticResource MaterialDesignFlatButton}">
+                            <Button.CommandParameter>
+                                <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                    True
+                                </system:Boolean>
+                            </Button.CommandParameter>
+                        </Button>
+                        <Button
+          Margin="0,8,8,0"
+          Command="{x:Static md:DialogHost.CloseDialogCommand}"
+          Content="CANCEL"
+          IsCancel="True"
+          Style="{StaticResource MaterialDesignFlatButton}">
+                            <Button.CommandParameter>
+                                <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                    False
+                                </system:Boolean>
+                            </Button.CommandParameter>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </md:DialogHost.DialogContent>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button IsDefault="True" Background="DeepSkyBlue" Foreground="White" FontWeight="Bold" FontSize="15"
                     Width="120" Name="SaveNoteBtn" Click="SaveNote" Cursor="Hand">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"/>
-                    </Style>
-                </Button.Resources> Stvori zapis
-            </Button>
-            <Separator Width="10" Background="transparent"/>
-            <Button IsCancel="True" Background="LightGray" Foreground="black" FontWeight="Bold" FontSize="15"
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources> Stvori zapis
+                </Button>
+                <Separator Width="10" Background="transparent"/>
+                <Button Command="{x:Static md:DialogHost.OpenDialogCommand}" IsCancel="True" Background="LightGray" Foreground="black" FontWeight="Bold" FontSize="15"
                     Width="100" Name="CancelBtn" Click="CancelBtn_Click" Cursor="Hand">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"/>
-                    </Style>
-                </Button.Resources> Odustani
-            </Button>
-        </StackPanel>
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources> Odustani
+                </Button>
+            </StackPanel>
+        </md:DialogHost>
     </StackPanel>
 </Window>

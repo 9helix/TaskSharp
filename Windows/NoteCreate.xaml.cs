@@ -98,7 +98,7 @@ namespace TaskSharp
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            //this.Close();
         }
 
         private void AddTodo(object sender, RoutedEventArgs e)
@@ -293,6 +293,16 @@ namespace TaskSharp
             _context.Dispose();
             var dashboard = new Dashboard();
             dashboard.Show();
+        }
+
+        private void Sample1_DialogHost_OnDialogClosed(object sender, MaterialDesignThemes.Wpf.DialogClosedEventArgs eventArgs)
+        {
+            Debug.WriteLine(FruitTextBox.Text);
+        }
+
+        private void Sample1_DialogHost_OnDialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+
         }
     }
 }

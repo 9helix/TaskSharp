@@ -11,7 +11,7 @@ using TaskSharp;
 namespace TaskSharp.Migrations
 {
     [DbContext(typeof(NotesContext))]
-    [Migration("20240123114846_TaskSharp")]
+    [Migration("20240123210444_TaskSharp")]
     partial class TaskSharp
     {
         /// <inheritdoc />

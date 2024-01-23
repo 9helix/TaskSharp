@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SideBar_Nav.Pages;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace TaskSharp
 {
@@ -41,6 +44,7 @@ namespace TaskSharp
                 if ((int)Application.Current.Properties["noteType"] == 3)
                     p4.IsChecked = true;
             }
+            ToggleFields((int)Application.Current.Properties["noteType"]);
         }
         private void NoteChecked(object sender, RoutedEventArgs e)
         {
@@ -74,6 +78,8 @@ namespace TaskSharp
                     break;
 
             }
+            ToggleFields((int)Application.Current.Properties["noteType"]);
+
         }
 
 
@@ -155,6 +161,106 @@ namespace TaskSharp
                     ((RadioButton)sender).Tag = "/Resources/Images/Notes/todo.png";
                     break;
 
+            }
+        }
+        private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _context.Dispose();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        List<int> todoNums = new List<int>(1);
+        private void AddTodo(object sender, RoutedEventArgs e)
+        {
+            todoNums.Add(todoNums.Last() + 1);
+            StackPanel stk = new StackPanel
+            {
+                Name = $"todo{todoNums.Last()}",
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+            TextBox txt = new TextBox
+            {
+                Margin = new Thickness(left: 15, top: 0, right: 0, bottom: 0),
+                MaxLength = 30,
+                Width = 175,
+                Text = $"Todo #{todoNums.Last()}",
+                Style = null
+            };
+            Image img = new Image
+            {
+                Width = 15,
+                Source = new BitmapImage(new Uri(@"/Resources/Images/deleteRed.png", UriKind.Relative)),
+                Cursor = Cursors.Hand,
+                ToolTip = new ToolTip() { Content = "Izbriši stavku" }
+            };
+            img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
+            stk.Children.Add(txt);
+            stk.Children.Add(img);
+            TodoList.Items.Add(new ListBoxItem { Content = stk });
+
+        }
+        private void DeleteTodo(object sender, MouseButtonEventArgs e)
+        {
+            StackPanel stk = (StackPanel)(sender as Image).Parent;
+            Border toDelete = (Border)stk.Parent;
+            todoNums.RemoveAt(1);
+
+            Debug.WriteLine(toDelete.Name);
+            StackPanel par = (StackPanel)toDelete.Parent;
+            par.Children.Remove(toDelete);
+        }
+
+        private void ToggleFields(int type)
+        {
+            if (type != 0)
+            {
+                NoteContent.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                NoteContent.Visibility = Visibility.Visible;
+                NoteSelected.IsSelected = true;
+            }
+            if (type != 1)
+            {
+                EventStart.Visibility = Visibility.Collapsed;
+                EventEnd.Visibility = Visibility.Collapsed;
+                txtLocation.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                EventStart.Visibility = Visibility.Visible;
+                EventEnd.Visibility = Visibility.Visible;
+                txtLocation.Visibility = Visibility.Visible;
+                EventSelected.IsSelected = true;
+            }
+            if (type != 2)
+            {
+                ReminderDue.Visibility = Visibility.Collapsed;
+                PriorityMenu.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                ReminderDue.Visibility = Visibility.Visible;
+                PriorityMenu.Visibility = Visibility.Visible;
+                ReminderSelected.IsSelected = true;
+            }
+            if (type != 3)
+            {
+                TodoList.Visibility = Visibility.Collapsed;
+                todoBtn.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                TodoList.Visibility = Visibility.Visible;
+                todoBtn.Visibility = Visibility.Visible;
+
+                TodoSelected.IsSelected = true;
             }
         }
     }

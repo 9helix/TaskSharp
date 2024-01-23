@@ -1,22 +1,38 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="PrimaryColor" Color="#4F80FF" />
     <SolidColorBrush x:Key="TextColor" Color="#050505" />
-    <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type RadioButton}" x:Key="MenuButtonTheme">
+    <Style
+        x:Key="MenuButtonTheme"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="{x:Type RadioButton}">
         <Style.Setters>
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
-                        <Border CornerRadius="10"  Background="{TemplateBinding Background}">
-                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Image x:Name="img" VerticalAlignment="center" Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag, Mode=OneWay}" Width="20" Grid.Column="0" Margin="0,0,0,0"/>
-                            <TextBlock x:Name="txt" FontFamily="#Open Sans Regular" Text="{TemplateBinding Property=Content}" VerticalAlignment="Center" Margin="-25,0,0,0" Grid.Column="1" FontSize="15" Foreground="{StaticResource TextColor}"/>
-                        </Grid>
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    x:Name="img"
+                                    Grid.Column="0"
+                                    Width="20"
+                                    Margin="0,0,0,0"
+                                    VerticalAlignment="center"
+                                    Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag, Mode=OneWay}" />
+                                <TextBlock
+                                    x:Name="txt"
+                                    Grid.Column="1"
+                                    Margin="-25,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="#Open Sans Regular"
+                                    FontSize="15"
+                                    Foreground="{StaticResource TextColor}"
+                                    Text="{TemplateBinding Property=Content}" />
+                            </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
@@ -30,18 +46,18 @@
             </Setter>
 
 
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
         </Style.Setters>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#7cb9f4"/>
+                <Setter Property="Background" Value="#7cb9f4" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
+                <Setter Property="Background" Value="{StaticResource PrimaryColor}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    
+
 </ResourceDictionary>
