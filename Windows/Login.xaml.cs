@@ -22,6 +22,7 @@ namespace TaskSharp
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
+            DialogHost.Focus();
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
@@ -51,6 +52,7 @@ namespace TaskSharp
             firstBtn.Content = "Prijava";
             txtUser.Text = "";
             txtPass.Password = "";
+            txtConf.Password = "";
             txtConf.Visibility = Visibility.Collapsed;
             registration = !registration;
         }
@@ -63,14 +65,15 @@ namespace TaskSharp
                 firstBtn.Content = "Registracija";
                 secondBtn.Content = "Postojeći račun";
                 txtConf.Visibility = Visibility.Visible;
+                txtUser.Text = "";
+                txtPass.Password = "";
+                registration = !registration;
             }
             else
             {
                 LoginSwitch();
             }
-            txtUser.Text = "";
-            txtPass.Password = "";
-            registration = !registration;
+
         }
 
         private void firstBtn_Click(object sender, RoutedEventArgs e)

@@ -30,8 +30,8 @@
                 <Image Margin="0,20,0,5" Source="../Resources/Images/logo.png" Height="100"/>
                 <TextBlock Name="title" Margin="0,15,0,5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Dobrodošli natrag!"/>
                 <TextBlock Name="description" HorizontalAlignment="Center" FontSize="17" FontWeight="SemiBold" Text="Prijavite se u postojeći račun"/>
-                <!--BorderBrush="{DynamicResource MaterialDesignDivider}"-->
-                <TextBox materialDesign:TextFieldAssist.HasClearButton="True" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed" MaxLength="15" Margin="0,30,0,0" x:Name="txtUser" Width="280" FontSize="15"  BorderBrush="#74828E" Foreground="{DynamicResource MaterialDesignBody}" Style="{StaticResource MaterialDesignOutlinedTextBox}">
+
+                <TextBox materialDesign:TextFieldAssist.HasClearButton="True" materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed" MaxLength="15" Margin="0,40,0,0" x:Name="txtUser" Width="280" FontSize="15" Foreground="{DynamicResource MaterialDesignBody}" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel
       Margin="0,0,0,0"
@@ -43,7 +43,7 @@
                     </materialDesign:HintAssist.Hint>
 
                 </TextBox>
-                <PasswordBox Foreground="{DynamicResource MaterialDesignBody}" materialDesign:TextFieldAssist.HasClearButton="True" Margin="0,20,0,0" x:Name="txtPass" Width="280" FontSize="15" BorderBrush="#74828E" Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}">
+                <PasswordBox Foreground="{DynamicResource MaterialDesignBody}" materialDesign:TextFieldAssist.HasClearButton="True" Margin="0,20,0,0" x:Name="txtPass" Width="280" FontSize="15"  Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
                             <Image Source="../Resources/Images/key.png" Width="17"/>
@@ -52,8 +52,7 @@
                     </materialDesign:HintAssist.Hint>
                 </PasswordBox>
 
-                <PasswordBox Foreground="{DynamicResource MaterialDesignBody}" Visibility="Collapsed" Margin="0,20,0,0" x:Name="txtConf" Width="280" FontSize="15"  BorderBrush="#74828E" 
-     Style="{StaticResource MaterialDesignOutlinedPasswordBox}">
+                <PasswordBox Foreground="{DynamicResource MaterialDesignBody}" Visibility="Collapsed" Margin="0,20,0,0" x:Name="txtConf" Width="280" FontSize="15" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
                             <Image Source="../Resources/Images/confirm.png" Width="17"/>
@@ -63,7 +62,7 @@
                 </PasswordBox>
 
 
-                <Button IsDefault="True" Click="firstBtn_Click" Margin="0,20,0,0" x:Name="firstBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="45" Width="230" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Prijava"/>
+                <Button IsDefault="True" Click="firstBtn_Click" Margin="0,30,0,0" x:Name="firstBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="45" Width="230" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Prijava"/>
 
                 <Button Click="secondBtn_Click" Margin="0,10,0,0" x:Name="secondBtn" Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="40" Width="230" materialDesign:ButtonAssist.CornerRadius="10" FontSize="16" Content="Stvorite račun" />
 
