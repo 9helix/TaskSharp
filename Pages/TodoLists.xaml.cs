@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TaskSharp;
+using TaskSharp.Classes;
+using TaskSharp.Themes;
 using TaskSharp.Windows;
 
 namespace SideBar_Nav.Pages
@@ -18,17 +20,11 @@ namespace SideBar_Nav.Pages
         public Page4()
         {
             InitializeComponent();
+            TextboxTheme.calledTodo += RefreshTodos;
         }
 
-        public void RefreshTodos()
+        public void RefreshTodos(List<TodoList> undoneTodos, List<TodoList> doneTodos)
         {
-            var uid = (int)Application.Current.Properties["uid"];
-            var undoneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == false)
-                .OrderByDescending(x => x.Pinned)
-                .ToList();
-            var doneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == true)
-                .ToList();
-
             if (undoneTodos.Count == 0 && doneTodos.Count == 0)
             {
                 Todos.Visibility = Visibility.Collapsed;
@@ -75,17 +71,14 @@ namespace SideBar_Nav.Pages
             _context.Database.EnsureCreated();
             _context.Users.Load();
             _context.TodoLists.Load();
-            RefreshTodos();
-        }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Properties["noteType"] = 3;
-            var noteCreate = new NoteCreate();
-            noteCreate.Show();
-
-            var wnd = Window.GetWindow(this);
-            wnd.Close();
+            var uid = (int)Application.Current.Properties["uid"];
+            var undoneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == false)
+                .OrderByDescending(x => x.Pinned)
+                .ToList();
+            var doneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == true)
+                .ToList();
+            RefreshTodos(undoneTodos, doneTodos);
         }
 
         private void PinUnpinTodo(object sender, MouseButtonEventArgs e)
@@ -96,7 +89,13 @@ namespace SideBar_Nav.Pages
 
             todo.Pinned = !todo.Pinned;
             _context.SaveChanges();
-            RefreshTodos();
+
+            var undoneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == false)
+                .OrderByDescending(x => x.Pinned)
+                .ToList();
+            var doneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == true)
+                .ToList();
+            RefreshTodos(undoneTodos, doneTodos);
         }
 
         private void OpenEditor(object sender, MouseButtonEventArgs e)
@@ -126,7 +125,13 @@ namespace SideBar_Nav.Pages
                 _context.SaveChanges();
 
                 MessageBox.Show("To-do lista uspješno izbrisana!", "Brisanje to-do liste", MessageBoxButton.OK, MessageBoxImage.Information);
-                RefreshTodos();
+
+                var undoneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == false)
+                    .OrderByDescending(x => x.Pinned)
+                    .ToList();
+                var doneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == true)
+                    .ToList();
+                RefreshTodos(undoneTodos, doneTodos);
             }
         }
 

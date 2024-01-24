@@ -116,10 +116,9 @@
                 <ItemsControl BorderThickness="0" Margin="0,20,0,0" x:Name="NotesContainer" HorizontalContentAlignment="Stretch"
                 Visibility="Visible" ItemTemplate="{StaticResource NotesTemplate}"/>
 
-                <StackPanel Name="NotesEmpty" Visibility="Collapsed" Margin="0,17,0,0">
+                <StackPanel Name="NotesEmpty" Visibility="Collapsed" Margin="0,20,0,0">
                     <TextBlock Foreground="{StaticResource TextColor}" FontSize="15">
-                        Izgleda da niste unijeli nijednu bilješku...<LineBreak/>
-                        Bez brige, to možete ispraviti <Hyperlink Click="Hyperlink_Click" Cursor="Hand">izradom prve bilješke</Hyperlink>.
+                        Izgleda da ne postoji nijedna bilješka...
                     </TextBlock>
                 </StackPanel>
             </StackPanel>

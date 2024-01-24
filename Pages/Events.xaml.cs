@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using TaskSharp;
 using TaskSharp.Classes;
+using TaskSharp.Themes;
 
 namespace SideBar_Nav.Pages
 {
@@ -14,12 +15,12 @@ namespace SideBar_Nav.Pages
     /// </summary>
     public partial class Page2 : Page
     {
-        private readonly NotesContext _context =
-            new NotesContext();
+        private readonly NotesContext _context = new();
 
         public Page2()
         {
             InitializeComponent();
+            TextboxTheme.calledEvent += RefreshEvents;
         }
 
         public void NotificationChecker(Event row, bool isDeadline)
@@ -62,16 +63,11 @@ namespace SideBar_Nav.Pages
             }
         }
 
-        private void RefreshEvents()
+        private void RefreshEvents(
+            List<Event> upcomingEvents,
+            List<Event> expiredEvents)
         {
-            var uid = (int)Application.Current.Properties["uid"];
-            var upcomingEvents = _context.Events.Where(x => x.UserId == uid && x.EndDate >= DateTime.Today)
-                .OrderByDescending(x => x.Pinned)
-                .ThenBy(x => x.EndDate);
-            var expiredEvents = _context.Events.Where(x => x.UserId == uid && x.EndDate < DateTime.Today)
-                .OrderByDescending(x => x.EndDate);
-
-            if (upcomingEvents.ToList().Count == 0 && expiredEvents.ToList().Count == 0)
+            if (upcomingEvents.Count == 0 && expiredEvents.Count == 0)
             {
                 Events.Visibility = Visibility.Collapsed;
                 EventsEmpty.Visibility = Visibility.Visible;
@@ -81,7 +77,7 @@ namespace SideBar_Nav.Pages
                 EventsEmpty.Visibility = Visibility.Collapsed;
                 Events.Visibility = Visibility.Visible;
 
-                if (upcomingEvents.ToList().Count == 0)
+                if (upcomingEvents.Count == 0)
                 {
                     UpcomingEventsContainer.Visibility = Visibility.Collapsed;
                     UpcomingEventsEmpty.Visibility = Visibility.Visible;
@@ -93,7 +89,7 @@ namespace SideBar_Nav.Pages
                     {
                         NotificationChecker(ev, false);
                     }
-                    ExpiredEventsContainer.ItemsSource = expiredEvents.ToList();
+                    ExpiredEventsContainer.ItemsSource = expiredEvents;
                 }
                 else if (expiredEvents.ToList().Count == 0)
                 {
@@ -104,7 +100,7 @@ namespace SideBar_Nav.Pages
                     {
                         NotificationChecker(ev, true);
                     }
-                    UpcomingEventsContainer.ItemsSource = upcomingEvents.ToList();
+                    UpcomingEventsContainer.ItemsSource = upcomingEvents;
 
                     ExpiredEventsContainer.Visibility = Visibility.Collapsed;
                     ExpiredEventsEmpty.Visibility = Visibility.Visible;
@@ -118,7 +114,7 @@ namespace SideBar_Nav.Pages
                     {
                         NotificationChecker(ev, false);
                     }
-                    ExpiredEventsContainer.ItemsSource = expiredEvents.ToList();
+                    ExpiredEventsContainer.ItemsSource = expiredEvents;
 
                     UpcomingEventsContainer.Visibility = Visibility.Visible;
                     UpcomingEventsEmpty.Visibility = Visibility.Collapsed;
@@ -127,27 +123,28 @@ namespace SideBar_Nav.Pages
                     {
                         NotificationChecker(ev, true);
                     }
-                    UpcomingEventsContainer.ItemsSource = upcomingEvents.ToList();
+                    UpcomingEventsContainer.ItemsSource = upcomingEvents;
                 }
             }
         }
-
+ 
         private void Events_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
             _context.Users.Load();
             _context.Events.Load();
-            RefreshEvents();
-        }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Properties["noteType"] = 1;
-            var noteCreate = new NoteCreate();
-            noteCreate.Show();
-
-            var wnd = Window.GetWindow(this);
-            wnd.Close();
+            var uid = (int)Application.Current.Properties["uid"];
+            var upcomingEvents = _context.Events
+                .Where(x => x.UserId == uid && x.EndDate >= DateTime.Today)
+                .OrderByDescending(x => x.Pinned)
+                .ThenBy(x => x.EndDate)
+                .ToList();
+            var expiredEvents = _context.Events
+                .Where(x => x.UserId == uid && x.EndDate < DateTime.Today)
+                .OrderByDescending(x => x.EndDate)
+                .ToList();
+            RefreshEvents(upcomingEvents, expiredEvents);
         }
 
         private void PinUnpinEvent(object sender, MouseButtonEventArgs e)
@@ -158,7 +155,17 @@ namespace SideBar_Nav.Pages
 
             ev.Pinned = !ev.Pinned;
             _context.SaveChanges();
-            RefreshEvents();
+
+            var upcomingEvents = _context.Events
+                .Where(x => x.UserId == uid && x.EndDate >= DateTime.Today)
+                .OrderByDescending(x => x.Pinned)
+                .ThenBy(x => x.EndDate)
+                .ToList();
+            var expiredEvents = _context.Events
+                .Where(x => x.UserId == uid && x.EndDate < DateTime.Today)
+                .OrderByDescending(x => x.EndDate)
+                .ToList();
+            RefreshEvents(upcomingEvents, expiredEvents);
         }
 
         private void OpenEditor(object sender, MouseButtonEventArgs e)
@@ -188,7 +195,15 @@ namespace SideBar_Nav.Pages
                 _context.SaveChanges();
 
                 MessageBox.Show("Događaj uspješno izbrisan!", "Brisanje događaja", MessageBoxButton.OK, MessageBoxImage.Information);
-                RefreshEvents();
+
+                var upcomingEvents = _context.Events.Where(x => x.UserId == uid && x.EndDate >= DateTime.Today)
+                    .OrderByDescending(x => x.Pinned)
+                    .ThenBy(x => x.EndDate)
+                    .ToList();
+                var expiredEvents = _context.Events.Where(x => x.UserId == uid && x.EndDate < DateTime.Today)
+                    .OrderByDescending(x => x.EndDate)
+                    .ToList();
+                RefreshEvents(upcomingEvents, expiredEvents);
             }
         }
 

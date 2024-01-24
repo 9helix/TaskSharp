@@ -16,15 +16,13 @@ namespace TaskSharp
     /// </summary>
     public partial class Dashboard : Window
     {
-        private readonly NotesContext _context =
-    new NotesContext();
+        private readonly NotesContext _context = new();
+
         public Dashboard()
         {
             InitializeComponent();
             _context.Database.EnsureCreated();
             _context.Users.Load();
-            _context.Notes.Load();
-
         }
 
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
@@ -85,18 +83,12 @@ namespace TaskSharp
             EventStartPick.SelectedDate = DateTime.Now;
             EventEndPick.SelectedDate = DateTime.Now;
             ToggleFields((int)Application.Current.Properties["noteType"]);
-
-
-
         }
 
-
-        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
             DragMove();
         }
-
 
         private void Create_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -105,7 +97,7 @@ namespace TaskSharp
             this.Close();
         }
 
-        private void Path_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Path_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             var choice2 = MessageBox.Show("Jeste li sigurni da se želite odjaviti?", "Odjava", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -120,7 +112,7 @@ namespace TaskSharp
             }
         }
 
-        private void Path_MouseLeftButtonDown_1(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Path_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             var choice = MessageBox.Show("Jeste li sigurni da želite izbrisati vaš račun? Time ćete pobrisati i sve svoje spremljene bilješke.", "Brisanje računa", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -128,6 +120,10 @@ namespace TaskSharp
             if (choice == MessageBoxResult.Yes)
             {
                 var uid = (int)Application.Current.Properties["uid"];
+                _context.Notes.Load();
+                _context.Events.Load();
+                _context.Reminders.Load();
+                _context.TodoLists.Load();
 
                 var notes = _context.Notes.Where(x => x.UserId == uid).ToList();
                 _context.Notes.RemoveRange(notes);
@@ -171,6 +167,7 @@ namespace TaskSharp
 
             }
         }
+
         private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _context.Dispose();
@@ -180,6 +177,7 @@ namespace TaskSharp
         {
 
         }
+
         List<int> todoNums = new List<int> { 1 };
         private void AddTodo(object sender, RoutedEventArgs e)
         {
@@ -222,8 +220,8 @@ namespace TaskSharp
             stk.Children.Add(img);
             border.Child = stk;
             TodoList.Children.Add(border);
-
         }
+
         private void DeleteTodo(object sender, MouseButtonEventArgs e)
         {
             StackPanel stk = (StackPanel)(sender as Image).Parent;
@@ -295,6 +293,7 @@ namespace TaskSharp
                 diHost.IsOpen = true;
 
         }
+
         private int SaveNote()
         {
             int index = NoteTypeMenu.SelectedIndex;
@@ -482,7 +481,6 @@ namespace TaskSharp
         {
             diHost.IsOpen = false;
             CleanAddNote();
-
         }
     }
 }

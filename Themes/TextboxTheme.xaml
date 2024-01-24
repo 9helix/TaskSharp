@@ -10,7 +10,7 @@
                         <Grid>
                             <Rectangle RadiusX="20" RadiusY="20" StrokeThickness="2" Stroke="{StaticResource TextColor2}"/>
                             <Path Margin="10,0,0,0" HorizontalAlignment="Left" Width="20" Height ="20"  Data="{StaticResource searchIcon}" Fill="{StaticResource TextColor2}" Stretch="Fill"   />
-                            <TextBox Style="{x:Null}" CaretBrush="{StaticResource TextColor2}" Text="{TemplateBinding Text}" FontSize="16" Margin="31,0,0,0" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" Padding="5" Foreground="{StaticResource TextColor2}" KeyUp="TextBox_KeyUp" Name="SearchBox"/>
+                            <TextBox Style="{x:Null}" CaretBrush="{StaticResource TextColor2}" Text="{TemplateBinding Text}" FontSize="16" Margin="31,0,0,0" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" Padding="5" Foreground="{StaticResource TextColor2}" TextChanged="SearchNotes" Name="SearchBox"/>
                             <TextBlock IsHitTestVisible="False"  VerticalAlignment="Center" Margin="35,0,0,0" HorizontalAlignment="Left"  FontSize="16" Foreground="{StaticResource TextColor2}" Grid.Column="1"><Run FontStyle="Italic">Pretraži...</Run>
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">

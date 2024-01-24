@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TaskSharp;
+using TaskSharp.Classes;
+using TaskSharp.Themes;
 
 namespace SideBar_Nav.Pages
 {
@@ -19,27 +20,11 @@ namespace SideBar_Nav.Pages
         public Page1()
         {
             InitializeComponent();
-        }
-        
-        public void pageHome_SomethingHappened(object sender, EventArgs e)
-        {
-            test();
-        }
-        
-
-        public void test()
-        {
-            Debug.WriteLine("Hi there!");
+            TextboxTheme.calledNote += RefreshNotes;
         }
 
-        private void RefreshNotes()
+        private void RefreshNotes(List<Note> notes)
         {
-            var uid = (int)Application.Current.Properties["uid"];
-            var notes = _context.Notes.Where(x => x.UserId == uid)
-                .OrderByDescending(x => x.Pinned)
-                .ThenByDescending(x => x.CreationDate)
-                .ToList();
-
             if (notes.Count == 0)
             {
                 NotesContainer.Visibility = Visibility.Collapsed;
@@ -58,17 +43,13 @@ namespace SideBar_Nav.Pages
             _context.Database.EnsureCreated();
             _context.Users.Load();
             _context.Notes.Load();
-            RefreshNotes();
-        }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Properties["noteType"] = 0;
-            var noteCreate = new NoteCreate();
-            noteCreate.Show();
-
-            var wnd = Window.GetWindow(this);
-            wnd.Close();
+            var uid = (int)Application.Current.Properties["uid"];
+            var notes = _context.Notes.Where(x => x.UserId == uid)
+                .OrderByDescending(x => x.Pinned)
+                .ThenByDescending(x => x.CreationDate)
+                .ToList();
+            RefreshNotes(notes);
         }
 
         private void PinUnpinNote(object sender, MouseButtonEventArgs e)
@@ -79,7 +60,12 @@ namespace SideBar_Nav.Pages
 
             note.Pinned = !note.Pinned;
             _context.SaveChanges();
-            RefreshNotes();
+
+            var notes = _context.Notes.Where(x => x.UserId == uid)
+                .OrderByDescending(x => x.Pinned)
+                .ThenByDescending(x => x.CreationDate)
+                .ToList();
+            RefreshNotes(notes);
         }
 
         private void OpenEditor(object sender, MouseButtonEventArgs e)
@@ -109,7 +95,12 @@ namespace SideBar_Nav.Pages
                 _context.SaveChanges();
 
                 MessageBox.Show("Bilješka uspješno izbrisana!", "Brisanje bilješke", MessageBoxButton.OK, MessageBoxImage.Information);
-                RefreshNotes();
+
+                var notes = _context.Notes.Where(x => x.UserId == uid)
+                    .OrderByDescending(x => x.Pinned)
+                    .ThenByDescending(x => x.CreationDate)
+                    .ToList();
+                RefreshNotes(notes);
             }
         }
 

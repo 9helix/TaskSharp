@@ -210,11 +210,9 @@
                     </TextBlock>
                 </StackPanel>
 
-                <StackPanel Name="RemindersEmpty" Visibility="Collapsed" Margin="0,17,0,0">
+                <StackPanel Name="RemindersEmpty" Visibility="Collapsed" Margin="0,20,0,0">
                     <TextBlock FontSize="15">
-                        Izgleda da niste unijeli nijedan podsjetnik...<LineBreak/>
-
-                        Bez brige, to možete ispraviti <Hyperlink Click="Hyperlink_Click" Cursor="Hand">izradom prvog podsjetnika</Hyperlink>.
+                        Izgleda da ne postoji nijedan podsjetnik...
                     </TextBlock>
                 </StackPanel>
             </StackPanel>

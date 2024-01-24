@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using TaskSharp;
 using TaskSharp.Classes;
+using TaskSharp.Themes;
 
 namespace SideBar_Nav.Pages
 {
@@ -20,6 +21,7 @@ namespace SideBar_Nav.Pages
         public Page3()
         {
             InitializeComponent();
+            TextboxTheme.calledReminder += RefreshReminders;
         }
 
         public void NotificationChecker(Reminder row)
@@ -42,18 +44,8 @@ namespace SideBar_Nav.Pages
             }
         }
 
-        private void RefreshReminders()
+        private void RefreshReminders(List<Reminder> upcomingReminders, List<Reminder> expiredReminders)
         {
-            var uid = (int)Application.Current.Properties["uid"];
-            var upcomingReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
-                .OrderByDescending(x => x.Pinned)
-                .ThenBy(x => x.Priority)
-                .ThenBy(x => x.DueDate)
-                .ToList();
-            var expiredReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
-                .OrderByDescending(x => x.DueDate)
-                .ToList();
-
             if (upcomingReminders.Count == 0 && expiredReminders.Count == 0)
             {
                 Reminders.Visibility = Visibility.Collapsed;
@@ -109,17 +101,17 @@ namespace SideBar_Nav.Pages
             _context.Database.EnsureCreated();
             _context.Users.Load();
             _context.Reminders.Load();
-            RefreshReminders();
-        }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Properties["noteType"] = 2;
-            var noteCreate = new NoteCreate();
-            noteCreate.Show();
-
-            var wnd = Window.GetWindow(this);
-            wnd.Close();
+            var uid = (int)Application.Current.Properties["uid"];
+            var upcomingReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
+                .OrderByDescending(x => x.Pinned)
+                .ThenBy(x => x.Priority)
+                .ThenBy(x => x.DueDate)
+                .ToList();
+            var expiredReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
+                .OrderByDescending(x => x.DueDate)
+                .ToList();
+            RefreshReminders(upcomingReminders, expiredReminders);
         }
 
         private void PinUnpinReminder(object sender, MouseButtonEventArgs e)
@@ -130,7 +122,16 @@ namespace SideBar_Nav.Pages
 
             reminder.Pinned = !reminder.Pinned;
             _context.SaveChanges();
-            RefreshReminders();
+
+            var upcomingReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
+                .OrderByDescending(x => x.Pinned)
+                .ThenBy(x => x.Priority)
+                .ThenBy(x => x.DueDate)
+                .ToList();
+            var expiredReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
+                .OrderByDescending(x => x.DueDate)
+                .ToList();
+            RefreshReminders(upcomingReminders, expiredReminders);
         }
 
         private void OpenEditor(object sender, MouseButtonEventArgs e)
@@ -160,7 +161,16 @@ namespace SideBar_Nav.Pages
                 _context.SaveChanges();
 
                 MessageBox.Show("Događaj uspješno izbrisan!", "Brisanje događaja", MessageBoxButton.OK, MessageBoxImage.Information);
-                RefreshReminders();
+
+                var upcomingReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
+                .OrderByDescending(x => x.Pinned)
+                .ThenBy(x => x.Priority)
+                .ThenBy(x => x.DueDate)
+                .ToList();
+                var expiredReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
+                    .OrderByDescending(x => x.DueDate)
+                    .ToList();
+                RefreshReminders(upcomingReminders, expiredReminders);
             }
         }
 

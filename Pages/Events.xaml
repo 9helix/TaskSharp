@@ -222,10 +222,9 @@
                     </TextBlock>
                 </StackPanel>
 
-                <StackPanel Name="EventsEmpty" Visibility="Collapsed" Margin="0,17,0,0">
+                <StackPanel Name="EventsEmpty" Visibility="Collapsed" Margin="0,20,0,0">
                     <TextBlock FontSize="15">
-                        Izgleda da niste unijeli nijedan događaj...<LineBreak/>
-                        Bez brige, to možete ispraviti <Hyperlink Click="Hyperlink_Click" Cursor="Hand">izradom prvog događaja</Hyperlink>.
+                        Izgleda da ne postoji nijedan događaj...
                     </TextBlock>
                 </StackPanel>
             </StackPanel>
