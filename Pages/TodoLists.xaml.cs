@@ -5,7 +5,6 @@ using System.Windows.Input;
 using TaskSharp;
 using TaskSharp.Classes;
 using TaskSharp.Themes;
-using TaskSharp.Windows;
 
 namespace SideBar_Nav.Pages
 {
@@ -134,17 +133,19 @@ namespace SideBar_Nav.Pages
                 RefreshTodos(undoneTodos, doneTodos);
             }
         }
-
+        public delegate void EditHandlerTodo();
+        public static event EditHandlerTodo callEditTodo;
         private void ViewTodo(object sender, MouseButtonEventArgs e)
         {
             var todoID = (int)((StackPanel)sender).Tag;
             Application.Current.Properties["noteId"] = todoID;
-
+            callEditTodo.Invoke();
+            /*
             var todoView = new TodoViewer();
             todoView.Show();
 
             var wnd = Window.GetWindow(this);
-            wnd.Close();
+            wnd.Close();*/
         }
 
         private void Todos_Unloaded(object sender, RoutedEventArgs e)

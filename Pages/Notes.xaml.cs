@@ -68,17 +68,20 @@ namespace SideBar_Nav.Pages
             RefreshNotes(notes);
         }
 
+        public delegate void EditHandlerNote();
+        public static event EditHandlerNote callEditNote;
         private void OpenEditor(object sender, MouseButtonEventArgs e)
         {
             var noteID = ((Image)sender).Tag;
             Application.Current.Properties["noteType"] = 0;
             Application.Current.Properties["noteId"] = noteID;
 
+            callEditNote.Invoke();/*
             var noteEdit = new NoteEdit();
             noteEdit.Show();
-
+            
             var wnd = Window.GetWindow(this);
-            wnd.Close();
+            wnd.Close();*/
         }
 
         private void DeleteNote(object sender, MouseButtonEventArgs e)

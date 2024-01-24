@@ -23,6 +23,12 @@ namespace TaskSharp
             InitializeComponent();
             _context.Database.EnsureCreated();
             _context.Users.Load();
+
+            Page1.callEditNote += edit;
+            Page2.callEditEvent += edit;
+            Page3.callEditReminder += edit;
+            Page4.callEditTodo += edit;
+
         }
 
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
@@ -47,6 +53,7 @@ namespace TaskSharp
             }
             ToggleFields((int)Application.Current.Properties["noteType"]);
         }
+
         private void NoteChecked(object sender, RoutedEventArgs e)
         {
             string x = ((RadioButton)sender).Name;
@@ -180,46 +187,54 @@ namespace TaskSharp
 
         List<int> todoNums = new List<int> { 1 };
         private void AddTodo(object sender, RoutedEventArgs e)
-        {
-            todoNums.Add(todoNums.Last() + 1);
-            StackPanel stk = new StackPanel
+        {/*
+            if (todoNums.Count() > 10)
             {
-                Name = $"todo{todoNums.Last()}",
-                Orientation = Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-            Separator sep = new Separator
-            {
-                Name = $"septodo{todoNums.Last()}",
-                Width = 10,
-                Background = Brushes.Transparent
-            };
-            TextBox txt = new TextBox
-            {
-                Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0),
-                MaxLength = 30,
-                Width = 150,
-                Text = $"Todo #{todoNums.Last()}",
-                //Style = null
-            };
-            Border border = new Border
-            {
-                Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
-            };
-            Image img = new Image
-            {
-                Width = 15,
-                Source = new BitmapImage(new Uri(@"/Resources/Images/deleteRed.png", UriKind.Relative)),
-                Cursor = Cursors.Hand,
-                ToolTip = new ToolTip() { Content = "Izbriši stavku" }
-            };
-            img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
-            stk.Children.Add(txt);
-            stk.Children.Add(sep);
+                todoNums.Add(todoNums.Last() + 1);
+                StackPanel stk = new StackPanel
+                {
+                    //Name = $"todo{todoNums.Last()}",
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+                Separator sep = new Separator
+                {
+                    //Name = $"septodo{todoNums.Last()}",
+                    Width = 10,
+                    Background = Brushes.Transparent
+                };
+                TextBox txt = new TextBox
+                {
+                    Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0),
+                    MaxLength = 30,
+                    Width = 150,
+                    Text = $"Todo #{todoNums.Last()}",
+                    //Style = null
+                };
+                Border border = new Border
+                {
+                    Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
+                };
+                Image img = new Image
+                {
+                    Width = 15,
+                    Source = new BitmapImage(new Uri(@"/Resources/Images/deleteRed.png", UriKind.Relative)),
+                    Cursor = Cursors.Hand,
+                    ToolTip = new ToolTip() { Content = "Izbriši stavku" }
+                };
+                img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
+                stk.Children.Add(txt);
+                stk.Children.Add(sep);
 
-            stk.Children.Add(img);
-            border.Child = stk;
-            TodoList.Children.Add(border);
+                stk.Children.Add(img);
+                border.Child = stk;
+                TodoList.Children.Add(border);
+            }
+            else
+            {
+                MessageBox.Show("Dozvoljeno maksimalno 10 Todo-ova po listi.", "Todo greška", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }*/
+            AddTodo2();
         }
 
         private void DeleteTodo(object sender, MouseButtonEventArgs e)
@@ -231,7 +246,7 @@ namespace TaskSharp
             StackPanel par = (StackPanel)toDelete.Parent;
             par.Children.Remove(toDelete);
         }
-
+        bool editing = false;
         private void ToggleFields(int type)
         {
             if (type != 0)
@@ -241,7 +256,8 @@ namespace TaskSharp
             else
             {
                 NoteContent.Visibility = Visibility.Visible;
-                NoteSelected.IsSelected = true;
+                if (!editing)
+                    NoteSelected.IsSelected = true;
             }
             if (type != 1)
             {
@@ -254,7 +270,8 @@ namespace TaskSharp
                 EventStart.Visibility = Visibility.Visible;
                 EventEnd.Visibility = Visibility.Visible;
                 txtLocation.Visibility = Visibility.Visible;
-                EventSelected.IsSelected = true;
+                if (!editing)
+                    EventSelected.IsSelected = true;
             }
             if (type != 2)
             {
@@ -265,7 +282,8 @@ namespace TaskSharp
             {
                 ReminderDue.Visibility = Visibility.Visible;
                 PriorityMenu.Visibility = Visibility.Visible;
-                ReminderSelected.IsSelected = true;
+                if (!editing)
+                    ReminderSelected.IsSelected = true;
             }
             if (type != 3)
             {
@@ -276,8 +294,8 @@ namespace TaskSharp
             {
                 TodoList.Visibility = Visibility.Visible;
                 todoBtn.Visibility = Visibility.Visible;
-
-                TodoSelected.IsSelected = true;
+                if (!editing)
+                    TodoSelected.IsSelected = true;
             }
         }
 
@@ -309,117 +327,237 @@ namespace TaskSharp
             Debug.WriteLine($"{name}-{tags}-{Pin}");
             DateTime dateCreate = DateTime.Now;
             int uid = (int)Application.Current.Properties["uid"];
-            //ushort id = GenerateNoteId();
-
+            var NoteId = Application.Current.Properties["noteId"];
             switch (index)
             {
                 case 0: //biljeska
-                    string content = this.content.Text;
-                    Debug.WriteLine(content);
-                    if (content == "")
+                    if (!editing)
                     {
-                        MessageBox.Show("Sadržaj ne smije biti prazan.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return -1;
+                        string content = this.content.Text;
+                        Debug.WriteLine(content);
+                        if (content == "")
+                        {
+                            MessageBox.Show("Sadržaj ne smije biti prazan.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return -1;
+                        }
+                        Note newNote = new Note
+                        {
+                            UserId = uid,
+                            Name = name,
+                            CreationDate = dateCreate,
+                            Tags = tags,
+                            Content = content,
+                            Pinned = Pin
+                        };
+                        _context.Notes.Add(newNote);
                     }
-                    Note newNote = new Note
+                    else
                     {
-                        UserId = uid,
-                        Name = name,
-                        CreationDate = dateCreate,
-                        Tags = tags,
-                        Content = content,
-                        Pinned = Pin
-                    };
-                    _context.Notes.Add(newNote);
+                        string content = this.content.Text;
+                        Debug.WriteLine(content);
+                        if (content == "")
+                        {
+                            MessageBox.Show("Sadržaj ne smije biti prazan.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return -1;
+                        }
+
+                        var note1 = _context.Notes.Where(nt => nt.Id == (int)NoteId).First<Note>();
+                        note1.Name = name;
+                        note1.Tags = tags;
+                        note1.Content = content;
+                        note1.Pinned = Pin;
+                    }
                     break;
 
                 case 1: //događaj
-                    var StartEvent = EventStartPick.SelectedDate;
-                    var EndEvent = EventEndPick.SelectedDate;
+                    if (!editing)
+                    {
+                        var StartEvent = EventStartPick.SelectedDate;
+                        var EndEvent = EventEndPick.SelectedDate;
 
-                    if (StartEvent is not DateTime || EndEvent is not DateTime)
-                    {
-                        MessageBox.Show("Datumi moraju biti odabrani.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return -1;
+                        if (StartEvent is not DateTime || EndEvent is not DateTime)
+                        {
+                            MessageBox.Show("Datumi moraju biti odabrani.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return -1;
+                        }
+                        if (EndEvent < StartEvent)
+                        {
+                            MessageBox.Show("Datum kraja događaja ne smije biti manji od datuma početka događaja.", "Događaj greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return -1;
+                        }
+                        string location = this.location.Text;
+                        Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
+                        Event newEvent = new Event
+                        {
+                            UserId = uid,
+                            Name = name,
+                            CreationDate = dateCreate,
+                            Tags = tags,
+                            StartDate = (DateTime)StartEvent,
+                            EndDate = (DateTime)EndEvent,
+                            Location = location,
+                            Pinned = Pin,
+                            DeadlineNotification = true,
+                            ExpiredNotification = true
+                        };
+                        _context.Events.Add(newEvent);
                     }
-                    if (EndEvent < StartEvent)
+                    else
                     {
-                        MessageBox.Show("Datum kraja događaja ne smije biti manji od datuma početka događaja.", "Događaj greška", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return -1;
+                        var StartEvent = EventStartPick.SelectedDate;
+                        var EndEvent = EventEndPick.SelectedDate;
+
+                        if (StartEvent is not DateTime || EndEvent is not DateTime)
+                        {
+                            MessageBox.Show("Datumi moraju biti odabrani.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return -1;
+                        }
+
+                        if (EndEvent < StartEvent)
+                        {
+                            MessageBox.Show("Datum kraja događaja ne smije biti manji od datuma početka događaja.", "Događaj greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return -1;
+                        }
+                        string location = this.location.Text;
+                        Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
+
+                        var note2 = _context.Events.Where(nt => nt.Id == (int)NoteId).First<Event>();
+                        note2.Name = name;
+                        note2.Tags = tags;
+                        note2.StartDate = (DateTime)StartEvent;
+                        note2.EndDate = (DateTime)EndEvent;
+                        note2.Location = location;
+                        note2.Pinned = Pin;
+                        note2.DeadlineNotification = true;
+                        note2.DeadlineNotification = true;
                     }
-                    string location = this.location.Text;
-                    Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
-                    Event newEvent = new Event
-                    {
-                        UserId = uid,
-                        Name = name,
-                        CreationDate = dateCreate,
-                        Tags = tags,
-                        StartDate = (DateTime)StartEvent,
-                        EndDate = (DateTime)EndEvent,
-                        Location = location,
-                        Pinned = Pin,
-                        DeadlineNotification = true,
-                        ExpiredNotification = true
-                    };
-                    _context.Events.Add(newEvent);
                     break;
 
                 case 2: //podsjetnik
-                    var dueDate = ReminderDuePick.SelectedDate;
-                    if (dueDate is not DateTime)
+                    if (!editing)
                     {
-                        MessageBox.Show("Datum mora biti odabran.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return -1;
+
+
+                        var dueDate = ReminderDuePick.SelectedDate;
+                        if (dueDate is not DateTime)
+                        {
+                            MessageBox.Show("Datum mora biti odabran.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return -1;
+                        }
+                        int PriorityIndex = PriorityMenuPick.SelectedIndex;
+                        ReminderPriority priority = (ReminderPriority)PriorityIndex;
+                        Debug.WriteLine($"{dueDate}-{priority}");
+                        Reminder newReminder = new Reminder
+                        {
+                            UserId = uid,
+                            Name = name,
+                            CreationDate = dateCreate,
+                            Tags = tags,
+                            Priority = priority,
+                            DueDate = (DateTime)dueDate,
+                            Pinned = Pin,
+                            Notification = true
+                        };
+                        _context.Reminders.Add(newReminder);
                     }
-                    int PriorityIndex = PriorityMenuPick.SelectedIndex;
-                    ReminderPriority priority = (ReminderPriority)PriorityIndex;
-                    Debug.WriteLine($"{dueDate}-{priority}");
-                    Reminder newReminder = new Reminder
+                    else
                     {
-                        UserId = uid,
-                        Name = name,
-                        CreationDate = dateCreate,
-                        Tags = tags,
-                        Priority = priority,
-                        DueDate = (DateTime)dueDate,
-                        Pinned = Pin,
-                        Notification = true
-                    };
-                    _context.Reminders.Add(newReminder);
+
+                        var dueDate = ReminderDuePick.SelectedDate;
+                        if (dueDate is not DateTime)
+                        {
+                            MessageBox.Show("Datum mora biti odabran.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return -1;
+                        }
+
+                        int PriorityIndex = PriorityMenuPick.SelectedIndex;
+                        ReminderPriority priority = (ReminderPriority)PriorityIndex;
+                        Debug.WriteLine($"{dueDate}-{priority}");
+
+
+                        var note3 = _context.Reminders.Where(nt => nt.Id == (int)NoteId).First<Reminder>();
+                        note3.Name = name;
+                        note3.Tags = tags;
+                        note3.Pinned = Pin;
+                        note3.Priority = priority;
+                        note3.DueDate = (DateTime)dueDate;
+                        note3.Notification = true;
+                    }
                     break;
 
                 case 3://todo
-                    var todos = TodoList.Children;
-                    Dictionary<string, bool> TodoDict = new();
-                    foreach (var child in todos)
+                    if (!editing)
                     {
-                        Debug.WriteLine(child);
-                        var todo = ((child as Border).Child as StackPanel).Children;
-                        TodoDict[(todo[0] as TextBox).Text] = false;
-
-                        if ((todo[0] as TextBox).Text == "")
+                        Debug.WriteLine("not editing todo");
+                        var todos = TodoList.Children;
+                        Dictionary<string, bool> TodoDict = new();
+                        foreach (var child in todos)
                         {
-                            MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
+                            Debug.WriteLine(child);
+                            var todo = ((child as Border).Child as StackPanel).Children;
+                            TodoDict[(todo[0] as TextBox).Text] = false;
+
+                            if ((todo[0] as TextBox).Text == "")
+                            {
+                                MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return -1;
+                            }
+                        }
+                        TodoList newTodoList = new TodoList
+                        {
+                            UserId = uid,
+                            Name = name,
+                            CreationDate = dateCreate,
+                            Tags = tags,
+                            Todos = JsonSerializer.Serialize(TodoDict),
+                            Pinned = Pin,
+                            Done = false
+                        };
+                        _context.TodoLists.Add(newTodoList);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("editing todo");
+                        var todos = TodoList.Children;
+
+                        Dictionary<string, bool> TodoDict = new();
+
+                        if (todoNums.Count != 0)
+                        {
+                            foreach (var child in todos)
+                            {
+
+                                Debug.WriteLine("todo stavka");
+                                var todo = ((child as Border).Child as StackPanel).Children;
+                                TodoDict[(todo[0] as TextBox).Text] = false;
+                                if ((todo[0] as TextBox).Text == "")
+                                {
+                                    MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    return -1;
+                                }
+                            }
+
+                            var note4 = _context.TodoLists.Where(nt => nt.Id == (int)NoteId).First<TodoList>();
+                            note4.Name = name;
+                            note4.Tags = tags;
+                            note4.Todos = JsonSerializer.Serialize(TodoDict);
+                            note4.Pinned = Pin;
+                            note4.Done = false;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Morate imati barem jedan to-do u listi.", "Todo greška", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return -1;
                         }
                     }
-                    TodoList newTodoList = new TodoList
-                    {
-                        UserId = uid,
-                        Name = name,
-                        CreationDate = dateCreate,
-                        Tags = tags,
-                        Todos = JsonSerializer.Serialize(TodoDict),
-                        Pinned = Pin,
-                        Done = false
-                    };
-                    _context.TodoLists.Add(newTodoList);
                     break;
             }
             _context.SaveChanges();
+            if (!editing)
+                MessageBox.Show("Zapis uspješno stvoren!", "Stvaranje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show("Zapis uspješno uređen!", "Uređivanje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            MessageBox.Show("Zapis uspješno stvoren!", "Stvaranje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
             return 0;
             //this.Close();
         }
@@ -473,14 +611,167 @@ namespace TaskSharp
             if (x == -1)
             {
                 diHost.IsOpen = true;
-                CleanAddNote();
+
             }
-            else diHost.IsOpen = false;
+
+            else { diHost.IsOpen = false; CleanAddNote(); editing = false; }
         }
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             diHost.IsOpen = false;
             CleanAddNote();
+            editing = false;
         }
+
+
+
+        private void edit()
+        {
+            Debug.WriteLine("edit pozvan");
+            editing = true;
+            int NoteId = (int)Application.Current.Properties["noteId"];
+            int NoteType = (int)Application.Current.Properties["noteType"];
+            switch (NoteType)
+            {
+
+                case 0:
+                    var temp1 = _context.Notes.Where(nt => nt.Id == NoteId).First();
+                    NoteContent.Visibility = Visibility.Visible;
+
+                    note_name.Text = temp1.Name;
+                    tags.Text = temp1.Tags;
+                    flag.IsChecked = temp1.Pinned;
+                    content.Text = temp1.Content;
+
+                    break;
+
+                case 1:
+                    var temp2 = _context.Events.Where(nt => nt.Id == NoteId).First();
+
+                    note_name.Text = temp2.Name;
+                    tags.Text = temp2.Tags;
+                    flag.IsChecked = temp2.Pinned;
+
+                    //EventStartPick.BlackoutDates.AddDatesInPast();
+                    EventStartPick.SelectedDate = temp2.StartDate;
+                    //EventEndPick.BlackoutDates.AddDatesInPast();
+                    EventEndPick.SelectedDate = temp2.EndDate;
+
+                    location.Text = temp2.Location;
+                    /*EventStart.Visibility = Visibility.Visible;
+                    EventEnd.Visibility = Visibility.Visible;
+                    txtLocation.Visibility = Visibility.Visible;*/
+                    break;
+
+                case 2:
+                    var temp3 = _context.Reminders.Where(nt => nt.Id == NoteId).First();
+
+                    note_name.Text = temp3.Name;
+                    tags.Text = temp3.Tags;
+                    flag.IsChecked = temp3.Pinned;
+
+                    //ReminderDuePick.BlackoutDates.AddDatesInPast();
+                    ReminderDuePick.SelectedDate = temp3.DueDate;
+                    //ReminderDue.Visibility = Visibility.Visible;
+
+                    PriorityMenuPick.SelectedIndex = (int)temp3.Priority;
+                    //PriorityMenu.Visibility = Visibility.Visible;
+                    break;
+
+                case 3:
+                    var temp4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First();
+                    var todos = JsonSerializer.Deserialize<Dictionary<string, bool>>(temp4.Todos);
+
+                    note_name.Text = temp4.Name;
+                    tags.Text = temp4.Tags;
+                    flag.IsChecked = temp4.Pinned;
+                    Debug.WriteLine($"todo zastavica:{temp4.Pinned}");
+
+                    Debug.WriteLine($"todo br stavki:{todos.Count}");
+                    TodoList.Children.Clear();
+                    todoNums.Clear();
+                    foreach (var entry in todos)
+                    {
+                        Debug.WriteLine($"todo entry:{entry}");
+
+                        AddTodo2(entry.Key);
+                    }
+                    //TodoList.Visibility = Visibility.Visible;
+                    break;
+            }
+
+            ToggleFields(NoteType);
+            diHost.IsOpen = true;
+
+        }
+        private void AddTodo2(string content = null)
+        {
+            if (todoNums.Count() <= 10)
+            {
+                Image img = new Image
+                {
+                    Width = 15,
+                    Source = new BitmapImage(new Uri(@"/Resources/Images/deleteRed.png", UriKind.Relative)),
+                    Cursor = Cursors.Hand,
+                    ToolTip = new ToolTip() { Content = "Izbriši stavku" }
+                };
+                if (todoNums.Count() == 0)
+                {
+                    todoNums.Add(1);
+                }
+                else
+                {
+                    todoNums.Add(todoNums.Last() + 1);
+                    img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
+                }
+                StackPanel stk = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+
+
+                TextBox txt;
+                if (content == null)
+                {
+                    txt = new TextBox { Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0), MaxLength = 30, Width = 150, Text = $"Todo #{todoNums.Last()}" };
+                }
+                else
+                {
+                    txt = new TextBox { Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0), MaxLength = 30, Width = 150, Text = content };
+                }
+
+                Separator sep = new Separator
+                {
+                    //Name = $"septodo{todoNums.Last()}",
+                    Width = 10,
+                    Background = Brushes.Transparent
+                };
+                Border border = new Border
+                {
+                    Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
+                };
+
+
+
+                stk.Children.Add(txt);
+                stk.Children.Add(sep);
+                stk.Children.Add(img);
+                border.Child = stk;
+                TodoList.Children.Add(border);
+            }
+            else
+            {
+                MessageBox.Show("Dozvoljeno maksimalno 10 Todo-ova po listi.", "Todo greška", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
     }
+
+
+
+
+
+
 }
+
