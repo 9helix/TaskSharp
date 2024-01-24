@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SideBar_Nav.Pages;
 using System.Diagnostics;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using TaskSharp.Classes;
 
 namespace TaskSharp
 {
@@ -78,7 +81,12 @@ namespace TaskSharp
                     break;
 
             }
+            ReminderDuePick.SelectedDate = DateTime.Now;
+            EventStartPick.SelectedDate = DateTime.Now;
+            EventEndPick.SelectedDate = DateTime.Now;
             ToggleFields((int)Application.Current.Properties["noteType"]);
+
+
 
         }
 
@@ -172,7 +180,7 @@ namespace TaskSharp
         {
 
         }
-        List<int> todoNums = new List<int>(1);
+        List<int> todoNums = new List<int> { 1 };
         private void AddTodo(object sender, RoutedEventArgs e)
         {
             todoNums.Add(todoNums.Last() + 1);
@@ -182,14 +190,23 @@ namespace TaskSharp
                 Orientation = Orientation.Horizontal,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
-
+            Separator sep = new Separator
+            {
+                Name = $"septodo{todoNums.Last()}",
+                Width = 10,
+                Background = Brushes.Transparent
+            };
             TextBox txt = new TextBox
             {
-                Margin = new Thickness(left: 15, top: 0, right: 0, bottom: 0),
+                Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0),
                 MaxLength = 30,
-                Width = 175,
+                Width = 150,
                 Text = $"Todo #{todoNums.Last()}",
-                Style = null
+                //Style = null
+            };
+            Border border = new Border
+            {
+                Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
             };
             Image img = new Image
             {
@@ -200,8 +217,11 @@ namespace TaskSharp
             };
             img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
             stk.Children.Add(txt);
+            stk.Children.Add(sep);
+
             stk.Children.Add(img);
-            TodoList.Items.Add(new ListBoxItem { Content = stk });
+            border.Child = stk;
+            TodoList.Children.Add(border);
 
         }
         private void DeleteTodo(object sender, MouseButtonEventArgs e)
@@ -210,7 +230,6 @@ namespace TaskSharp
             Border toDelete = (Border)stk.Parent;
             todoNums.RemoveAt(1);
 
-            Debug.WriteLine(toDelete.Name);
             StackPanel par = (StackPanel)toDelete.Parent;
             par.Children.Remove(toDelete);
         }
@@ -262,6 +281,208 @@ namespace TaskSharp
 
                 TodoSelected.IsSelected = true;
             }
+        }
+
+        private void DialogHost_OnDialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+
+            if (!Equals(eventArgs.Parameter, true))
+                return;
+
+            //if (!string.IsNullOrWhiteSpace(FruitTextBox.Text))
+            int x = SaveNote();
+            if (x == -1)
+                diHost.IsOpen = true;
+
+        }
+        private int SaveNote()
+        {
+            int index = NoteTypeMenu.SelectedIndex;
+            string name = note_name.Text;
+            if (name == "")
+            {
+                MessageBox.Show("Zapis mora imati ime.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                return -1;
+            }
+            string tags = this.tags.Text;
+            bool Pin = flag.IsChecked.Value;
+
+            Debug.WriteLine($"{name}-{tags}-{Pin}");
+            DateTime dateCreate = DateTime.Now;
+            int uid = (int)Application.Current.Properties["uid"];
+            //ushort id = GenerateNoteId();
+
+            switch (index)
+            {
+                case 0: //biljeska
+                    string content = this.content.Text;
+                    Debug.WriteLine(content);
+                    if (content == "")
+                    {
+                        MessageBox.Show("Sadržaj ne smije biti prazan.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return -1;
+                    }
+                    Note newNote = new Note
+                    {
+                        UserId = uid,
+                        Name = name,
+                        CreationDate = dateCreate,
+                        Tags = tags,
+                        Content = content,
+                        Pinned = Pin
+                    };
+                    _context.Notes.Add(newNote);
+                    break;
+
+                case 1: //događaj
+                    var StartEvent = EventStartPick.SelectedDate;
+                    var EndEvent = EventEndPick.SelectedDate;
+
+                    if (StartEvent is not DateTime || EndEvent is not DateTime)
+                    {
+                        MessageBox.Show("Datumi moraju biti odabrani.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return -1;
+                    }
+                    if (EndEvent < StartEvent)
+                    {
+                        MessageBox.Show("Datum kraja događaja ne smije biti manji od datuma početka događaja.", "Događaj greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return -1;
+                    }
+                    string location = this.location.Text;
+                    Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
+                    Event newEvent = new Event
+                    {
+                        UserId = uid,
+                        Name = name,
+                        CreationDate = dateCreate,
+                        Tags = tags,
+                        StartDate = (DateTime)StartEvent,
+                        EndDate = (DateTime)EndEvent,
+                        Location = location,
+                        Pinned = Pin,
+                        DeadlineNotification = true,
+                        ExpiredNotification = true
+                    };
+                    _context.Events.Add(newEvent);
+                    break;
+
+                case 2: //podsjetnik
+                    var dueDate = ReminderDuePick.SelectedDate;
+                    if (dueDate is not DateTime)
+                    {
+                        MessageBox.Show("Datum mora biti odabran.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return -1;
+                    }
+                    int PriorityIndex = PriorityMenuPick.SelectedIndex;
+                    ReminderPriority priority = (ReminderPriority)PriorityIndex;
+                    Debug.WriteLine($"{dueDate}-{priority}");
+                    Reminder newReminder = new Reminder
+                    {
+                        UserId = uid,
+                        Name = name,
+                        CreationDate = dateCreate,
+                        Tags = tags,
+                        Priority = priority,
+                        DueDate = (DateTime)dueDate,
+                        Pinned = Pin,
+                        Notification = true
+                    };
+                    _context.Reminders.Add(newReminder);
+                    break;
+
+                case 3://todo
+                    var todos = TodoList.Children;
+                    Dictionary<string, bool> TodoDict = new();
+                    foreach (var child in todos)
+                    {
+                        Debug.WriteLine(child);
+                        var todo = ((child as Border).Child as StackPanel).Children;
+                        TodoDict[(todo[0] as TextBox).Text] = false;
+
+                        if ((todo[0] as TextBox).Text == "")
+                        {
+                            MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return -1;
+                        }
+                    }
+                    TodoList newTodoList = new TodoList
+                    {
+                        UserId = uid,
+                        Name = name,
+                        CreationDate = dateCreate,
+                        Tags = tags,
+                        Todos = JsonSerializer.Serialize(TodoDict),
+                        Pinned = Pin,
+                        Done = false
+                    };
+                    _context.TodoLists.Add(newTodoList);
+                    break;
+            }
+            _context.SaveChanges();
+
+            MessageBox.Show("Zapis uspješno stvoren!", "Stvaranje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
+            return 0;
+            //this.Close();
+        }
+        private void CleanAddNote()
+        {
+            note_name.Text = "";
+            tags.Text = "";
+            flag.IsChecked = false;
+            content.Text = "";
+            ReminderDuePick.SelectedDate = DateTime.Now;
+            EventStartPick.SelectedDate = DateTime.Now;
+            EventEndPick.SelectedDate = DateTime.Now;
+            location.Text = "";
+            (PriorityMenuPick.Items[0] as ComboBoxItem).IsSelected = true;
+
+            TodoList.Children.Clear();
+
+            todoNums = new List<int> { 1 };
+            StackPanel stk = new StackPanel
+            {
+
+            };
+
+            TextBox txt = new TextBox
+            {
+                Margin = new Thickness(left: 0, top: 0, right: 30, bottom: 0),
+                MaxLength = 30,
+                Width = 150,
+                Text = $"Todo #1",
+                //Style = null
+            };
+            Border border = new Border
+            {
+                Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
+            };
+
+            stk.Children.Add(txt);
+            border.Child = stk;
+            TodoList.Children.Add(border);
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            diHost.IsOpen = true;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            int x = SaveNote();
+            if (x == -1)
+            {
+                diHost.IsOpen = true;
+                CleanAddNote();
+            }
+            else diHost.IsOpen = false;
+        }
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            diHost.IsOpen = false;
+            CleanAddNote();
+
         }
     }
 }
