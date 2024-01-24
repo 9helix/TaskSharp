@@ -8,16 +8,15 @@
         public string Password { get; set; }
 
         // Collection navigation containing notes
-        public virtual ICollection<Note> Notes { get; } = new List<Note>();
+        public ICollection<Note> Notes { get; } = new List<Note>();
 
         // Collection navigation containing events
-        public virtual ICollection<Event> Events { get; } = new List<Event>();
+        public ICollection<Event> Events { get; } = new List<Event>();
 
         // Collection navigation containing reminders
-        public virtual ICollection<Reminder> Reminders { get; } = new List<Reminder>();
+        public ICollection<Reminder> Reminders { get; } = new List<Reminder>();
 
         // Collection navigation containing to-do lists
-        public virtual ICollection<TodoList> TodoLists { get; } = new List<TodoList>();
-
+        public ICollection<TodoList> TodoLists { get; } = new List<TodoList>();
     }
 }

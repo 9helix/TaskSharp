@@ -62,17 +62,15 @@ namespace TaskSharp.Windows
             Refresh();
         }
 
-        private void CheckUncheck(object sender, MouseButtonEventArgs e)
+        private void TickClicked(object sender, MouseButtonEventArgs e)
         {
             var todoID = (string)((Image)sender).Tag;
             var uid = (int)Application.Current.Properties["uid"];
             int NoteId = (int)Application.Current.Properties["noteId"];
 
             var todos = _context.TodoLists.Where(x => x.UserId == uid && x.Id == NoteId).First();
-            var todoDict = JsonSerializer.Deserialize<Dictionary<string, bool>>(todos.Todos);
-            todoDict[todoID] = !todoDict[todoID];
+            todos.CheckUncheck(todoID);
 
-            todos.Todos = JsonSerializer.Serialize(todoDict);
             _context.SaveChanges();
             Refresh();
         }

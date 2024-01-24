@@ -23,49 +23,7 @@ namespace SideBar_Nav.Pages
             TextboxTheme.calledEvent += RefreshEvents;
         }
 
-        public void NotificationChecker(Event row, bool isDeadline)
-        {
-            if (isDeadline) // if event still ongoing
-            {
-                if (row.DeadlineNotification && (row.EndDate == DateTime.Today))
-                {
-                    Color color = (Color)ColorConverter.ConvertFromString("#fa7f05");
-                    var notificationManager = new NotificationManager();
-                    notificationManager.Show(new NotificationContent
-                    {
-                        Title = row.Name,
-                        Message = "Događaj završava danas!",
-                        Type = NotificationType.Information,
-                        CloseOnClick = true, // closes message when message is clicked
-                        Background = new SolidColorBrush(color)
-                    });
-
-                    row.DeadlineNotification = false;
-                    _context.SaveChanges();
-                }
-            }
-            else
-            { // if event was completed
-                if (row.ExpiredNotification && (row.EndDate < DateTime.Today))
-                {
-                    var notificationManager = new NotificationManager();
-                    notificationManager.Show(new NotificationContent
-                    {
-                        Title = row.Name,
-                        Message = "Događaj je završen!",
-                        Type = NotificationType.Information,
-                        CloseOnClick = true, // closes message when message is clicked
-                    });
-
-                    row.ExpiredNotification = false;
-                    _context.SaveChanges();
-                }
-            }
-        }
-
-        private void RefreshEvents(
-            List<Event> upcomingEvents,
-            List<Event> expiredEvents)
+        private void RefreshEvents(List<Event> upcomingEvents, List<Event> expiredEvents)
         {
             if (upcomingEvents.Count == 0 && expiredEvents.Count == 0)
             {
@@ -87,8 +45,9 @@ namespace SideBar_Nav.Pages
 
                     foreach (var ev in expiredEvents)
                     {
-                        NotificationChecker(ev, false);
+                        ev.NotificationChecker(false);
                     }
+                    _context.SaveChanges();
                     ExpiredEventsContainer.ItemsSource = expiredEvents;
                 }
                 else if (expiredEvents.ToList().Count == 0)
@@ -98,8 +57,9 @@ namespace SideBar_Nav.Pages
 
                     foreach (var ev in upcomingEvents)
                     {
-                        NotificationChecker(ev, true);
+                        ev.NotificationChecker(true);
                     }
+                    _context.SaveChanges();
                     UpcomingEventsContainer.ItemsSource = upcomingEvents;
 
                     ExpiredEventsContainer.Visibility = Visibility.Collapsed;
@@ -112,8 +72,9 @@ namespace SideBar_Nav.Pages
 
                     foreach (var ev in expiredEvents)
                     {
-                        NotificationChecker(ev, false);
+                        ev.NotificationChecker(false);
                     }
+                    _context.SaveChanges();
                     ExpiredEventsContainer.ItemsSource = expiredEvents;
 
                     UpcomingEventsContainer.Visibility = Visibility.Visible;
@@ -121,8 +82,9 @@ namespace SideBar_Nav.Pages
 
                     foreach (var ev in upcomingEvents)
                     {
-                        NotificationChecker(ev, true);
+                        ev.NotificationChecker(true);
                     }
+                    _context.SaveChanges();
                     UpcomingEventsContainer.ItemsSource = upcomingEvents;
                 }
             }
@@ -168,18 +130,21 @@ namespace SideBar_Nav.Pages
             RefreshEvents(upcomingEvents, expiredEvents);
         }
 
+        public delegate void EditHandlerEvent();
+        public static event EditHandlerEvent callEditEvent;
         private void OpenEditor(object sender, MouseButtonEventArgs e)
         {
             var eventID = ((Image)sender).Tag;
             Application.Current.Properties["noteType"] = 1;
             Application.Current.Properties["noteId"] = eventID;
 
-            var eventEdit = new NoteEdit();
+            callEditEvent.Invoke();
+            /*var eventEdit = new NoteEdit();
             eventEdit.Show();
 
             var wnd = Window.GetWindow(this);
-            wnd.Close();
-        }
+            wnd.Close();*/
+        }
 
         private void DeleteEvent(object sender, MouseButtonEventArgs e)
         {

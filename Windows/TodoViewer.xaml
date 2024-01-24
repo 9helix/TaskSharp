@@ -27,7 +27,7 @@
 
                         <TextBlock Margin="5,0,0,0" TextWrapping="Wrap" Text="{Binding Path=Key}" />
 
-                        <Image Grid.Column="2" Tag="{Binding Path=Key}" PreviewMouseDown="CheckUncheck" Width="20" Cursor="Hand"
+                        <Image Grid.Column="2" Tag="{Binding Path=Key}" PreviewMouseDown="TickClicked" Width="20" Cursor="Hand"
                                ToolTipService.InitialShowDelay="500" Source="../Resources/Images/check.png">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
