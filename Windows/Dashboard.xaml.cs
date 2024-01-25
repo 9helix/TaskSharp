@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using SideBar_Nav.Pages;
 using System.Diagnostics;
 using System.Text.Json;
@@ -8,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TaskSharp.Classes;
+using TaskSharp.Themes;
 
 namespace TaskSharp
 {
@@ -24,11 +26,10 @@ namespace TaskSharp
             _context.Database.EnsureCreated();
             _context.Users.Load();
 
-            Page1.callEditNote += edit;
-            Page2.callEditEvent += edit;
-            Page3.callEditReminder += edit;
-            Page4.callEditTodo += edit;
-
+            Page1.callEditNote += Edit;
+            Page2.callEditEvent += Edit;
+            Page3.callEditReminder += Edit;
+            Page4.callEditTodo += Edit;
         }
 
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
@@ -97,13 +98,6 @@ namespace TaskSharp
             DragMove();
         }
 
-        private void Create_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            var noteCreate = new NoteCreate();
-            noteCreate.Show();
-            this.Close();
-        }
-
         private void Path_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
@@ -161,7 +155,6 @@ namespace TaskSharp
                 case "p1":
                     ((RadioButton)sender).Tag = "/Resources/Images/Notes/note.png";
                     break;
-
                 case "p2":
                     ((RadioButton)sender).Tag = "/Resources/Images/Notes/event.png";
                     break;
@@ -171,13 +164,7 @@ namespace TaskSharp
                 case "p4":
                     ((RadioButton)sender).Tag = "/Resources/Images/Notes/todo.png";
                     break;
-
             }
-        }
-
-        private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            _context.Dispose();
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -246,6 +233,7 @@ namespace TaskSharp
             StackPanel par = (StackPanel)toDelete.Parent;
             par.Children.Remove(toDelete);
         }
+
         bool editing = false;
         private void ToggleFields(int type)
         {
@@ -301,7 +289,6 @@ namespace TaskSharp
 
         private void DialogHost_OnDialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
         {
-
             if (!Equals(eventArgs.Parameter, true))
                 return;
 
@@ -322,15 +309,15 @@ namespace TaskSharp
                 return -1;
             }
             string tags = this.tags.Text;
-            bool Pin = flag.IsChecked.Value;
+            bool pin = flag.IsChecked.Value;
 
-            Debug.WriteLine($"{name}-{tags}-{Pin}");
+            Debug.WriteLine($"{name}-{tags}-{pin}");
             DateTime dateCreate = DateTime.Now;
             int uid = (int)Application.Current.Properties["uid"];
             var NoteId = Application.Current.Properties["noteId"];
             switch (index)
             {
-                case 0: //biljeska
+                case 0: // note
                     if (!editing)
                     {
                         string content = this.content.Text;
@@ -347,7 +334,7 @@ namespace TaskSharp
                             CreationDate = dateCreate,
                             Tags = tags,
                             Content = content,
-                            Pinned = Pin
+                            Pinned = pin
                         };
                         _context.Notes.Add(newNote);
                     }
@@ -361,42 +348,40 @@ namespace TaskSharp
                             return -1;
                         }
 
-                        var note1 = _context.Notes.Where(nt => nt.Id == (int)NoteId).First<Note>();
-                        note1.Name = name;
-                        note1.Tags = tags;
-                        note1.Content = content;
-                        note1.Pinned = Pin;
+                        var note1 = _context.Notes.Where(nt => nt.Id == (int)NoteId).First();
+                        note1.Update(name, tags, pin, content);
                     }
                     break;
 
-                case 1: //događaj
+                case 1: // event
                     if (!editing)
                     {
-                        var StartEvent = EventStartPick.SelectedDate;
-                        var EndEvent = EventEndPick.SelectedDate;
+                        var startEvent = EventStartPick.SelectedDate;
+                        var endEvent = EventEndPick.SelectedDate;
 
-                        if (StartEvent is not DateTime || EndEvent is not DateTime)
+                        if (startEvent is not DateTime || endEvent is not DateTime)
                         {
                             MessageBox.Show("Datumi moraju biti odabrani.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
                             return -1;
                         }
-                        if (EndEvent < StartEvent)
+                        if (endEvent < startEvent)
                         {
                             MessageBox.Show("Datum kraja događaja ne smije biti manji od datuma početka događaja.", "Događaj greška", MessageBoxButton.OK, MessageBoxImage.Error);
                             return -1;
                         }
                         string location = this.location.Text;
-                        Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
+                        Debug.WriteLine($"{startEvent}-{endEvent}-{location}");
+
                         Event newEvent = new Event
                         {
                             UserId = uid,
                             Name = name,
                             CreationDate = dateCreate,
                             Tags = tags,
-                            StartDate = (DateTime)StartEvent,
-                            EndDate = (DateTime)EndEvent,
+                            StartDate = (DateTime)startEvent,
+                            EndDate = (DateTime)endEvent,
                             Location = location,
-                            Pinned = Pin,
+                            Pinned = pin,
                             DeadlineNotification = true,
                             ExpiredNotification = true
                         };
@@ -404,40 +389,31 @@ namespace TaskSharp
                     }
                     else
                     {
-                        var StartEvent = EventStartPick.SelectedDate;
-                        var EndEvent = EventEndPick.SelectedDate;
+                        var startEvent = EventStartPick.SelectedDate;
+                        var endEvent = EventEndPick.SelectedDate;
 
-                        if (StartEvent is not DateTime || EndEvent is not DateTime)
+                        if (startEvent is not DateTime || endEvent is not DateTime)
                         {
                             MessageBox.Show("Datumi moraju biti odabrani.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
                             return -1;
                         }
 
-                        if (EndEvent < StartEvent)
+                        if (endEvent < startEvent)
                         {
                             MessageBox.Show("Datum kraja događaja ne smije biti manji od datuma početka događaja.", "Događaj greška", MessageBoxButton.OK, MessageBoxImage.Error);
                             return -1;
                         }
                         string location = this.location.Text;
-                        Debug.WriteLine($"{StartEvent}-{EndEvent}-{location}");
+                        Debug.WriteLine($"{startEvent}-{endEvent}-{location}");
 
-                        var note2 = _context.Events.Where(nt => nt.Id == (int)NoteId).First<Event>();
-                        note2.Name = name;
-                        note2.Tags = tags;
-                        note2.StartDate = (DateTime)StartEvent;
-                        note2.EndDate = (DateTime)EndEvent;
-                        note2.Location = location;
-                        note2.Pinned = Pin;
-                        note2.DeadlineNotification = true;
-                        note2.DeadlineNotification = true;
+                        var note2 = _context.Events.Where(nt => nt.Id == (int)NoteId).First();
+                        note2.Update(name, tags, pin, (DateTime)startEvent, (DateTime)endEvent, location);
                     }
                     break;
 
-                case 2: //podsjetnik
+                case 2: // reminder
                     if (!editing)
                     {
-
-
                         var dueDate = ReminderDuePick.SelectedDate;
                         if (dueDate is not DateTime)
                         {
@@ -446,6 +422,7 @@ namespace TaskSharp
                         }
                         int PriorityIndex = PriorityMenuPick.SelectedIndex;
                         ReminderPriority priority = (ReminderPriority)PriorityIndex;
+
                         Debug.WriteLine($"{dueDate}-{priority}");
                         Reminder newReminder = new Reminder
                         {
@@ -455,14 +432,13 @@ namespace TaskSharp
                             Tags = tags,
                             Priority = priority,
                             DueDate = (DateTime)dueDate,
-                            Pinned = Pin,
+                            Pinned = pin,
                             Notification = true
                         };
                         _context.Reminders.Add(newReminder);
                     }
                     else
                     {
-
                         var dueDate = ReminderDuePick.SelectedDate;
                         if (dueDate is not DateTime)
                         {
@@ -475,27 +451,22 @@ namespace TaskSharp
                         Debug.WriteLine($"{dueDate}-{priority}");
 
 
-                        var note3 = _context.Reminders.Where(nt => nt.Id == (int)NoteId).First<Reminder>();
-                        note3.Name = name;
-                        note3.Tags = tags;
-                        note3.Pinned = Pin;
-                        note3.Priority = priority;
-                        note3.DueDate = (DateTime)dueDate;
-                        note3.Notification = true;
+                        var note3 = _context.Reminders.Where(nt => nt.Id == (int)NoteId).First();
+                        note3.Update(name, tags, pin, (DateTime)dueDate, priority);
                     }
                     break;
 
-                case 3://todo
+                case 3: // todo
                     if (!editing)
                     {
                         Debug.WriteLine("not editing todo");
                         var todos = TodoList.Children;
-                        Dictionary<string, bool> TodoDict = new();
+                        Dictionary<string, bool> todoDict = new();
                         foreach (var child in todos)
                         {
                             Debug.WriteLine(child);
                             var todo = ((child as Border).Child as StackPanel).Children;
-                            TodoDict[(todo[0] as TextBox).Text] = false;
+                            todoDict[(todo[0] as TextBox).Text] = false;
 
                             if ((todo[0] as TextBox).Text == "")
                             {
@@ -509,8 +480,8 @@ namespace TaskSharp
                             Name = name,
                             CreationDate = dateCreate,
                             Tags = tags,
-                            Todos = JsonSerializer.Serialize(TodoDict),
-                            Pinned = Pin,
+                            Todos = JsonSerializer.Serialize(todoDict),
+                            Pinned = pin,
                             Done = false
                         };
                         _context.TodoLists.Add(newTodoList);
@@ -520,7 +491,7 @@ namespace TaskSharp
                         Debug.WriteLine("editing todo");
                         var todos = TodoList.Children;
 
-                        Dictionary<string, bool> TodoDict = new();
+                        Dictionary<string, bool> todoDict = new();
 
                         if (todoNums.Count != 0)
                         {
@@ -529,7 +500,7 @@ namespace TaskSharp
 
                                 Debug.WriteLine("todo stavka");
                                 var todo = ((child as Border).Child as StackPanel).Children;
-                                TodoDict[(todo[0] as TextBox).Text] = false;
+                                todoDict[(todo[0] as TextBox).Text] = false;
                                 if ((todo[0] as TextBox).Text == "")
                                 {
                                     MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -537,12 +508,8 @@ namespace TaskSharp
                                 }
                             }
 
-                            var note4 = _context.TodoLists.Where(nt => nt.Id == (int)NoteId).First<TodoList>();
-                            note4.Name = name;
-                            note4.Tags = tags;
-                            note4.Todos = JsonSerializer.Serialize(TodoDict);
-                            note4.Pinned = Pin;
-                            note4.Done = false;
+                            var note4 = _context.TodoLists.Where(nt => nt.Id == (int)NoteId).First();
+                            note4.Update(name, tags, pin, JsonSerializer.Serialize(todoDict), false);
                         }
                         else
                         {
@@ -552,12 +519,12 @@ namespace TaskSharp
                     }
                     break;
             }
+
             _context.SaveChanges();
             if (!editing)
                 MessageBox.Show("Zapis uspješno stvoren!", "Stvaranje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
             else
                 MessageBox.Show("Zapis uspješno uređen!", "Uređivanje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
-
             return 0;
             //this.Close();
         }
@@ -611,11 +578,79 @@ namespace TaskSharp
             if (x == -1)
             {
                 diHost.IsOpen = true;
-
             }
+            else
+            {
+                diHost.IsOpen = false;
+                CleanAddNote();
+                editing = false;
 
-            else { diHost.IsOpen = false; CleanAddNote(); editing = false; }
+                int noteType = (int)Application.Current.Properties["noteType"];
+                var uid = (int)Application.Current.Properties["uid"];
+
+                switch (noteType)
+                {// refresh notes immediately after creating or editing them
+                    case 0:
+                        _context.Notes.Load();
+                        var notes = _context.Notes
+                            .Where(x => x.UserId == uid)
+                            .OrderByDescending(x => x.Pinned)
+                            .ThenByDescending(x => x.CreationDate)
+                            .ToList();
+
+                        TextboxTheme.CallNoteRefresher(notes);
+                        break;
+
+                    case 1:
+                        _context.Events.Load();
+
+                        var upcomingEvents = _context.Events
+                            .Where(x => x.UserId == uid && x.EndDate >= DateTime.Today)
+                            .OrderByDescending(x => x.Pinned)
+                            .ThenBy(x => x.EndDate)
+                            .ToList();
+                        var expiredEvents = _context.Events
+                            .Where(x => x.UserId == uid && x.EndDate < DateTime.Today)
+                            .OrderByDescending(x => x.EndDate)
+                            .ToList();
+
+                        TextboxTheme.CallEventRefresher(upcomingEvents, expiredEvents);
+                        break;
+
+                    case 2:
+                        _context.Reminders.Load();
+
+                        var upcomingReminders = _context.Reminders
+                            .Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
+                            .OrderByDescending(x => x.Pinned)
+                            .ThenBy(x => x.Priority)
+                            .ThenBy(x => x.DueDate)
+                            .ToList();
+                        var expiredReminders = _context.Reminders
+                        .Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
+                        .OrderByDescending(x => x.DueDate)
+                        .ToList();
+
+                        TextboxTheme.CallReminderRefresher(upcomingReminders, expiredReminders);
+                        break;
+
+                    case 3:
+                        _context.TodoLists.Load();
+
+                        var undoneTodos = _context.TodoLists
+                            .Where(x => x.UserId == uid && x.Done == false)
+                            .OrderByDescending(x => x.Pinned)
+                            .ToList();
+                        var doneTodos = _context.TodoLists
+                            .Where(x => x.UserId == uid && x.Done == true)
+                            .ToList();
+
+                        TextboxTheme.CallTodoRefresher(undoneTodos, doneTodos);
+                        break;
+                }
+            }
         }
+
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             diHost.IsOpen = false;
@@ -623,17 +658,15 @@ namespace TaskSharp
             editing = false;
         }
 
-
-
-        private void edit()
+        private void Edit()
         {
             Debug.WriteLine("edit pozvan");
             editing = true;
             int NoteId = (int)Application.Current.Properties["noteId"];
             int NoteType = (int)Application.Current.Properties["noteType"];
+
             switch (NoteType)
             {
-
                 case 0:
                     var temp1 = _context.Notes.Where(nt => nt.Id == NoteId).First();
                     NoteContent.Visibility = Visibility.Visible;
@@ -752,8 +785,6 @@ namespace TaskSharp
                     Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
                 };
 
-
-
                 stk.Children.Add(txt);
                 stk.Children.Add(sep);
                 stk.Children.Add(img);
@@ -766,12 +797,10 @@ namespace TaskSharp
             }
         }
 
+        private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _context.Dispose();
+        }
     }
-
-
-
-
-
-
 }
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using TaskSharp.Classes;
@@ -12,28 +11,28 @@ namespace TaskSharp.Themes
 
         public delegate void NotesHandler(List<Note> x);
         public static event NotesHandler calledNote;
-        private void CallNoteRefresher(List<Note> x)
+        public static void CallNoteRefresher(List<Note> x)
         {
             calledNote?.Invoke(x);
         }
 
         public delegate void EventsHandler(List<Event> x, List<Event> y);
         public static event EventsHandler calledEvent;
-        private void CallEventRefresher(List<Event> x, List<Event> y)
+        public static void CallEventRefresher(List<Event> x, List<Event> y)
         {
             calledEvent?.Invoke(x, y);
         }
 
         public delegate void RemindersHandler(List<Reminder> x, List<Reminder> y);
         public static event RemindersHandler calledReminder;
-        private void CallReminderRefresher(List<Reminder> x, List<Reminder> y)
+        public static void CallReminderRefresher(List<Reminder> x, List<Reminder> y)
         {
             calledReminder?.Invoke(x, y);
         }
 
         public delegate void TodosHandler(List<TodoList> x, List<TodoList> y);
         public static event TodosHandler calledTodo;
-        private void CallTodoRefresher(List<TodoList> x, List<TodoList> y)
+        public static void CallTodoRefresher(List<TodoList> x, List<TodoList> y)
         {
             calledTodo?.Invoke(x, y);
         }
@@ -42,10 +41,10 @@ namespace TaskSharp.Themes
         {
             // KeyEventArgs e
             //if (e.Key == Key.Return)
-
+            _context.Database.EnsureCreated();
             int noteType = (int)Application.Current.Properties["noteType"];
             var uid = (int)Application.Current.Properties["uid"];
-            string text = (sender as TextBox).Text;           
+            string text = (sender as TextBox).Text;        
 
             switch (noteType)
             {

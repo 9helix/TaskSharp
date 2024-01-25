@@ -58,7 +58,7 @@ namespace SideBar_Nav.Pages
             var uid = (int)Application.Current.Properties["uid"];
             var note = _context.Notes.Where(x => x.UserId == uid && x.Id == noteID).First();
 
-            note.Pinned = !note.Pinned;
+            note.PinUnpin();
             _context.SaveChanges();
 
             var notes = _context.Notes.Where(x => x.UserId == uid)
@@ -76,8 +76,9 @@ namespace SideBar_Nav.Pages
             Application.Current.Properties["noteType"] = 0;
             Application.Current.Properties["noteId"] = noteID;
 
-            callEditNote.Invoke();/*
-            var noteEdit = new NoteEdit();
+            callEditNote?.Invoke();
+
+            /*var noteEdit = new NoteEdit();
             noteEdit.Show();
             
             var wnd = Window.GetWindow(this);
@@ -105,11 +106,6 @@ namespace SideBar_Nav.Pages
                     .ToList();
                 RefreshNotes(notes);
             }
-        }
-
-        private void Notes_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _context.Dispose();
         }
     }
 }

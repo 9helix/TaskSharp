@@ -15,7 +15,6 @@ namespace SideBar_Nav.Pages
     {
         private readonly NotesContext _context =
             new NotesContext();
-
         public Page3()
         {
             InitializeComponent();
@@ -101,7 +100,7 @@ namespace SideBar_Nav.Pages
             var uid = (int)Application.Current.Properties["uid"];
             var reminder = _context.Reminders.Where(x => x.UserId == uid && x.Id == reminderID).First();
 
-            reminder.Pinned = !reminder.Pinned;
+            reminder.PinUnpin();
             _context.SaveChanges();
 
             var upcomingReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
@@ -123,7 +122,7 @@ namespace SideBar_Nav.Pages
             Application.Current.Properties["noteType"] = 2;
             Application.Current.Properties["noteId"] = reminderID;
 
-            callEditReminder.Invoke();
+            callEditReminder?.Invoke();
             /*
             var reminderEdit = new NoteEdit();
             reminderEdit.Show();
@@ -157,11 +156,6 @@ namespace SideBar_Nav.Pages
                     .ToList();
                 RefreshReminders(upcomingReminders, expiredReminders);
             }
-        }
-
-        private void Reminders_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _context.Dispose();
         }
     }
 }

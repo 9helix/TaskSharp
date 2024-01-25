@@ -109,7 +109,7 @@
                             Foreground="{StaticResource TextColor}"
                             TextAlignment="Center"
                             TextTrimming="CharacterEllipsis">
-                            Korisnik:<Run Name="userChip" FontWeight="Bold" />
+                            Korisnik: <Run Name="userChip" FontWeight="Bold" />
                         </TextBlock>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 

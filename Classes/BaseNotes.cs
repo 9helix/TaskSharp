@@ -1,6 +1,10 @@
-﻿using Notification.Wpf;
+﻿using Microsoft.EntityFrameworkCore.Update.Internal;
+using Microsoft.VisualBasic;
+using Notification.Wpf;
+using System.Net.NetworkInformation;
 using System.Text.Json;
 using System.Windows.Media;
+using System.Xml.Linq;
 
 namespace TaskSharp.Classes
 {
@@ -20,11 +24,24 @@ namespace TaskSharp.Classes
         // foreign key on User
         public int UserId { get; set; }
         public User User { get; set; }
+
+        public void PinUnpin()
+        {
+            Pinned = !Pinned;
+        }
     }
 
     public class Note : BaseNote
     {
         public string Content { get; set; }
+
+        public void Update(string name, string tags, bool pin, string content)
+        {
+            Name = name;
+            Tags = tags;
+            Pinned = pin;
+            Content = content;   
+        }
     }
 
     public class Event : BaseNote
@@ -34,6 +51,18 @@ namespace TaskSharp.Classes
         public string Location { get; set; }
         public bool DeadlineNotification { get; set; }
         public bool ExpiredNotification { get; set; }
+
+        public void Update(string name, string tags, bool pin, DateTime startDate, DateTime endDate, string location)
+        {
+            Name = name;
+            Tags = tags;
+            Pinned = pin;
+            DeadlineNotification = true;
+            StartDate = startDate;
+            EndDate = endDate;
+            Location = location;
+            ExpiredNotification = true;
+        }
 
         public void NotificationChecker(bool isDeadline)
         {
@@ -80,6 +109,16 @@ namespace TaskSharp.Classes
         public ReminderPriority Priority { get; set; }
         public bool Notification { get; set; }
 
+        public void Update(string name, string tags, bool pin, DateTime dueDate, ReminderPriority priority)
+        {
+            Name = name;
+            Tags = tags;
+            Pinned = pin;
+            DueDate = dueDate;
+            Priority = priority;
+            Notification = true;
+        }
+
         public void NotificationChecker()
         {
             if (Notification && (DueDate == DateTime.Today))
@@ -104,6 +143,15 @@ namespace TaskSharp.Classes
     {
         public string Todos { get; set; }
         public bool Done { get; set; }
+
+        public void Update(string name, string tags, bool pin, string todos, bool done)
+        {
+            Name = name;
+            Tags = tags;
+            Pinned = pin;
+            Todos = todos;
+            Done = done;
+        }
 
         public void CheckUncheck(string todoID)
         {

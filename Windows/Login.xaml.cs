@@ -11,8 +11,7 @@ namespace TaskSharp
     /// </summary>
     public partial class Login : Window
     {
-        private readonly NotesContext _context =
-    new NotesContext();
+        private readonly NotesContext _context = new();
         bool registration = false;
 
         public Login()
@@ -56,7 +55,8 @@ namespace TaskSharp
             txtConf.Visibility = Visibility.Collapsed;
             registration = !registration;
         }
-        private void secondBtn_Click(object sender, RoutedEventArgs e)
+
+        private void SecondBtn_Click(object sender, RoutedEventArgs e)
         {
             if (!registration)
             {
@@ -73,10 +73,9 @@ namespace TaskSharp
             {
                 LoginSwitch();
             }
-
         }
 
-        private void firstBtn_Click(object sender, RoutedEventArgs e)
+        private void FirstBtn_Click(object sender, RoutedEventArgs e)
         {
             string username = txtUser.Text;
 
@@ -120,8 +119,8 @@ namespace TaskSharp
                         };
                         _context.Users.Add(newUser);
                         _context.SaveChanges();
-                        MessageBox.Show("Registracija uspješna!", "Registracija", MessageBoxButton.OK, MessageBoxImage.Information);
 
+                        MessageBox.Show("Registracija uspješna!", "Registracija", MessageBoxButton.OK, MessageBoxImage.Information);
                         LoginSwitch();
                     }
                     else
@@ -155,7 +154,7 @@ namespace TaskSharp
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start(new ProcessStartInfo
+            Process.Start(new ProcessStartInfo
             {
                 FileName = e.Uri.AbsoluteUri,
                 UseShellExecute = true

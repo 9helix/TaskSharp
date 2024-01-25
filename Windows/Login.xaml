@@ -62,9 +62,9 @@
                 </PasswordBox>
 
 
-                <Button IsDefault="True" Click="firstBtn_Click" Margin="0,30,0,0" x:Name="firstBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="45" Width="230" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Prijava"/>
+                <Button IsDefault="True" Click="FirstBtn_Click" Margin="0,30,0,0" x:Name="firstBtn" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="45" Width="230" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Prijava"/>
 
-                <Button Click="secondBtn_Click" Margin="0,10,0,0" x:Name="secondBtn" Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="40" Width="230" materialDesign:ButtonAssist.CornerRadius="10" FontSize="16" Content="Stvorite račun" />
+                <Button Click="SecondBtn_Click" Margin="0,10,0,0" x:Name="secondBtn" Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="40" Width="230" materialDesign:ButtonAssist.CornerRadius="10" FontSize="16" Content="Stvorite račun" />
 
                 <Separator Height="15" Width="120" Background="Transparent"/>
                 <TextBlock HorizontalAlignment="Center" Padding="0,0,0,5">

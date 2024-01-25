@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Notification.Wpf;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using TaskSharp;
 using TaskSharp.Classes;
 using TaskSharp.Themes;
@@ -89,7 +87,7 @@ namespace SideBar_Nav.Pages
                 }
             }
         }
- 
+
         private void Events_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
@@ -115,7 +113,7 @@ namespace SideBar_Nav.Pages
             var uid = (int)Application.Current.Properties["uid"];
             var ev = _context.Events.Where(x => x.UserId == uid && x.Id == eventID).First();
 
-            ev.Pinned = !ev.Pinned;
+            ev.PinUnpin();
             _context.SaveChanges();
 
             var upcomingEvents = _context.Events
@@ -138,7 +136,7 @@ namespace SideBar_Nav.Pages
             Application.Current.Properties["noteType"] = 1;
             Application.Current.Properties["noteId"] = eventID;
 
-            callEditEvent.Invoke();
+            callEditEvent?.Invoke();
             /*var eventEdit = new NoteEdit();
             eventEdit.Show();
 
@@ -170,11 +168,6 @@ namespace SideBar_Nav.Pages
                     .ToList();
                 RefreshEvents(upcomingEvents, expiredEvents);
             }
-        }
-
-        private void Events_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _context.Dispose();
         }
     }
 }

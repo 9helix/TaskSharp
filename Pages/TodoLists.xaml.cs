@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using TaskSharp;
 using TaskSharp.Classes;
+using TaskSharp.Windows;
 using TaskSharp.Themes;
 
 namespace SideBar_Nav.Pages
@@ -86,7 +87,7 @@ namespace SideBar_Nav.Pages
             var uid = (int)Application.Current.Properties["uid"];
             var todo = _context.TodoLists.Where(x => x.UserId == uid && x.Id == todoID).First();
 
-            todo.Pinned = !todo.Pinned;
+            todo.PinUnpin();
             _context.SaveChanges();
 
             var undoneTodos = _context.TodoLists.Where(x => x.UserId == uid && x.Done == false)
@@ -97,17 +98,19 @@ namespace SideBar_Nav.Pages
             RefreshTodos(undoneTodos, doneTodos);
         }
 
+        public delegate void EditHandlerTodo();
+        public static event EditHandlerTodo callEditTodo;
         private void OpenEditor(object sender, MouseButtonEventArgs e)
         {
-            var todoID = ((Image)sender).Tag;
-            Application.Current.Properties["noteType"] = 3;
+            var todoID = (int)((Image)sender).Tag;
             Application.Current.Properties["noteId"] = todoID;
-
-            var todoEdit = new NoteEdit();
-            todoEdit.Show();
+            callEditTodo?.Invoke();
+            /*
+            var todoView = new TodoViewer();
+            todoView.Show();
 
             var wnd = Window.GetWindow(this);
-            wnd.Close();
+            wnd.Close();*/
         }
 
         private void DeleteTodo(object sender, MouseButtonEventArgs e)
@@ -116,10 +119,10 @@ namespace SideBar_Nav.Pages
 
             if (choice == MessageBoxResult.Yes)
             {
-                var TodoID = (int)((Image)sender).Tag;
+                var todoID = (int)((Image)sender).Tag;
                 var uid = (int)Application.Current.Properties["uid"];
 
-                var todo = _context.TodoLists.Where(x => x.UserId == uid && x.Id == TodoID).First();
+                var todo = _context.TodoLists.Where(x => x.UserId == uid && x.Id == todoID).First();
                 _context.TodoLists.Remove(todo);
                 _context.SaveChanges();
 
@@ -133,24 +136,17 @@ namespace SideBar_Nav.Pages
                 RefreshTodos(undoneTodos, doneTodos);
             }
         }
-        public delegate void EditHandlerTodo();
-        public static event EditHandlerTodo callEditTodo;
+        
         private void ViewTodo(object sender, MouseButtonEventArgs e)
         {
             var todoID = (int)((StackPanel)sender).Tag;
             Application.Current.Properties["noteId"] = todoID;
-            callEditTodo.Invoke();
-            /*
+ 
             var todoView = new TodoViewer();
             todoView.Show();
 
             var wnd = Window.GetWindow(this);
-            wnd.Close();*/
-        }
-
-        private void Todos_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _context.Dispose();
+            wnd.Close();
         }
     }
 }

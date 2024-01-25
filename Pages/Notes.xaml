@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:SideBar_Nav.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Bilješke" Loaded="Notes_Loaded" Unloaded="Notes_Unloaded">
+      Title="Bilješke" Loaded="Notes_Loaded">
     <Page.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource TextColor}" />
