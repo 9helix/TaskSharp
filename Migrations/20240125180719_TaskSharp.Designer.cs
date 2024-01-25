@@ -11,8 +11,8 @@ using TaskSharp;
 namespace TaskSharp.Migrations
 {
     [DbContext(typeof(NotesContext))]
-    [Migration("20240124164220_Migration1")]
-    partial class Migration1
+    [Migration("20240125180719_TaskSharp")]
+    partial class TaskSharp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

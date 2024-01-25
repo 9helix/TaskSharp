@@ -6,6 +6,12 @@
         public string UserName { get; set; }
         public string Password { get; set; }
 
+        public User(string UserName, string Password) {
+            this.UserName = UserName;
+            this.Password = Password;
+             
+        }
+
         // Collection navigation containing notes
         public ICollection<Note> Notes { get; } = new List<Note>();
 

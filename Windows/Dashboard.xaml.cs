@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using SideBar_Nav.Pages;
 using System.Diagnostics;
 using System.Text.Json;
@@ -296,7 +295,6 @@ namespace TaskSharp
             int x = SaveNote();
             if (x == -1)
                 diHost.IsOpen = true;
-
         }
 
         private int SaveNote()
@@ -327,15 +325,7 @@ namespace TaskSharp
                             MessageBox.Show("Sadržaj ne smije biti prazan.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
                             return -1;
                         }
-                        Note newNote = new Note
-                        {
-                            UserId = uid,
-                            Name = name,
-                            CreationDate = dateCreate,
-                            Tags = tags,
-                            Content = content,
-                            Pinned = pin
-                        };
+                        Note newNote = new(dateCreate, name, tags, pin, uid, content);
                         _context.Notes.Add(newNote);
                     }
                     else
@@ -372,19 +362,7 @@ namespace TaskSharp
                         string location = this.location.Text;
                         Debug.WriteLine($"{startEvent}-{endEvent}-{location}");
 
-                        Event newEvent = new Event
-                        {
-                            UserId = uid,
-                            Name = name,
-                            CreationDate = dateCreate,
-                            Tags = tags,
-                            StartDate = (DateTime)startEvent,
-                            EndDate = (DateTime)endEvent,
-                            Location = location,
-                            Pinned = pin,
-                            DeadlineNotification = true,
-                            ExpiredNotification = true
-                        };
+                        Event newEvent = new(dateCreate, name, tags, pin, uid, (DateTime)startEvent, (DateTime)endEvent, location);    
                         _context.Events.Add(newEvent);
                     }
                     else
@@ -424,17 +402,7 @@ namespace TaskSharp
                         ReminderPriority priority = (ReminderPriority)PriorityIndex;
 
                         Debug.WriteLine($"{dueDate}-{priority}");
-                        Reminder newReminder = new Reminder
-                        {
-                            UserId = uid,
-                            Name = name,
-                            CreationDate = dateCreate,
-                            Tags = tags,
-                            Priority = priority,
-                            DueDate = (DateTime)dueDate,
-                            Pinned = pin,
-                            Notification = true
-                        };
+                        Reminder newReminder = new(dateCreate, name, tags, pin, uid, (DateTime)dueDate, priority);               
                         _context.Reminders.Add(newReminder);
                     }
                     else
@@ -449,7 +417,6 @@ namespace TaskSharp
                         int PriorityIndex = PriorityMenuPick.SelectedIndex;
                         ReminderPriority priority = (ReminderPriority)PriorityIndex;
                         Debug.WriteLine($"{dueDate}-{priority}");
-
 
                         var note3 = _context.Reminders.Where(nt => nt.Id == (int)NoteId).First();
                         note3.Update(name, tags, pin, (DateTime)dueDate, priority);
@@ -474,16 +441,8 @@ namespace TaskSharp
                                 return -1;
                             }
                         }
-                        TodoList newTodoList = new TodoList
-                        {
-                            UserId = uid,
-                            Name = name,
-                            CreationDate = dateCreate,
-                            Tags = tags,
-                            Todos = JsonSerializer.Serialize(todoDict),
-                            Pinned = pin,
-                            Done = false
-                        };
+
+                        TodoList newTodoList = new(dateCreate, name, tags, pin, uid, JsonSerializer.Serialize(todoDict));
                         _context.TodoLists.Add(newTodoList);
                     }
                     else

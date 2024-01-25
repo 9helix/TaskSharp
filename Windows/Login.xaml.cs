@@ -112,11 +112,8 @@ namespace TaskSharp
                     var usernames = _context.Users.Select(usr => usr.UserName).ToList();
                     if (!usernames.Contains(txtUser.Text))
                     {
-                        var newUser = new User
-                        {
-                            UserName = txtUser.Text,
-                            Password = txtPass.Password
-                        };
+                        User newUser = new(txtUser.Text, txtPass.Password);
+                        
                         _context.Users.Add(newUser);
                         _context.SaveChanges();
 

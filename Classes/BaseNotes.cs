@@ -1,10 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Update.Internal;
-using Microsoft.VisualBasic;
-using Notification.Wpf;
-using System.Net.NetworkInformation;
+﻿using Notification.Wpf;
 using System.Text.Json;
 using System.Windows.Media;
-using System.Xml.Linq;
 
 namespace TaskSharp.Classes
 {
@@ -15,6 +11,14 @@ namespace TaskSharp.Classes
 
     public abstract class BaseNote
     {
+        public BaseNote (DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId) {
+            this.CreationDate = CreationDate;
+            this.Name = Name;
+            this.Tags = Tags;
+            this.Pinned = Pinned;
+            this.UserId = UserId;
+        }
+
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
         public string Name { get; set; }
@@ -33,6 +37,11 @@ namespace TaskSharp.Classes
 
     public class Note : BaseNote
     {
+        public Note(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, string Content) :base (CreationDate, Name, Tags, Pinned, UserId)
+        {
+            this.Content = Content;
+        }
+
         public string Content { get; set; }
 
         public void Update(string name, string tags, bool pin, string content)
@@ -46,6 +55,15 @@ namespace TaskSharp.Classes
 
     public class Event : BaseNote
     {
+        public Event(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, DateTime StartDate, DateTime EndDate, string Location) : base(CreationDate, Name, Tags, Pinned, UserId)
+        {
+            this.StartDate = StartDate;
+            this.EndDate = EndDate;
+            this.Location = Location;
+            ExpiredNotification = true;
+            DeadlineNotification = true;
+        }
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Location { get; set; }
@@ -105,6 +123,13 @@ namespace TaskSharp.Classes
 
     public class Reminder : BaseNote
     {
+        public Reminder(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, DateTime DueDate, ReminderPriority Priority) : base(CreationDate, Name, Tags, Pinned, UserId)
+        {
+            this.DueDate = DueDate;
+            this.Priority = Priority;
+            Notification = true;
+        }
+
         public DateTime DueDate { get; set; }
         public ReminderPriority Priority { get; set; }
         public bool Notification { get; set; }
@@ -141,6 +166,12 @@ namespace TaskSharp.Classes
 
     public class TodoList : BaseNote
     {
+        public TodoList(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, string Todos) : base(CreationDate, Name, Tags, Pinned, UserId)
+        {
+            this.Todos = Todos;
+            Done = false;
+        }
+
         public string Todos { get; set; }
         public bool Done { get; set; }
 
