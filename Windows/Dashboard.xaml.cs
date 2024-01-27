@@ -30,7 +30,7 @@ namespace TaskSharp
             Page2.callEditEvent += Edit;
             Page3.callEditReminder += Edit;
             Page4.callEditTodo += Edit;
-            Page4.callTodoViewerEvent += ViewTodo;
+            Page4.callTodoViewer += ViewTodo;
         }
 
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
@@ -873,11 +873,6 @@ namespace TaskSharp
                 todoElements.Children.Add(stk);
             }
             Application.Current.Properties["isSaveNote"] = false;
-        }
-
-        private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            _context.Dispose();
         }
     }
 }

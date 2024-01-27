@@ -9,7 +9,6 @@
         public User(string UserName, string Password) {
             this.UserName = UserName;
             this.Password = Password;
-             
         }
 
         // Collection navigation containing notes

@@ -1,5 +1,4 @@
 ﻿using Notification.Wpf;
-using System.Text.Json;
 using System.Windows.Media;
 
 namespace TaskSharp.Classes

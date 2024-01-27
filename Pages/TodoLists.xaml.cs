@@ -5,8 +5,6 @@ using System.Windows.Input;
 using TaskSharp;
 using TaskSharp.Classes;
 using TaskSharp.Themes;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace SideBar_Nav.Pages
 {
@@ -138,13 +136,13 @@ namespace SideBar_Nav.Pages
         }
 
         public delegate void TodoViewerEvent();
-        public static event TodoViewerEvent callTodoViewerEvent;
+        public static event TodoViewerEvent callTodoViewer;
         private void ViewTodo(object sender, MouseButtonEventArgs e)
         {
             var todoID = ((StackPanel)sender).Tag;
             Application.Current.Properties["noteId"] = todoID;
 
-            callTodoViewerEvent?.Invoke();
+            callTodoViewer?.Invoke();
         }
     }
 }
