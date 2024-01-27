@@ -223,6 +223,7 @@
                             </ComboBox>
                             <Separator Width="150" Height="40" />
                             <StackPanel
+                                Name="NoteName"
                                 Margin="0,0,0,5"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
@@ -234,6 +235,7 @@
                             </StackPanel>
 
                             <StackPanel
+                                Name="Tags"
                                 Margin="0,0,0,5"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
@@ -245,6 +247,7 @@
                             </StackPanel>
 
                             <StackPanel
+                                Name="Flag"
                                 Margin="0,0,0,5"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
@@ -339,6 +342,48 @@
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
+                            <StackPanel
+                                Name="todoName"
+                                Margin="0,0,0,5"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Visibility="Collapsed">
+                                <TextBlock Padding="0,0,5,0">Naziv: </TextBlock>
+                                <TextBlock Padding="0,0,5,0" Name="tdName" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel
+                                Name="todoCreationDate"
+                                Margin="0,0,0,5"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Visibility="Collapsed">
+                                <TextBlock Padding="0,0,5,0">Datum stvaranja:</TextBlock>
+                                <TextBlock Padding="0,0,5,0" Name="tdCreationDate" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel
+                                Name="todoTags"
+                                Margin="0,0,0,8"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Visibility="Collapsed">
+                                <TextBlock Padding="0,0,5,0">Oznake: </TextBlock>
+                                <TextBlock Padding="0,0,5,0" Name="tdTags" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel
+                                Name="elements"
+                                Margin="0,0,0,7"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Visibility="Collapsed">
+                                <TextBlock Margin="0,0,5,0">Stavke:</TextBlock>
+                            </StackPanel>
+                            <StackPanel
+                                Name="todoElements"
+                                Margin="0,0,0,5"
+                                HorizontalAlignment="Center"
+                                Orientation="Vertical"
+                                Visibility="Collapsed"/>
+
                             <Button Margin="0,10,0,0" Name="todoBtn" Click="AddTodo" Visibility="Collapsed" Background="#4f80ff" BorderBrush="#4f80ff" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}" ToolTip="Dodaj Todo stavku" ToolTipService.InitialShowDelay="500">
                                 <materialDesign:PackIcon
                                     Width="20"

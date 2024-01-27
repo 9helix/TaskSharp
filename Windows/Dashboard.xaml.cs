@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Notification.Wpf;
 using SideBar_Nav.Pages;
 using System.Diagnostics;
 using System.Text.Json;
@@ -29,6 +30,7 @@ namespace TaskSharp
             Page2.callEditEvent += Edit;
             Page3.callEditReminder += Edit;
             Page4.callEditTodo += Edit;
+            Page4.callTodoViewerEvent += ViewTodo;
         }
 
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
@@ -236,6 +238,16 @@ namespace TaskSharp
         bool editing = false;
         private void ToggleFields(int type)
         {
+            NoteName.Visibility = Visibility.Visible;
+            Tags.Visibility = Visibility.Visible;
+            Flag.Visibility = Visibility.Visible;
+
+            todoName.Visibility = Visibility.Collapsed;
+            todoCreationDate.Visibility = Visibility.Collapsed;
+            todoTags.Visibility = Visibility.Collapsed;
+            elements.Visibility = Visibility.Collapsed;
+            todoElements.Visibility = Visibility.Collapsed;
+
             if (type != 0)
             {
                 NoteContent.Visibility = Visibility.Collapsed;
@@ -312,7 +324,7 @@ namespace TaskSharp
             Debug.WriteLine($"{name}-{tags}-{pin}");
             DateTime dateCreate = DateTime.Now;
             int uid = (int)Application.Current.Properties["uid"];
-            var NoteId = Application.Current.Properties["noteId"];
+            var noteId = Application.Current.Properties["noteId"];
             switch (index)
             {
                 case 0: // note
@@ -338,7 +350,7 @@ namespace TaskSharp
                             return -1;
                         }
 
-                        var note1 = _context.Notes.Where(nt => nt.Id == (int)NoteId).First();
+                        var note1 = _context.Notes.Where(nt => nt.Id == (int)noteId).First();
                         note1.Update(name, tags, pin, content);
                     }
                     break;
@@ -384,7 +396,7 @@ namespace TaskSharp
                         string location = this.location.Text;
                         Debug.WriteLine($"{startEvent}-{endEvent}-{location}");
 
-                        var note2 = _context.Events.Where(nt => nt.Id == (int)NoteId).First();
+                        var note2 = _context.Events.Where(nt => nt.Id == (int)noteId).First();
                         note2.Update(name, tags, pin, (DateTime)startEvent, (DateTime)endEvent, location);
                     }
                     break;
@@ -418,7 +430,7 @@ namespace TaskSharp
                         ReminderPriority priority = (ReminderPriority)PriorityIndex;
                         Debug.WriteLine($"{dueDate}-{priority}");
 
-                        var note3 = _context.Reminders.Where(nt => nt.Id == (int)NoteId).First();
+                        var note3 = _context.Reminders.Where(nt => nt.Id == (int)noteId).First();
                         note3.Update(name, tags, pin, (DateTime)dueDate, priority);
                     }
                     break;
@@ -467,7 +479,7 @@ namespace TaskSharp
                                 }
                             }
 
-                            var note4 = _context.TodoLists.Where(nt => nt.Id == (int)NoteId).First();
+                            var note4 = _context.TodoLists.Where(nt => nt.Id == (int)noteId).First();
                             note4.Update(name, tags, pin, JsonSerializer.Serialize(todoDict), false);
                         }
                         else
@@ -487,6 +499,7 @@ namespace TaskSharp
             return 0;
             //this.Close();
         }
+
         private void CleanAddNote()
         {
             note_name.Text = "";
@@ -500,12 +513,10 @@ namespace TaskSharp
             (PriorityMenuPick.Items[0] as ComboBoxItem).IsSelected = true;
 
             TodoList.Children.Clear();
+            todoElements.Children.Clear();
 
             todoNums = new List<int> { 1 };
-            StackPanel stk = new StackPanel
-            {
-
-            };
+            StackPanel stk = new();
 
             TextBox txt = new TextBox
             {
@@ -528,86 +539,76 @@ namespace TaskSharp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.Properties["isSaveNote"] = true;
             diHost.IsOpen = true;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            int x = SaveNote();
-            if (x == -1)
+            var isSaveNote = (bool)Application.Current.Properties["isSaveNote"];
+            var uid = (int)Application.Current.Properties["uid"];
+            var noteType = (int)Application.Current.Properties["noteType"];
+
+            if (isSaveNote) // if note was created or edited
             {
-                diHost.IsOpen = true;
-            }
-            else
-            {
-                diHost.IsOpen = false;
-                CleanAddNote();
-                editing = false;
-
-                int noteType = (int)Application.Current.Properties["noteType"];
-                var uid = (int)Application.Current.Properties["uid"];
-
-                switch (noteType)
-                {// refresh notes immediately after creating or editing them
-                    case 0:
-                        _context.Notes.Load();
-                        var notes = _context.Notes
-                            .Where(x => x.UserId == uid)
-                            .OrderByDescending(x => x.Pinned)
-                            .ThenByDescending(x => x.CreationDate)
-                            .ToList();
-
-                        TextboxTheme.CallNoteRefresher(notes);
-                        break;
-
-                    case 1:
-                        _context.Events.Load();
-
-                        var upcomingEvents = _context.Events
-                            .Where(x => x.UserId == uid && x.EndDate >= DateTime.Today)
-                            .OrderByDescending(x => x.Pinned)
-                            .ThenBy(x => x.EndDate)
-                            .ToList();
-                        var expiredEvents = _context.Events
-                            .Where(x => x.UserId == uid && x.EndDate < DateTime.Today)
-                            .OrderByDescending(x => x.EndDate)
-                            .ToList();
-
-                        TextboxTheme.CallEventRefresher(upcomingEvents, expiredEvents);
-                        break;
-
-                    case 2:
-                        _context.Reminders.Load();
-
-                        var upcomingReminders = _context.Reminders
-                            .Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
-                            .OrderByDescending(x => x.Pinned)
-                            .ThenBy(x => x.Priority)
-                            .ThenBy(x => x.DueDate)
-                            .ToList();
-                        var expiredReminders = _context.Reminders
-                        .Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
-                        .OrderByDescending(x => x.DueDate)
-                        .ToList();
-
-                        TextboxTheme.CallReminderRefresher(upcomingReminders, expiredReminders);
-                        break;
-
-                    case 3:
-                        _context.TodoLists.Load();
-
-                        var undoneTodos = _context.TodoLists
-                            .Where(x => x.UserId == uid && x.Done == false)
-                            .OrderByDescending(x => x.Pinned)
-                            .ToList();
-                        var doneTodos = _context.TodoLists
-                            .Where(x => x.UserId == uid && x.Done == true)
-                            .ToList();
-
-                        TextboxTheme.CallTodoRefresher(undoneTodos, doneTodos);
-                        break;
+                int x = SaveNote();
+                if (x == -1)
+                {
+                    diHost.IsOpen = true;
+                }
+                else
+                {
+                    diHost.IsOpen = false;
+                    CleanAddNote();
+                    editing = false;
                 }
             }
+            else // perform saving to-do elements
+            {
+                var todos = todoElements.Children;
+                var noteId = (int)Application.Current.Properties["noteId"];
+                Dictionary<string, bool> todoDict = new();
+
+                foreach (var child in todos)
+                {
+                    var todo = (child as StackPanel).Children;
+                    todoDict[(todo[0] as TextBlock).Text] = (todo[1] as CheckBox).IsChecked.Value;
+                }
+
+                var selectedTodo = _context.TodoLists.Where(nt => nt.UserId == uid && nt.Id == noteId).First();
+                selectedTodo.Todos = JsonSerializer.Serialize(todoDict);
+
+                MessageBox.Show("Promjene uspješno spremljene!", "Spremanje promjena", MessageBoxButton.OK, MessageBoxImage.Information);
+ 
+                foreach (var done in todoDict.Values)
+                { // check if all to-do list elements are done
+                    if (!done)
+                    {
+                        selectedTodo.Done = false;
+                        _context.SaveChanges();
+
+                        diHost.IsOpen = false;
+                        CleanAddNote();
+                        RefreshData(noteType, uid);
+                        return;
+                    }
+                }
+
+                selectedTodo.Done = true;
+                var notificationManager = new NotificationManager();
+                notificationManager.Show(new NotificationContent
+                {
+                    Title = selectedTodo.Name,
+                    Message = "To-do lista je obavljena!",
+                    Type = NotificationType.Information,
+                    CloseOnClick = true // closes message when message is clicked
+                });
+
+                _context.SaveChanges();
+                diHost.IsOpen = false;
+                CleanAddNote();
+            }
+            RefreshData(noteType, uid);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -617,17 +618,80 @@ namespace TaskSharp
             editing = false;
         }
 
+        private void RefreshData(int noteType, int uid)
+        {
+            switch (noteType)
+            {// refresh notes immediately after creating or editing them
+                case 0:
+                    _context.Notes.Load();
+                    var notes = _context.Notes
+                        .Where(x => x.UserId == uid)
+                        .OrderByDescending(x => x.Pinned)
+                        .ThenByDescending(x => x.CreationDate)
+                        .ToList();
+
+                    TextboxTheme.CallNoteRefresher(notes);
+                    break;
+
+                case 1:
+                    _context.Events.Load();
+
+                    var upcomingEvents = _context.Events
+                        .Where(x => x.UserId == uid && x.EndDate >= DateTime.Today)
+                        .OrderByDescending(x => x.Pinned)
+                        .ThenBy(x => x.EndDate)
+                        .ToList();
+                    var expiredEvents = _context.Events
+                        .Where(x => x.UserId == uid && x.EndDate < DateTime.Today)
+                        .OrderByDescending(x => x.EndDate)
+                        .ToList();
+
+                    TextboxTheme.CallEventRefresher(upcomingEvents, expiredEvents);
+                    break;
+
+                case 2:
+                    _context.Reminders.Load();
+
+                    var upcomingReminders = _context.Reminders
+                        .Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
+                        .OrderByDescending(x => x.Pinned)
+                        .ThenBy(x => x.Priority)
+                        .ThenBy(x => x.DueDate)
+                        .ToList();
+                    var expiredReminders = _context.Reminders
+                    .Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
+                    .OrderByDescending(x => x.DueDate)
+                    .ToList();
+
+                    TextboxTheme.CallReminderRefresher(upcomingReminders, expiredReminders);
+                    break;
+
+                case 3:
+                    _context.TodoLists.Load();
+
+                    var undoneTodos = _context.TodoLists
+                        .Where(x => x.UserId == uid && x.Done == false)
+                        .OrderByDescending(x => x.Pinned)
+                        .ToList();
+                    var doneTodos = _context.TodoLists
+                        .Where(x => x.UserId == uid && x.Done == true)
+                        .ToList();
+
+                    TextboxTheme.CallTodoRefresher(undoneTodos, doneTodos);
+                    break;
+            }
+        }
+
         private void Edit()
         {
-            Debug.WriteLine("edit pozvan");
             editing = true;
-            int NoteId = (int)Application.Current.Properties["noteId"];
+            int noteId = (int)Application.Current.Properties["noteId"];
             int NoteType = (int)Application.Current.Properties["noteType"];
 
             switch (NoteType)
             {
                 case 0:
-                    var temp1 = _context.Notes.Where(nt => nt.Id == NoteId).First();
+                    var temp1 = _context.Notes.Where(nt => nt.Id == noteId).First();
                     NoteContent.Visibility = Visibility.Visible;
 
                     note_name.Text = temp1.Name;
@@ -638,7 +702,7 @@ namespace TaskSharp
                     break;
 
                 case 1:
-                    var temp2 = _context.Events.Where(nt => nt.Id == NoteId).First();
+                    var temp2 = _context.Events.Where(nt => nt.Id == noteId).First();
 
                     note_name.Text = temp2.Name;
                     tags.Text = temp2.Tags;
@@ -656,7 +720,7 @@ namespace TaskSharp
                     break;
 
                 case 2:
-                    var temp3 = _context.Reminders.Where(nt => nt.Id == NoteId).First();
+                    var temp3 = _context.Reminders.Where(nt => nt.Id == noteId).First();
 
                     note_name.Text = temp3.Name;
                     tags.Text = temp3.Tags;
@@ -671,7 +735,7 @@ namespace TaskSharp
                     break;
 
                 case 3:
-                    var temp4 = _context.TodoLists.Where(nt => nt.Id == NoteId).First();
+                    var temp4 = _context.TodoLists.Where(nt => nt.Id == noteId).First();
                     var todos = JsonSerializer.Deserialize<Dictionary<string, bool>>(temp4.Todos);
 
                     note_name.Text = temp4.Name;
@@ -692,10 +756,11 @@ namespace TaskSharp
                     break;
             }
 
+            Application.Current.Properties["isSaveNote"] = true;
             ToggleFields(NoteType);
             diHost.IsOpen = true;
-
         }
+
         private void AddTodo2(string content = null)
         {
             if (todoNums.Count() <= 10)
@@ -756,10 +821,63 @@ namespace TaskSharp
             }
         }
 
+        private void ViewTodo()
+        {
+            NoteName.Visibility = Visibility.Collapsed;
+            Tags.Visibility = Visibility.Collapsed;
+            Flag.Visibility = Visibility.Collapsed;
+            TodoList.Visibility = Visibility.Collapsed;
+            todoBtn.Visibility = Visibility.Collapsed;
+
+            todoName.Visibility = Visibility.Visible;
+            todoCreationDate.Visibility = Visibility.Visible;
+            todoTags.Visibility = Visibility.Visible;
+            elements.Visibility = Visibility.Visible;
+            todoElements.Visibility = Visibility.Visible;
+            diHost.IsOpen = true;
+
+            var uid = (int)Application.Current.Properties["uid"];
+            var noteId = (int)Application.Current.Properties["noteId"];
+            var todos = _context.TodoLists.Where(x => x.UserId == uid && x.Id == noteId).First();
+
+            tdName.Text = todos.Name;
+            tdCreationDate.Text = todos.CreationDate.ToString("d. M. yyyy.");
+            tdTags.Text = todos.Tags;
+
+            var todoDict = JsonSerializer.Deserialize<Dictionary<string, bool>>(todos.Todos);
+            
+            foreach (var dict in todoDict)
+            {
+                var stk = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal
+                };
+                var text = new TextBlock
+                {
+                    Padding = new Thickness(left: 0, top: 0, right: 5, bottom: 0),
+                    Text = dict.Key,
+                    Width = 120,
+                    Margin = new Thickness(left: 0, top: 0, right: 10, bottom: 0),
+                    TextWrapping = TextWrapping.Wrap
+                };
+                var chk = new CheckBox
+                {
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Padding = new Thickness(left: 0, top: 0, right: 5, bottom: 0),
+                    IsChecked = dict.Value,
+                    Cursor = Cursors.Hand
+                };
+
+                stk.Children.Add(text);
+                stk.Children.Add(chk);
+                todoElements.Children.Add(stk);
+            }
+            Application.Current.Properties["isSaveNote"] = false;
+        }
+
         private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _context.Dispose();
         }
     }
 }
-

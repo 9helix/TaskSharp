@@ -39,8 +39,6 @@ namespace TaskSharp.Themes
 
         public void SearchNotes(object sender, TextChangedEventArgs e)
         {
-            // KeyEventArgs e
-            //if (e.Key == Key.Return)
             _context.Database.EnsureCreated();
             int noteType = (int)Application.Current.Properties["noteType"];
             var uid = (int)Application.Current.Properties["uid"];
@@ -48,7 +46,7 @@ namespace TaskSharp.Themes
 
             switch (noteType)
             {
-                case 0:
+                case 0: // note
                     _context.Notes.Load();
                     var notes = _context.Notes
                         .Where(x => x.UserId == uid && (x.Name.Contains(text) || x.Tags.Contains(text)))
@@ -59,7 +57,7 @@ namespace TaskSharp.Themes
                     CallNoteRefresher(notes);
                     break;
 
-                case 1:
+                case 1: // event
                     _context.Events.Load();
 
                     var upcomingEvents = _context.Events
@@ -75,7 +73,7 @@ namespace TaskSharp.Themes
                     CallEventRefresher(upcomingEvents, expiredEvents);
                     break;
 
-                case 2:
+                case 2: // reminder
                     _context.Reminders.Load();
 
                     var upcomingReminders = _context.Reminders
@@ -92,7 +90,7 @@ namespace TaskSharp.Themes
                     CallReminderRefresher(upcomingReminders, expiredReminders);
                     break;
 
-                case 3:
+                case 3: // to-do list
                     _context.TodoLists.Load();
 
                     var undoneTodos = _context.TodoLists

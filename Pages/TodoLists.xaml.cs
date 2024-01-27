@@ -4,8 +4,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using TaskSharp;
 using TaskSharp.Classes;
-using TaskSharp.Windows;
 using TaskSharp.Themes;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace SideBar_Nav.Pages
 {
@@ -14,8 +15,7 @@ namespace SideBar_Nav.Pages
     /// </summary>
     public partial class Page4 : Page
     {
-        private readonly NotesContext _context =
-            new NotesContext();
+        private readonly NotesContext _context = new();
 
         public Page4()
         {
@@ -136,17 +136,15 @@ namespace SideBar_Nav.Pages
                 RefreshTodos(undoneTodos, doneTodos);
             }
         }
-        
+
+        public delegate void TodoViewerEvent();
+        public static event TodoViewerEvent callTodoViewerEvent;
         private void ViewTodo(object sender, MouseButtonEventArgs e)
         {
-            var todoID = (int)((StackPanel)sender).Tag;
+            var todoID = ((StackPanel)sender).Tag;
             Application.Current.Properties["noteId"] = todoID;
- 
-            var todoView = new TodoViewer();
-            todoView.Show();
 
-            var wnd = Window.GetWindow(this);
-            wnd.Close();
+            callTodoViewerEvent?.Invoke();
         }
     }
 }

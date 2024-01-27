@@ -11,7 +11,7 @@ namespace TaskSharp.Classes
 
     public abstract class BaseNote
     {
-        public BaseNote (DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId) {
+        public BaseNote(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId) {
             this.CreationDate = CreationDate;
             this.Name = Name;
             this.Tags = Tags;
@@ -37,7 +37,7 @@ namespace TaskSharp.Classes
 
     public class Note : BaseNote
     {
-        public Note(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, string Content) :base (CreationDate, Name, Tags, Pinned, UserId)
+        public Note(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, string Content) : base(CreationDate, Name, Tags, Pinned, UserId)
         {
             this.Content = Content;
         }
@@ -55,7 +55,7 @@ namespace TaskSharp.Classes
 
     public class Event : BaseNote
     {
-        public Event(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, DateTime StartDate, DateTime EndDate, string Location) : base(CreationDate, Name, Tags, Pinned, UserId)
+        public Event (DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, DateTime StartDate, DateTime EndDate, string Location) : base(CreationDate, Name, Tags, Pinned, UserId)
         {
             this.StartDate = StartDate;
             this.EndDate = EndDate;
@@ -182,13 +182,6 @@ namespace TaskSharp.Classes
             Pinned = pin;
             Todos = todos;
             Done = done;
-        }
-
-        public void CheckUncheck(string todoID)
-        {
-            var todoDict = JsonSerializer.Deserialize<Dictionary<string, bool>>(Todos);
-            todoDict[todoID] = !todoDict[todoID];
-            Todos = JsonSerializer.Serialize(todoDict);
         }
     }
 }

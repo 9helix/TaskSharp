@@ -69,7 +69,7 @@ namespace TaskSharp.Windows
             int NoteId = (int)Application.Current.Properties["noteId"];
 
             var todos = _context.TodoLists.Where(x => x.UserId == uid && x.Id == NoteId).First();
-            todos.CheckUncheck(todoID);
+            //todos.CheckUncheck(todoID);
 
             _context.SaveChanges();
             Refresh();
