@@ -86,8 +86,8 @@ namespace TaskSharp
                     Application.Current.Properties["noteType"] = 3;
                     navframe.Navigate(new Page4());
                     break;
-
             }
+
             ReminderDuePick.SelectedDate = DateTime.Now;
             EventStartPick.SelectedDate = DateTime.Now;
             EventEndPick.SelectedDate = DateTime.Now;
@@ -298,15 +298,27 @@ namespace TaskSharp
             }
         }
 
+        private void toggleNavbar()
+        {
+            p1.IsHitTestVisible = !p1.IsHitTestVisible;
+            p2.IsHitTestVisible = !p2.IsHitTestVisible;
+            p3.IsHitTestVisible = !p3.IsHitTestVisible;
+            p4.IsHitTestVisible = !p4.IsHitTestVisible;
+        }
+
         private void DialogHost_OnDialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
         {
+            toggleNavbar();
             if (!Equals(eventArgs.Parameter, true))
                 return;
 
             //if (!string.IsNullOrWhiteSpace(FruitTextBox.Text))
             int x = SaveNote();
             if (x == -1)
+            {
+                toggleNavbar();
                 diHost.IsOpen = true;
+            }
         }
 
         private int SaveNote()
@@ -374,7 +386,7 @@ namespace TaskSharp
                         string location = this.location.Text;
                         Debug.WriteLine($"{startEvent}-{endEvent}-{location}");
 
-                        Event newEvent = new(dateCreate, name, tags, pin, uid, (DateTime)startEvent, (DateTime)endEvent, location);    
+                        Event newEvent = new(dateCreate, name, tags, pin, uid, (DateTime)startEvent, (DateTime)endEvent, location);
                         _context.Events.Add(newEvent);
                     }
                     else
@@ -414,7 +426,7 @@ namespace TaskSharp
                         ReminderPriority priority = (ReminderPriority)PriorityIndex;
 
                         Debug.WriteLine($"{dueDate}-{priority}");
-                        Reminder newReminder = new(dateCreate, name, tags, pin, uid, (DateTime)dueDate, priority);               
+                        Reminder newReminder = new(dateCreate, name, tags, pin, uid, (DateTime)dueDate, priority);
                         _context.Reminders.Add(newReminder);
                     }
                     else
@@ -579,7 +591,7 @@ namespace TaskSharp
                 selectedTodo.Todos = JsonSerializer.Serialize(todoDict);
 
                 MessageBox.Show("Promjene uspješno spremljene!", "Spremanje promjena", MessageBoxButton.OK, MessageBoxImage.Information);
- 
+
                 foreach (var done in todoDict.Values)
                 { // check if all to-do list elements are done
                     if (!done)
@@ -845,7 +857,7 @@ namespace TaskSharp
             tdTags.Text = todos.Tags;
 
             var todoDict = JsonSerializer.Deserialize<Dictionary<string, bool>>(todos.Todos);
-            
+
             foreach (var dict in todoDict)
             {
                 var stk = new StackPanel
@@ -873,6 +885,11 @@ namespace TaskSharp
                 todoElements.Children.Add(stk);
             }
             Application.Current.Properties["isSaveNote"] = false;
+        }
+
+        private void diHost_DialogOpened(object sender, MaterialDesignThemes.Wpf.DialogOpenedEventArgs eventArgs)
+        {
+            toggleNavbar();
         }
     }
 }

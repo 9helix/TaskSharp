@@ -64,6 +64,7 @@
                             Content="Bilješke"
                             Cursor="Hand"
                             FontSize="14"
+                            IsHitTestVisible="True"
                             Style="{StaticResource MenuButtonTheme}"
                             Tag="../Resources/Images/Notes/note.png"
                             Unchecked="NoteUnchecked" />
@@ -74,6 +75,7 @@
                             Content="Događaji"
                             Cursor="Hand"
                             FontSize="14"
+                            IsHitTestVisible="True"
                             Style="{StaticResource MenuButtonTheme}"
                             Tag="../Resources/Images/Notes/event.png"
                             Unchecked="NoteUnchecked" />
@@ -84,6 +86,7 @@
                             Content="Podsjetnici"
                             Cursor="Hand"
                             FontSize="14"
+                            IsHitTestVisible="True"
                             Style="{StaticResource MenuButtonTheme}"
                             Tag="../Resources/Images/Notes/reminder.png"
                             Unchecked="NoteUnchecked" />
@@ -94,6 +97,7 @@
                             Content="To-Do liste"
                             Cursor="Hand"
                             FontSize="14"
+                            IsHitTestVisible="True"
                             Style="{StaticResource MenuButtonTheme}"
                             Tag="../Resources/Images/Notes/todo.png"
                             Unchecked="NoteUnchecked" />
@@ -108,7 +112,7 @@
                             Foreground="{StaticResource TextColor}"
                             TextAlignment="Center"
                             TextTrimming="CharacterEllipsis">
-                            Korisnik: <Run Name="userChip" FontWeight="Bold" />
+                            Korisnik:<Run Name="userChip" FontWeight="Bold" />
                         </TextBlock>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
@@ -181,15 +185,21 @@
                 </Border.Background>
 
 
-                <materialDesign:DialogHost Name="diHost" DialogContentUniformCornerRadius="20" DialogTheme="Inherit" DialogClosing="DialogHost_OnDialogClosing">
+                <materialDesign:DialogHost
+                    Name="diHost"
+                    DialogClosing="DialogHost_OnDialogClosing"
+                    DialogContentUniformCornerRadius="20"
+                    DialogOpened="diHost_DialogOpened"
+                    DialogTheme="Inherit">
                     <materialDesign:DialogHost.DialogContent>
                         <StackPanel Margin="16">
-                            <ComboBox IsEnabled="False"
+                            <ComboBox
                                 Name="NoteTypeMenu"
                                 Width="120"
                                 HorizontalAlignment="Center"
                                 materialDesign:HintAssist.Hint="Vrsta zapisa"
                                 FontSize="15"
+                                IsEnabled="False"
                                 SelectionChanged="ComboBox_SelectionChanged">
                                 <ComboBoxItem Name="NoteSelected" VerticalAlignment="Top">
                                     <StackPanel Orientation="Horizontal">
@@ -261,12 +271,13 @@
                                 Orientation="Vertical"
                                 Visibility="Collapsed">
                                 <TextBlock Padding="0,0,5,5" TextAlignment="Center">Sadržaj:</TextBlock>
-                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                <TextBox
                                     Name="content"
                                     Width="200"
                                     Height="100"
                                     MaxHeight="150"
                                     AcceptsReturn="True"
+                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                             <StackPanel
@@ -276,7 +287,10 @@
                                 Orientation="Horizontal"
                                 Visibility="Collapsed">
                                 <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Početak događaja:</TextBlock>
-                                <DatePicker Name="EventStartPick" Width="100" Language="hr-HR"/>
+                                <DatePicker
+                                    Name="EventStartPick"
+                                    Width="100"
+                                    Language="hr-HR" />
 
                             </StackPanel>
                             <StackPanel
@@ -286,21 +300,24 @@
                                 Orientation="Horizontal"
                                 Visibility="Collapsed">
                                 <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Kraj događaja:</TextBlock>
-                                <DatePicker Name="EventEndPick" Width="100" Language="hr-HR"/>
+                                <DatePicker
+                                    Name="EventEndPick"
+                                    Width="100"
+                                    Language="hr-HR" />
 
 
                             </StackPanel>
                             <StackPanel
                                 Name="txtLocation"
-                                Margin="0,0,0,5"
+                                Margin="0,0,0,10"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal"
                                 Visibility="Collapsed">
-                                <TextBlock Padding="0,0,5,0">Lokacija:</TextBlock>
+                                <TextBlock Padding="0,3,5,0">Lokacija:</TextBlock>
                                 <TextBox
                                     Name="location"
                                     Width="90"
-                                    MaxLength="100" />
+                                    MaxLength="20" />
                             </StackPanel>
                             <StackPanel
                                 Name="ReminderDue"
@@ -309,7 +326,10 @@
                                 Orientation="Horizontal"
                                 Visibility="Collapsed">
                                 <TextBlock Padding="0,0,5,0" VerticalAlignment="Center">Rok:</TextBlock>
-                                <DatePicker Name="ReminderDuePick" Width="100" Language="hr-HR"/>
+                                <DatePicker
+                                    Name="ReminderDuePick"
+                                    Width="100"
+                                    Language="hr-HR" />
                             </StackPanel>
 
                             <StackPanel
@@ -323,7 +343,7 @@
                                     Name="PriorityMenuPick"
                                     Width="60"
                                     HorizontalAlignment="Center">
-                                    <ComboBoxItem VerticalAlignment="Top" IsSelected="True" >
+                                    <ComboBoxItem VerticalAlignment="Top" IsSelected="True">
                                         Niski
                                     </ComboBoxItem>
                                     <ComboBoxItem>
@@ -334,10 +354,18 @@
                                     </ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
-                            <StackPanel Visibility="Collapsed" Name="TodoList" MaxHeight="200" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <StackPanel
+                                Name="TodoList"
+                                MaxHeight="200"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                Visibility="Collapsed">
                                 <Border Padding="0,0,0,5">
                                     <StackPanel>
-                                        <TextBox Text="Todo #1" MaxLength="30" Width="150" Margin="0,0,30,0" />
+                                        <TextBox
+                                            Width="150"
+                                            Margin="0,0,30,0"
+                                            MaxLength="30"
+                                            Text="Todo #1" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
@@ -347,8 +375,11 @@
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal"
                                 Visibility="Collapsed">
-                                <TextBlock Padding="0,0,5,0">Naziv: </TextBlock>
-                                <TextBlock Padding="0,0,5,0" Name="tdName" FontWeight="Bold"/>
+                                <TextBlock Padding="0,0,5,0">Naziv:</TextBlock>
+                                <TextBlock
+                                    Name="tdName"
+                                    Padding="0,0,5,0"
+                                    FontWeight="Bold" />
                             </StackPanel>
                             <StackPanel
                                 Name="todoCreationDate"
@@ -357,7 +388,10 @@
                                 Orientation="Horizontal"
                                 Visibility="Collapsed">
                                 <TextBlock Padding="0,0,5,0">Datum stvaranja:</TextBlock>
-                                <TextBlock Padding="0,0,5,0" Name="tdCreationDate" FontWeight="Bold"/>
+                                <TextBlock
+                                    Name="tdCreationDate"
+                                    Padding="0,0,5,0"
+                                    FontWeight="Bold" />
                             </StackPanel>
                             <StackPanel
                                 Name="todoTags"
@@ -365,8 +399,11 @@
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal"
                                 Visibility="Collapsed">
-                                <TextBlock Padding="0,0,5,0">Oznake: </TextBlock>
-                                <TextBlock Padding="0,0,5,0" Name="tdTags" FontWeight="Bold"/>
+                                <TextBlock Padding="0,0,5,0">Oznake:</TextBlock>
+                                <TextBlock
+                                    Name="tdTags"
+                                    Padding="0,0,5,0"
+                                    FontWeight="Bold" />
                             </StackPanel>
                             <StackPanel
                                 Name="elements"
@@ -381,16 +418,25 @@
                                 Margin="0,0,0,5"
                                 HorizontalAlignment="Center"
                                 Orientation="Vertical"
-                                Visibility="Collapsed"/>
+                                Visibility="Collapsed" />
 
-                            <Button Margin="0,10,0,0" Name="todoBtn" Click="AddTodo" Visibility="Collapsed" Background="#4f80ff" BorderBrush="#4f80ff" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}" ToolTip="Dodaj Todo stavku" ToolTipService.InitialShowDelay="500">
+                            <Button
+                                Name="todoBtn"
+                                Margin="0,10,0,0"
+                                Background="#4f80ff"
+                                BorderBrush="#4f80ff"
+                                Click="AddTodo"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+                                ToolTip="Dodaj Todo stavku"
+                                ToolTipService.InitialShowDelay="500"
+                                Visibility="Collapsed">
                                 <materialDesign:PackIcon
                                     Width="20"
                                     Height="20"
                                     Kind="Plus" />
                             </Button>
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <!--="{x:Static materialDesign:DialogHost.CloseDialogCommand}"-->
+                                <!--  ="{x:Static materialDesign:DialogHost.CloseDialogCommand}"  -->
                                 <Button
                                     Margin="0,8,8,0"
                                     Click="Button_Click_1"
@@ -404,8 +450,8 @@
                                     </Button.CommandParameter>
                                 </Button>
                                 <Button
-                                    Click="Button_Click_2"                                    
                                     Margin="0,8,8,0"
+                                    Click="Button_Click_2"
                                     Content="ODUSTANI"
                                     IsCancel="True"
                                     Style="{StaticResource MaterialDesignFlatButton}">
@@ -441,7 +487,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Top"
                             Style="{StaticResource ModernTextbox}" />
-                        <Ellipse />
+
                         <Frame
                             x:Name="navframe"
                             Grid.Row="1"
@@ -455,7 +501,7 @@
                             Margin="529,244,41,26"
                             ToolTip="Dodaj zapis"
                             ToolTipService.InitialShowDelay="500">
-                            <!--Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"-->
+                            <!--  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"  -->
                             <Button
                                 Width="50"
                                 Height="50"
