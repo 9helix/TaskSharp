@@ -111,8 +111,8 @@
                             FontSize="18"
                             Foreground="{StaticResource TextColor}"
                             TextAlignment="Center"
-                            TextTrimming="CharacterEllipsis">
-                            Korisnik:<Run Name="userChip" FontWeight="Bold" />
+                            TextTrimming="CharacterEllipsis" Text="Korisnik: ">
+                            <Run Name="userChip" FontWeight="Bold" />
                         </TextBlock>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
