@@ -44,15 +44,11 @@
 
   <ItemGroup>
     <Resource Include="Resources\Fonts\Poppins-Regular.ttf" />
-    <Resource Include="Resources\Images\add.png" />
-    <Resource Include="Resources\Images\confirm.png" />
     <Resource Include="Resources\Images\delete.png" />
     <Resource Include="Resources\Images\deleteRed.png" />
     <Resource Include="Resources\Images\edit.png" />
     <Resource Include="Resources\Images\github.png" />
-    <Resource Include="Resources\Images\hide.png" />
     <Resource Include="Resources\Images\key.png" />
-    <Resource Include="Resources\Images\logout.png" />
     <Resource Include="Resources\Images\Notes\event-white.png" />
     <Resource Include="Resources\Images\Notes\event.png" />
     <Resource Include="Resources\Images\Notes\note-white.png" />
@@ -62,11 +58,9 @@
     <Resource Include="Resources\Images\Notes\todo.png" />
     <Resource Include="Resources\Images\Notes\reminder.png" />
     <Resource Include="Resources\Images\pin.png" />
-    <Resource Include="Resources\Images\show.png" />
 	<Resource Include="Resources\Images\logo.png" />
 	<Resource Include="Resources\Images\to-do.png" />
     <Resource Include="Resources\Images\unpin.png" />
-    <Resource Include="Resources\Images\user-xmark.png" />
     <Resource Include="Resources\Images\user.png" />
   </ItemGroup>
 

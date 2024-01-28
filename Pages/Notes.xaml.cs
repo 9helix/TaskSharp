@@ -77,12 +77,6 @@ namespace SideBar_Nav.Pages
 
             Application.Current.Properties["isNotTodoViewer"] = true;
             callEditNote?.Invoke();
-
-            /*var noteEdit = new NoteEdit();
-            noteEdit.Show();
-            
-            var wnd = Window.GetWindow(this);
-            wnd.Close();*/
         }
 
         private void DeleteNote(object sender, MouseButtonEventArgs e)

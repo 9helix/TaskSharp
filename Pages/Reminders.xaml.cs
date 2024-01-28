@@ -123,13 +123,7 @@ namespace SideBar_Nav.Pages
 
             Application.Current.Properties["isNotTodoViewer"] = true;
             callEditReminder?.Invoke();
-            /*
-            var reminderEdit = new NoteEdit();
-            reminderEdit.Show();
-
-            var wnd = Window.GetWindow(this);
-            wnd.Close();*/
-        }
+        }
 
         private void DeleteReminder(object sender, MouseButtonEventArgs e)
         {

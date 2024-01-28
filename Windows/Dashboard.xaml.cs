@@ -101,15 +101,10 @@ namespace TaskSharp
         private void Path_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            var choice2 = MessageBox.Show("Jeste li sigurni da se želite odjaviti?", "Odjava", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-            if (choice2 == MessageBoxResult.Yes)
-            {
-                MessageBox.Show($"Odjava uspješna!", "Odjava", MessageBoxButton.OK, MessageBoxImage.Information);
-                var win = new Login();
-                win.Show();
-                Close();
-            }
+            MessageBox.Show($"Odjava uspješna!", "Odjava", MessageBoxButton.OK, MessageBoxImage.Information);
+            var win = new Login();
+            win.Show();
+            Close();
         }
 
         private void Path_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
@@ -239,11 +234,13 @@ namespace TaskSharp
             if (type != 3)
             {
                 TodoList.Visibility = Visibility.Collapsed;
+                itemTxt.Visibility = Visibility.Collapsed;
                 todoBtn.Visibility = Visibility.Collapsed;
             }
             else
             {
                 TodoList.Visibility = Visibility.Visible;
+                itemTxt.Visibility = Visibility.Visible;
                 todoBtn.Visibility = Visibility.Visible;
                 if (!editing)
                     TodoSelected.IsSelected = true;
@@ -477,13 +474,12 @@ namespace TaskSharp
             };
             Border border = new()
             {
-                Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
+                Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 15)
             };
 
             stk.Children.Add(txt);
             border.Child = stk;
             TodoList.Children.Add(border);
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -508,7 +504,7 @@ namespace TaskSharp
                 else
                 {
                     diHost.IsOpen = false;
-                    CleanAddNote();
+                    //CleanAddNote();
                     editing = false;
                 }
             }
@@ -537,7 +533,7 @@ namespace TaskSharp
                         _context.SaveChanges();
 
                         diHost.IsOpen = false;
-                        CleanAddNote();
+                        //CleanAddNote();
 
                         RefreshData(noteType, uid);
                         return;
@@ -556,7 +552,7 @@ namespace TaskSharp
 
                 _context.SaveChanges();
                 diHost.IsOpen = false;
-                CleanAddNote();
+                //CleanAddNote();
             }
             RefreshData(noteType, uid);
         }
@@ -564,7 +560,7 @@ namespace TaskSharp
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             diHost.IsOpen = false;
-            CleanAddNote();
+            //CleanAddNote();
             editing = false;
         }
 
@@ -736,7 +732,7 @@ namespace TaskSharp
                 };
                 Border border = new()
                 {
-                    Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
+                    Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 15)
                 };
 
                 stk.Children.Add(txt);
@@ -757,6 +753,7 @@ namespace TaskSharp
             Tags.Visibility = Visibility.Collapsed;
             Flag.Visibility = Visibility.Collapsed;
             TodoList.Visibility = Visibility.Collapsed;
+            itemTxt.Visibility = Visibility.Collapsed;
             todoBtn.Visibility = Visibility.Collapsed;
 
             todoName.Visibility = Visibility.Visible;
@@ -819,6 +816,11 @@ namespace TaskSharp
             {
                 ToggleFields((int)Application.Current.Properties["noteType"]);
             }
+        }
+
+        private void DiHost_DialogClosed(object sender, MaterialDesignThemes.Wpf.DialogClosedEventArgs eventArgs)
+        {
+            CleanAddNote();
         }
     }
 }

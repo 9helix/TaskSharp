@@ -42,7 +42,7 @@ namespace TaskSharp.Themes
             _context.Database.EnsureCreated();
             int noteType = (int)Application.Current.Properties["noteType"];
             var uid = (int)Application.Current.Properties["uid"];
-            string text = (sender as TextBox).Text;        
+            string text = (sender as TextBox).Text;
 
             switch (noteType)
             {

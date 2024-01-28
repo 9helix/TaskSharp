@@ -137,12 +137,7 @@ namespace SideBar_Nav.Pages
 
             Application.Current.Properties["isNotTodoViewer"] = true;
             callEditEvent?.Invoke();
-            /*var eventEdit = new NoteEdit();
-            eventEdit.Show();
-
-            var wnd = Window.GetWindow(this);
-            wnd.Close();*/
-        }
+        }
 
         private void DeleteEvent(object sender, MouseButtonEventArgs e)
         {

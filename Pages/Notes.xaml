@@ -1,25 +1,37 @@
-﻿<Page x:Class="SideBar_Nav.Pages.Page1"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SideBar_Nav.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Bilješke" Loaded="Notes_Loaded">
+﻿<Page
+    x:Class="SideBar_Nav.Pages.Page1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SideBar_Nav.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Bilješke"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Loaded="Notes_Loaded"
+    mc:Ignorable="d">
     <Page.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource TextColor}" />
             <Setter Property="FontFamily" Value="{StaticResource TextFont}" />
         </Style>
         <DataTemplate x:Key="NotesTemplate">
-            <Border Background="{StaticResource SecondaryColor}"  Width="510" HorizontalAlignment="Center" Name="border" BorderBrush="{StaticResource TextColor2}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
+            <Border
+                Name="border"
+                Width="510"
+                Margin="2"
+                Padding="5"
+                HorizontalAlignment="Center"
+                Background="{StaticResource SecondaryColor}"
+                BorderBrush="{StaticResource TextColor2}"
+                BorderThickness="2"
+                CornerRadius="20">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
-                        <Setter Property="Background" Value="{StaticResource SecondaryColor}"/>
+                        <Setter Property="Background" Value="{StaticResource SecondaryColor}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Pinned}" Value="False">
-                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Background" Value="Transparent" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -38,43 +50,70 @@
                             <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Margin="5,0,0,0"  TextWrapping="Wrap" FontSize="20" FontWeight="Bold" Text="{Binding Path=Name}" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Text="{Binding Path=Name}"
+                            TextWrapping="Wrap" />
 
-                        <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=CreationDate, StringFormat=STVORENO: d. M. yyyy.}"/>
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Text="{Binding Path=CreationDate, StringFormat=STVORENO: d. M. yyyy.}" />
 
 
-                        <Image Grid.Column="2" Tag="{Binding Path=Id}" PreviewMouseDown="PinUnpinNote" Width="20" Cursor="Hand" ToolTipService.InitialShowDelay="500">
+                        <Image
+                            Grid.Column="2"
+                            Width="20"
+                            Cursor="Hand"
+                            PreviewMouseDown="PinUnpinNote"
+                            Tag="{Binding Path=Id}"
+                            ToolTipService.InitialShowDelay="500">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
-                                    <Setter Property="Source" Value="../Resources/Images/pin.png"/>
-                                    <Setter Property="ToolTip" Value="Otkvači"/>
+                                    <Setter Property="Source" Value="../Resources/Images/pin.png" />
+                                    <Setter Property="ToolTip" Value="Otkvači" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Pinned}" Value="False">
-                                            <Setter Property="Source" Value="../Resources/Images/unpin.png"/>
-                                            <Setter Property="ToolTip" Value="Prikvači"/>
+                                            <Setter Property="Source" Value="../Resources/Images/unpin.png" />
+                                            <Setter Property="ToolTip" Value="Prikvači" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Image.Style>
                         </Image>
-                        <Image Grid.Column="3" Tag="{Binding Path=Id}" Width="20"
-                               Cursor="Hand" PreviewMouseDown="DeleteNote" ToolTip="Izbriši bilješku" ToolTipService.InitialShowDelay="500">
+                        <Image
+                            Grid.Column="3"
+                            Width="20"
+                            Cursor="Hand"
+                            PreviewMouseDown="DeleteNote"
+                            Tag="{Binding Path=Id}"
+                            ToolTip="Izbriši bilješku"
+                            ToolTipService.InitialShowDelay="500">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
-                                    <Setter Property="Source" Value="../Resources/Images/delete.png"/>
+                                    <Setter Property="Source" Value="../Resources/Images/delete.png" />
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Source" Value="../Resources/Images/deleteRed.png"/>
+                                            <Setter Property="Source" Value="../Resources/Images/deleteRed.png" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Image.Style>
                         </Image>
-                        <Image Grid.Column="4" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="20"
-                               Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
+                        <Image
+                            Grid.Column="4"
+                            Width="20"
+                            Cursor="Hand"
+                            PreviewMouseDown="OpenEditor"
+                            Source="../Resources/Images/edit.png"
+                            Tag="{Binding Path=Id}"
+                            ToolTip="Uredi bilješku"
+                            ToolTipService.InitialShowDelay="500" />
                     </Grid>
 
-                    <Grid Margin="5,5,0,0" >
+                    <Grid Margin="5,5,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
@@ -82,7 +121,7 @@
                             <ColumnDefinition Width="4*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock TextTrimming="WordEllipsis" Foreground="{StaticResource TextColor2}">
+                        <TextBlock Foreground="{StaticResource TextColor2}" TextTrimming="WordEllipsis">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="OZNAKE: {0}">
                                     <Binding Path="Tags" />
@@ -93,13 +132,21 @@
 
                     <Grid Margin="2,8,0,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Padding="0,0,0,10" Margin="20,0,0,0" Height="auto" Width="450" FontSize="15" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Text="{Binding Path=Content}" />
+                        <TextBlock
+                            Width="450"
+                            Height="auto"
+                            Margin="20,0,0,0"
+                            Padding="0,0,0,10"
+                            FontSize="15"
+                            Text="{Binding Path=Content}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
 
                     </Grid>
                 </StackPanel>
@@ -110,14 +157,22 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Background="Transparent">
 
-            <StackPanel HorizontalAlignment="center" Margin="0,0,0,30">
+            <StackPanel Margin="0,0,0,30" HorizontalAlignment="center">
 
 
-                <ItemsControl BorderThickness="0" Margin="0,20,0,0" x:Name="NotesContainer" HorizontalContentAlignment="Stretch"
-                Visibility="Visible" ItemTemplate="{StaticResource NotesTemplate}"/>
+                <ItemsControl
+                    x:Name="NotesContainer"
+                    Margin="0,20,0,0"
+                    HorizontalContentAlignment="Stretch"
+                    BorderThickness="0"
+                    ItemTemplate="{StaticResource NotesTemplate}"
+                    Visibility="Visible" />
 
-                <StackPanel Name="NotesEmpty" Visibility="Collapsed" Margin="0,20,0,0">
-                    <TextBlock Foreground="{StaticResource TextColor}" FontSize="15">
+                <StackPanel
+                    Name="NotesEmpty"
+                    Margin="0,20,0,0"
+                    Visibility="Collapsed">
+                    <TextBlock FontSize="15" Foreground="{StaticResource TextColor}">
                         Izgleda da ne postoji nijedna bilješka...
                     </TextBlock>
                 </StackPanel>

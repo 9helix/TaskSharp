@@ -113,7 +113,7 @@ namespace TaskSharp
                     if (!usernames.Contains(txtUser.Text))
                     {
                         User newUser = new(txtUser.Text, txtPass.Password);
-                        
+
                         _context.Users.Add(newUser);
                         _context.SaveChanges();
 
@@ -138,10 +138,9 @@ namespace TaskSharp
                     var uid = loguser.Select(usr => usr.UserId).First();
                     Application.Current.Properties["uid"] = uid;
 
-                    //var dashboard = new Dashboard();
                     var dashboard = new Dashboard();
                     dashboard.Show();
-                    this.Close();
+                    Close();
                 }
 
                 else

@@ -110,8 +110,9 @@
                             HorizontalAlignment="Left"
                             FontSize="18"
                             Foreground="{StaticResource TextColor}"
+                            Text="Korisnik: "
                             TextAlignment="Center"
-                            TextTrimming="CharacterEllipsis" Text="Korisnik: ">
+                            TextTrimming="CharacterEllipsis">
                             <Run Name="userChip" FontWeight="Bold" />
                         </TextBlock>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -187,6 +188,7 @@
 
                 <materialDesign:DialogHost
                     Name="diHost"
+                    DialogClosed="DiHost_DialogClosed"
                     DialogClosing="DialogHost_OnDialogClosing"
                     DialogContentUniformCornerRadius="20"
                     DialogOpened="DialogHost_DialogOpened"
@@ -236,11 +238,11 @@
                                 Margin="0,0,0,5"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
-                                <!--<TextBlock Padding="0,0,5,0">Ime zapisa:</TextBlock>-->
                                 <TextBox
                                     Name="note_name"
                                     Width="100"
-                                    materialDesign:HintAssist.Hint="Ime zapisa" />
+                                    materialDesign:HintAssist.Hint="Ime zapisa"
+                                    FontWeight="Bold" />
                             </StackPanel>
 
                             <StackPanel
@@ -353,12 +355,18 @@
                                     </ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
+                            <TextBlock
+                                Name="itemTxt"
+                                Padding="0,3,0,5"
+                                HorizontalAlignment="Center">
+                                Stavke:
+                            </TextBlock>
                             <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
                                 <StackPanel
                                     Name="TodoList"
-                                    MaxHeight="200"
+                                    MaxHeight="160"
                                     Visibility="Collapsed">
-                                    <Border Padding="0,0,0,5">
+                                    <Border Padding="0,0,0,15">
                                         <StackPanel>
                                             <TextBox
                                                 Width="150"
@@ -415,12 +423,12 @@
                             </StackPanel>
                             <ScrollViewer
                                 Name="todoScroll"
-                                Height="140"
                                 CanContentScroll="True"
                                 VerticalScrollBarVisibility="Auto"
                                 Visibility="Collapsed">
                                 <StackPanel
                                     Name="todoElements"
+                                    MaxHeight="160"
                                     Margin="0,0,0,5"
                                     HorizontalAlignment="Center"
                                     Orientation="Vertical" />

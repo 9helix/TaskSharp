@@ -10,7 +10,8 @@ namespace TaskSharp.Classes
 
     public abstract class BaseNote
     {
-        public BaseNote(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId) {
+        public BaseNote(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId)
+        {
             this.CreationDate = CreationDate;
             this.Name = Name;
             this.Tags = Tags;
@@ -48,13 +49,13 @@ namespace TaskSharp.Classes
             Name = name;
             Tags = tags;
             Pinned = pin;
-            Content = content;   
+            Content = content;
         }
     }
 
     public class Event : BaseNote
     {
-        public Event (DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, DateTime StartDate, DateTime EndDate, string Location) : base(CreationDate, Name, Tags, Pinned, UserId)
+        public Event(DateTime CreationDate, string Name, string Tags, bool Pinned, int UserId, DateTime StartDate, DateTime EndDate, string Location) : base(CreationDate, Name, Tags, Pinned, UserId)
         {
             this.StartDate = StartDate;
             this.EndDate = EndDate;

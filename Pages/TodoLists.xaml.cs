@@ -104,12 +104,6 @@ namespace SideBar_Nav.Pages
             Application.Current.Properties["noteId"] = todoID;
             Application.Current.Properties["isNotTodoViewer"] = true;
             callEditTodo?.Invoke();
-            /*
-            var todoView = new TodoViewer();
-            todoView.Show();
-
-            var wnd = Window.GetWindow(this);
-            wnd.Close();*/
         }
 
         private void DeleteTodo(object sender, MouseButtonEventArgs e)

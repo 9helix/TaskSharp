@@ -1,25 +1,36 @@
-﻿<Page x:Class="SideBar_Nav.Pages.Page2"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SideBar_Nav.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Događaji" Loaded="Events_Loaded">
+﻿<Page
+    x:Class="SideBar_Nav.Pages.Page2"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SideBar_Nav.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Događaji"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Loaded="Events_Loaded"
+    mc:Ignorable="d">
     <Page.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource TextColor}" />
             <Setter Property="FontFamily" Value="{StaticResource TextFont}" />
         </Style>
         <DataTemplate x:Key="UpcomingEventsTemplate">
-            <Border HorizontalAlignment="Center" Width="510" Name="border" Background="{StaticResource SecondaryColor}" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
+            <Border
+                Name="border"
+                Width="510"
+                Margin="2"
+                Padding="5"
+                HorizontalAlignment="Center"
+                Background="{StaticResource SecondaryColor}"
+                BorderThickness="2"
+                CornerRadius="20">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
-                        <Setter Property="BorderBrush" Value="{StaticResource TextColor2}"/>
+                        <Setter Property="BorderBrush" Value="{StaticResource TextColor2}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding DeadlineNotification}" Value="False">
-                                <Setter Property="BorderBrush" Value="Red"/>
+                                <Setter Property="BorderBrush" Value="Red" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -38,40 +49,67 @@
                             <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock TextWrapping="Wrap" FontSize="20" FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Text="{Binding Path=Name}"
+                            TextWrapping="Wrap" />
 
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Path=CreationDate, StringFormat=SVORENO: d. M. yyyy.}"/>
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Text="{Binding Path=CreationDate, StringFormat=SVORENO: d. M. yyyy.}" />
 
 
-                        <Image Grid.Column="2" Tag="{Binding Path=Id}" PreviewMouseDown="PinUnpinEvent" Width="20" Cursor="Hand" ToolTipService.InitialShowDelay="500">
+                        <Image
+                            Grid.Column="2"
+                            Width="20"
+                            Cursor="Hand"
+                            PreviewMouseDown="PinUnpinEvent"
+                            Tag="{Binding Path=Id}"
+                            ToolTipService.InitialShowDelay="500">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
-                                    <Setter Property="Source" Value="../Resources/Images/pin.png"/>
-                                    <Setter Property="ToolTip" Value="Otkvači"/>
+                                    <Setter Property="Source" Value="../Resources/Images/pin.png" />
+                                    <Setter Property="ToolTip" Value="Otkvači" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Pinned}" Value="False">
-                                            <Setter Property="Source" Value="../Resources/Images/unpin.png"/>
-                                            <Setter Property="ToolTip" Value="Prikvači"/>
+                                            <Setter Property="Source" Value="../Resources/Images/unpin.png" />
+                                            <Setter Property="ToolTip" Value="Prikvači" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Image.Style>
                         </Image>
-                        <Image Grid.Column="3" Tag="{Binding Path=Id}" Width="20"
-                               Cursor="Hand" PreviewMouseDown="DeleteEvent" ToolTip="Izbriši bilješku" ToolTipService.InitialShowDelay="500">
+                        <Image
+                            Grid.Column="3"
+                            Width="20"
+                            Cursor="Hand"
+                            PreviewMouseDown="DeleteEvent"
+                            Tag="{Binding Path=Id}"
+                            ToolTip="Izbriši bilješku"
+                            ToolTipService.InitialShowDelay="500">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
-                                    <Setter Property="Source" Value="../Resources/Images/delete.png"/>
+                                    <Setter Property="Source" Value="../Resources/Images/delete.png" />
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Source" Value="../Resources/Images/deleteRed.png"/>
+                                            <Setter Property="Source" Value="../Resources/Images/deleteRed.png" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Image.Style>
                         </Image>
-                        <Image Grid.Column="4" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="20"
-                               Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
+                        <Image
+                            Grid.Column="4"
+                            Width="20"
+                            Cursor="Hand"
+                            PreviewMouseDown="OpenEditor"
+                            Source="../Resources/Images/edit.png"
+                            Tag="{Binding Path=Id}"
+                            ToolTip="Uredi bilješku"
+                            ToolTipService.InitialShowDelay="500" />
                     </Grid>
 
                     <Grid Margin="5,5,0,0">
@@ -82,7 +120,7 @@
                             <ColumnDefinition Width="4*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock TextTrimming="WordEllipsis" Foreground="{StaticResource TextColor2}">
+                        <TextBlock Foreground="{StaticResource TextColor2}" TextTrimming="WordEllipsis">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="OZNAKE: {0}">
                                     <Binding Path="Tags" />
@@ -103,15 +141,24 @@
 
                         <StackPanel Orientation="Vertical">
                             <TextBlock FontSize="14" Text="Datum početka:" />
-                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=StartDate, StringFormat=dd. MM. yyyy}" />
+                            <TextBlock
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Text="{Binding Path=StartDate, StringFormat=dd. MM. yyyy}" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Vertical">
                             <TextBlock FontSize="14" Text="Datum završetka:" />
-                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=EndDate, StringFormat=dd. MM. yyyy}" />
+                            <TextBlock
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Text="{Binding Path=EndDate, StringFormat=dd. MM. yyyy}" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Orientation="Vertical">
                             <TextBlock FontSize="14" Text="Lokacija:" />
-                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Location}" />
+                            <TextBlock
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Text="{Binding Path=Location}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -119,7 +166,16 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ExpiredEventsTemplate">
-            <Border HorizontalAlignment="Center" Width="510" Name="border" Background="Lavender" BorderBrush="Gray" BorderThickness="2" Padding="5" Margin="2" CornerRadius="20">
+            <Border
+                Name="border"
+                Width="510"
+                Margin="2"
+                Padding="5"
+                HorizontalAlignment="Center"
+                Background="Lavender"
+                BorderBrush="Gray"
+                BorderThickness="2"
+                CornerRadius="20">
                 <StackPanel Orientation="Vertical">
                     <Grid Margin="2,5,0,0">
                         <Grid.RowDefinitions>
@@ -132,25 +188,42 @@
                             <ColumnDefinition Width=".5*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock TextWrapping="Wrap" FontSize="20px" FontWeight="Bold" Text="{Binding Path=Name}" />
+                        <TextBlock
+                            FontSize="20px"
+                            FontWeight="Bold"
+                            Text="{Binding Path=Name}"
+                            TextWrapping="Wrap" />
 
-                        <TextBlock Grid.Column="1" Text="{Binding Path=CreationDate, StringFormat=STVORENO: d. M. yyyy.}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Path=CreationDate, StringFormat=STVORENO: d. M. yyyy.}" />
 
-                        <Image Grid.Column="2" Tag="{Binding Path=Id}" Width="20" Cursor="Hand"
-                               PreviewMouseDown="DeleteEvent" ToolTip="Izbriši bilješku" ToolTipService.InitialShowDelay="500">
+                        <Image
+                            Grid.Column="2"
+                            Width="20"
+                            Cursor="Hand"
+                            PreviewMouseDown="DeleteEvent"
+                            Tag="{Binding Path=Id}"
+                            ToolTip="Izbriši bilješku"
+                            ToolTipService.InitialShowDelay="500">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
-                                    <Setter Property="Source" Value="../Resources/Images/delete.png"/>
+                                    <Setter Property="Source" Value="../Resources/Images/delete.png" />
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Source" Value="../Resources/Images/deleteRed.png"/>
+                                            <Setter Property="Source" Value="../Resources/Images/deleteRed.png" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Image.Style>
                         </Image>
-                        <Image Grid.Column="4" Tag="{Binding Path=Id}" Source="../Resources/Images/edit.png" Width="20"
-                            Cursor="Hand" PreviewMouseDown="OpenEditor" ToolTip="Uredi bilješku" ToolTipService.InitialShowDelay="500"/>
+                        <Image
+                            Grid.Column="4"
+                            Width="20"
+                            Cursor="Hand"
+                            PreviewMouseDown="OpenEditor"
+                            Source="../Resources/Images/edit.png"
+                            Tag="{Binding Path=Id}"
+                            ToolTip="Uredi bilješku"
+                            ToolTipService.InitialShowDelay="500" />
                     </Grid>
 
                     <Grid Margin="2,5,0,0">
@@ -161,7 +234,7 @@
                             <ColumnDefinition Width="4*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock TextTrimming="WordEllipsis" Foreground="{StaticResource TextColor2}">
+                        <TextBlock Foreground="{StaticResource TextColor2}" TextTrimming="WordEllipsis">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="OZNAKE: {0}">
                                     <Binding Path="Tags" />
@@ -182,15 +255,24 @@
 
                         <StackPanel Orientation="Vertical">
                             <TextBlock FontSize="14" Text="Datum početka:" />
-                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=StartDate, StringFormat=dd. MM. yyyy}" />
+                            <TextBlock
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Text="{Binding Path=StartDate, StringFormat=dd. MM. yyyy}" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Vertical">
                             <TextBlock FontSize="14" Text="Datum završetka:" />
-                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=EndDate, StringFormat=dd. MM. yyyy}" />
+                            <TextBlock
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Text="{Binding Path=EndDate, StringFormat=dd. MM. yyyy}" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Orientation="Vertical">
                             <TextBlock FontSize="14" Text="Lokacija:" />
-                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Location}" />
+                            <TextBlock
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Text="{Binding Path=Location}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -200,29 +282,56 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Background="Transparent">
-            <StackPanel HorizontalAlignment="Center" Margin="0,0,0,30">
-                
+            <StackPanel Margin="0,0,0,30" HorizontalAlignment="Center">
+
                 <StackPanel Name="Events" Visibility="Visible">
-                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,35,0,0">
+                    <TextBlock
+                        Margin="0,35,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="Bold">
                         Nadolazeći događaji
                     </TextBlock>
-                    <ItemsControl BorderThickness="0" Margin="0,20,0,10" x:Name="UpcomingEventsContainer" HorizontalContentAlignment="Stretch"
-                        ItemTemplate="{StaticResource UpcomingEventsTemplate}"/>
-                    <TextBlock Visibility="Collapsed" Name="UpcomingEventsEmpty" FontSize="15" Margin="0,20,0,10">
+                    <ItemsControl
+                        x:Name="UpcomingEventsContainer"
+                        Margin="0,20,0,10"
+                        HorizontalContentAlignment="Stretch"
+                        BorderThickness="0"
+                        ItemTemplate="{StaticResource UpcomingEventsTemplate}" />
+                    <TextBlock
+                        Name="UpcomingEventsEmpty"
+                        Margin="0,20,0,10"
+                        FontSize="15"
+                        Visibility="Collapsed">
                         Trenutno nema nadolazećih događaja.
                     </TextBlock>
 
-                    <TextBlock FontSize="20" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,30,0,0">
+                    <TextBlock
+                        Margin="0,30,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="Bold">
                         Prošli događaji
                     </TextBlock>
-                    <ItemsControl BorderThickness="0" Margin="0,20,0,10" x:Name="ExpiredEventsContainer" HorizontalContentAlignment="Stretch"
-                        ItemTemplate="{StaticResource ExpiredEventsTemplate}"/>
-                    <TextBlock Visibility="Collapsed" Name="ExpiredEventsEmpty"  FontSize="15" Margin="0,20,0,0">
+                    <ItemsControl
+                        x:Name="ExpiredEventsContainer"
+                        Margin="0,20,0,10"
+                        HorizontalContentAlignment="Stretch"
+                        BorderThickness="0"
+                        ItemTemplate="{StaticResource ExpiredEventsTemplate}" />
+                    <TextBlock
+                        Name="ExpiredEventsEmpty"
+                        Margin="0,20,0,0"
+                        FontSize="15"
+                        Visibility="Collapsed">
                         Trenutno nema prošlih događaja.
                     </TextBlock>
                 </StackPanel>
 
-                <StackPanel Name="EventsEmpty" Visibility="Collapsed" Margin="0,20,0,0">
+                <StackPanel
+                    Name="EventsEmpty"
+                    Margin="0,20,0,0"
+                    Visibility="Collapsed">
                     <TextBlock FontSize="15">
                         Izgleda da ne postoji nijedan događaj...
                     </TextBlock>
