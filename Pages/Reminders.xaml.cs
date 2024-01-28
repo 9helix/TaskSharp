@@ -119,9 +119,9 @@ namespace SideBar_Nav.Pages
         private void OpenEditor(object sender, MouseButtonEventArgs e)
         {
             var reminderID = ((Image)sender).Tag;
-            Application.Current.Properties["noteType"] = 2;
             Application.Current.Properties["noteId"] = reminderID;
 
+            Application.Current.Properties["isNotTodoViewer"] = true;
             callEditReminder?.Invoke();
             /*
             var reminderEdit = new NoteEdit();

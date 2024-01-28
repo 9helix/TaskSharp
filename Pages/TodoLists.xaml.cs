@@ -102,6 +102,7 @@ namespace SideBar_Nav.Pages
         {
             var todoID = (int)((Image)sender).Tag;
             Application.Current.Properties["noteId"] = todoID;
+            Application.Current.Properties["isNotTodoViewer"] = true;
             callEditTodo?.Invoke();
             /*
             var todoView = new TodoViewer();
@@ -141,6 +142,7 @@ namespace SideBar_Nav.Pages
         {
             var todoID = ((StackPanel)sender).Tag;
             Application.Current.Properties["noteId"] = todoID;
+            Application.Current.Properties["isNotTodoViewer"] = false;
 
             callTodoViewer?.Invoke();
         }

@@ -37,7 +37,7 @@ namespace TaskSharp.Themes
             calledTodo?.Invoke(x, y);
         }
 
-        public void SearchNotes(object sender, TextChangedEventArgs e)
+        private void SearchNotes(object sender, TextChangedEventArgs e)
         {
             _context.Database.EnsureCreated();
             int noteType = (int)Application.Current.Properties["noteType"];

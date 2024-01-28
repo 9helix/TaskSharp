@@ -133,9 +133,9 @@ namespace SideBar_Nav.Pages
         private void OpenEditor(object sender, MouseButtonEventArgs e)
         {
             var eventID = ((Image)sender).Tag;
-            Application.Current.Properties["noteType"] = 1;
             Application.Current.Properties["noteId"] = eventID;
 
+            Application.Current.Properties["isNotTodoViewer"] = true;
             callEditEvent?.Invoke();
             /*var eventEdit = new NoteEdit();
             eventEdit.Show();

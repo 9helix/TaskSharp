@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Notification.Wpf;
 using SideBar_Nav.Pages;
-using System.Diagnostics;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -109,7 +108,6 @@ namespace TaskSharp
                 MessageBox.Show($"Odjava uspješna!", "Odjava", MessageBoxButton.OK, MessageBoxImage.Information);
                 var win = new Login();
                 win.Show();
-
                 this.Close();
             }
         }
@@ -246,7 +244,7 @@ namespace TaskSharp
             todoCreationDate.Visibility = Visibility.Collapsed;
             todoTags.Visibility = Visibility.Collapsed;
             elements.Visibility = Visibility.Collapsed;
-            todoElements.Visibility = Visibility.Collapsed;
+            todoScroll.Visibility = Visibility.Collapsed;
 
             if (type != 0)
             {
@@ -333,7 +331,6 @@ namespace TaskSharp
             string tags = this.tags.Text;
             bool pin = flag.IsChecked.Value;
 
-            Debug.WriteLine($"{name}-{tags}-{pin}");
             DateTime dateCreate = DateTime.Now;
             int uid = (int)Application.Current.Properties["uid"];
             var noteId = Application.Current.Properties["noteId"];
@@ -343,7 +340,6 @@ namespace TaskSharp
                     if (!editing)
                     {
                         string content = this.content.Text;
-                        Debug.WriteLine(content);
                         if (content == "")
                         {
                             MessageBox.Show("Sadržaj ne smije biti prazan.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -355,7 +351,6 @@ namespace TaskSharp
                     else
                     {
                         string content = this.content.Text;
-                        Debug.WriteLine(content);
                         if (content == "")
                         {
                             MessageBox.Show("Sadržaj ne smije biti prazan.", "Greška spremanja", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -384,7 +379,6 @@ namespace TaskSharp
                             return -1;
                         }
                         string location = this.location.Text;
-                        Debug.WriteLine($"{startEvent}-{endEvent}-{location}");
 
                         Event newEvent = new(dateCreate, name, tags, pin, uid, (DateTime)startEvent, (DateTime)endEvent, location);
                         _context.Events.Add(newEvent);
@@ -406,7 +400,6 @@ namespace TaskSharp
                             return -1;
                         }
                         string location = this.location.Text;
-                        Debug.WriteLine($"{startEvent}-{endEvent}-{location}");
 
                         var note2 = _context.Events.Where(nt => nt.Id == (int)noteId).First();
                         note2.Update(name, tags, pin, (DateTime)startEvent, (DateTime)endEvent, location);
@@ -425,7 +418,6 @@ namespace TaskSharp
                         int PriorityIndex = PriorityMenuPick.SelectedIndex;
                         ReminderPriority priority = (ReminderPriority)PriorityIndex;
 
-                        Debug.WriteLine($"{dueDate}-{priority}");
                         Reminder newReminder = new(dateCreate, name, tags, pin, uid, (DateTime)dueDate, priority);
                         _context.Reminders.Add(newReminder);
                     }
@@ -440,7 +432,6 @@ namespace TaskSharp
 
                         int PriorityIndex = PriorityMenuPick.SelectedIndex;
                         ReminderPriority priority = (ReminderPriority)PriorityIndex;
-                        Debug.WriteLine($"{dueDate}-{priority}");
 
                         var note3 = _context.Reminders.Where(nt => nt.Id == (int)noteId).First();
                         note3.Update(name, tags, pin, (DateTime)dueDate, priority);
@@ -450,16 +441,14 @@ namespace TaskSharp
                 case 3: // todo
                     if (!editing)
                     {
-                        Debug.WriteLine("not editing todo");
                         var todos = TodoList.Children;
                         Dictionary<string, bool> todoDict = new();
                         foreach (var child in todos)
                         {
-                            Debug.WriteLine(child);
                             var todo = ((child as Border).Child as StackPanel).Children;
-                            todoDict[(todo[0] as TextBox).Text] = false;
+                            todoDict[(todo[1] as TextBox).Text] = false;
 
-                            if ((todo[0] as TextBox).Text == "")
+                            if ((todo[1] as TextBox).Text == "")
                             {
                                 MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
                                 return -1;
@@ -471,7 +460,6 @@ namespace TaskSharp
                     }
                     else
                     {
-                        Debug.WriteLine("editing todo");
                         var todos = TodoList.Children;
 
                         Dictionary<string, bool> todoDict = new();
@@ -480,8 +468,6 @@ namespace TaskSharp
                         {
                             foreach (var child in todos)
                             {
-
-                                Debug.WriteLine("todo stavka");
                                 var todo = ((child as Border).Child as StackPanel).Children;
                                 todoDict[(todo[0] as TextBox).Text] = false;
                                 if ((todo[0] as TextBox).Text == "")
@@ -552,17 +538,17 @@ namespace TaskSharp
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Properties["isSaveNote"] = true;
+            Application.Current.Properties["isNotTodoViewer"] = true;
             diHost.IsOpen = true;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            var isSaveNote = (bool)Application.Current.Properties["isSaveNote"];
             var uid = (int)Application.Current.Properties["uid"];
             var noteType = (int)Application.Current.Properties["noteType"];
 
-            if (isSaveNote) // if note was created or edited
-            {
+            if ((bool)Application.Current.Properties["isSaveNote"])
+            { // if note was created or edited
                 int x = SaveNote();
                 if (x == -1)
                 {
@@ -584,7 +570,7 @@ namespace TaskSharp
                 foreach (var child in todos)
                 {
                     var todo = (child as StackPanel).Children;
-                    todoDict[(todo[0] as TextBlock).Text] = (todo[1] as CheckBox).IsChecked.Value;
+                    todoDict[(todo[1] as TextBlock).Text] = (todo[2] as CheckBox).IsChecked.Value;
                 }
 
                 var selectedTodo = _context.TodoLists.Where(nt => nt.UserId == uid && nt.Id == noteId).First();
@@ -601,6 +587,7 @@ namespace TaskSharp
 
                         diHost.IsOpen = false;
                         CleanAddNote();
+
                         RefreshData(noteType, uid);
                         return;
                     }
@@ -704,11 +691,9 @@ namespace TaskSharp
             {
                 case 0:
                     var temp1 = _context.Notes.Where(nt => nt.Id == noteId).First();
-                    NoteContent.Visibility = Visibility.Visible;
 
                     note_name.Text = temp1.Name;
                     tags.Text = temp1.Tags;
-                    flag.IsChecked = temp1.Pinned;
                     content.Text = temp1.Content;
 
                     break;
@@ -718,7 +703,6 @@ namespace TaskSharp
 
                     note_name.Text = temp2.Name;
                     tags.Text = temp2.Tags;
-                    flag.IsChecked = temp2.Pinned;
 
                     //EventStartPick.BlackoutDates.AddDatesInPast();
                     EventStartPick.SelectedDate = temp2.StartDate;
@@ -736,7 +720,6 @@ namespace TaskSharp
 
                     note_name.Text = temp3.Name;
                     tags.Text = temp3.Tags;
-                    flag.IsChecked = temp3.Pinned;
 
                     //ReminderDuePick.BlackoutDates.AddDatesInPast();
                     ReminderDuePick.SelectedDate = temp3.DueDate;
@@ -752,16 +735,11 @@ namespace TaskSharp
 
                     note_name.Text = temp4.Name;
                     tags.Text = temp4.Tags;
-                    flag.IsChecked = temp4.Pinned;
-                    Debug.WriteLine($"todo zastavica:{temp4.Pinned}");
 
-                    Debug.WriteLine($"todo br stavki:{todos.Count}");
                     TodoList.Children.Clear();
                     todoNums.Clear();
                     foreach (var entry in todos)
                     {
-                        Debug.WriteLine($"todo entry:{entry}");
-
                         AddTodo2(entry.Key);
                     }
                     //TodoList.Visibility = Visibility.Visible;
@@ -771,11 +749,12 @@ namespace TaskSharp
             Application.Current.Properties["isSaveNote"] = true;
             ToggleFields(NoteType);
             diHost.IsOpen = true;
+            Flag.Visibility = Visibility.Collapsed;
         }
 
         private void AddTodo2(string content = null)
         {
-            if (todoNums.Count() <= 10)
+            if (todoNums.Count() < 10)
             {
                 Image img = new Image
                 {
@@ -845,7 +824,7 @@ namespace TaskSharp
             todoCreationDate.Visibility = Visibility.Visible;
             todoTags.Visibility = Visibility.Visible;
             elements.Visibility = Visibility.Visible;
-            todoElements.Visibility = Visibility.Visible;
+            todoScroll.Visibility = Visibility.Visible;
             diHost.IsOpen = true;
 
             var uid = (int)Application.Current.Properties["uid"];
@@ -857,18 +836,24 @@ namespace TaskSharp
             tdTags.Text = todos.Tags;
 
             var todoDict = JsonSerializer.Deserialize<Dictionary<string, bool>>(todos.Todos);
-
+            int counter = 1;
             foreach (var dict in todoDict)
             {
                 var stk = new StackPanel
                 {
                     Orientation = Orientation.Horizontal
                 };
-                var text = new TextBlock
+                var text1 = new TextBlock
+                {
+                    Text = (counter++) + ")",
+                    Margin = new Thickness(left: 0, top: 0, right: 5, bottom: 0),
+                    FontWeight = FontWeights.Bold
+                };
+                var text2 = new TextBlock
                 {
                     Padding = new Thickness(left: 0, top: 0, right: 5, bottom: 0),
                     Text = dict.Key,
-                    Width = 120,
+                    Width = 110,
                     Margin = new Thickness(left: 0, top: 0, right: 10, bottom: 0),
                     TextWrapping = TextWrapping.Wrap
                 };
@@ -880,7 +865,8 @@ namespace TaskSharp
                     Cursor = Cursors.Hand
                 };
 
-                stk.Children.Add(text);
+                stk.Children.Add(text1);
+                stk.Children.Add(text2);
                 stk.Children.Add(chk);
                 todoElements.Children.Add(stk);
             }
@@ -890,6 +876,10 @@ namespace TaskSharp
         private void diHost_DialogOpened(object sender, MaterialDesignThemes.Wpf.DialogOpenedEventArgs eventArgs)
         {
             toggleNavbar();
+            if ((bool)Application.Current.Properties["isNotTodoViewer"])
+            {
+                ToggleFields((int)Application.Current.Properties["noteType"]);
+            }
         }
     }
 }

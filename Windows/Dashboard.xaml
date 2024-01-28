@@ -112,7 +112,7 @@
                             Foreground="{StaticResource TextColor}"
                             TextAlignment="Center"
                             TextTrimming="CharacterEllipsis">
-                            Korisnik:<Run Name="userChip" FontWeight="Bold" />
+                            Korisnik: <Run Name="userChip" FontWeight="Bold" />
                         </TextBlock>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
@@ -266,7 +266,7 @@
 
                             <StackPanel
                                 x:Name="NoteContent"
-                                Margin="0,0,0,5"
+                                Margin="0,5,0,5"
                                 HorizontalAlignment="Center"
                                 Orientation="Vertical"
                                 Visibility="Collapsed">
@@ -354,21 +354,22 @@
                                     </ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
-                            <StackPanel
-                                Name="TodoList"
-                                MaxHeight="200"
-                                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                Visibility="Collapsed">
-                                <Border Padding="0,0,0,5">
-                                    <StackPanel>
-                                        <TextBox
-                                            Width="150"
-                                            Margin="0,0,30,0"
-                                            MaxLength="30"
-                                            Text="Todo #1" />
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
+                                <StackPanel
+                                    Name="TodoList"
+                                    MaxHeight="200"
+                                    Visibility="Collapsed">
+                                    <Border Padding="0,0,0,5">
+                                        <StackPanel>
+                                            <TextBox
+                                                Width="150"
+                                                Margin="0,0,30,0"
+                                                MaxLength="30"
+                                                Text="Todo #1" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </ScrollViewer>
                             <StackPanel
                                 Name="todoName"
                                 Margin="0,0,0,5"
@@ -413,12 +414,17 @@
                                 Visibility="Collapsed">
                                 <TextBlock Margin="0,0,5,0">Stavke:</TextBlock>
                             </StackPanel>
-                            <StackPanel
-                                Name="todoElements"
-                                Margin="0,0,0,5"
-                                HorizontalAlignment="Center"
-                                Orientation="Vertical"
-                                Visibility="Collapsed" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                          CanContentScroll="True"
+                                          Height="140"
+                                          Name="todoScroll"
+                                          Visibility="Collapsed">
+                                <StackPanel
+                                    Name="todoElements"
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Vertical" />
+                            </ScrollViewer>
 
                             <Button
                                 Name="todoBtn"
