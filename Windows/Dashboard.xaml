@@ -112,7 +112,7 @@
                             Foreground="{StaticResource TextColor}"
                             TextAlignment="Center"
                             TextTrimming="CharacterEllipsis">
-                            Korisnik: <Run Name="userChip" FontWeight="Bold" />
+                            Korisnik:<Run Name="userChip" FontWeight="Bold" />
                         </TextBlock>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
@@ -189,7 +189,7 @@
                     Name="diHost"
                     DialogClosing="DialogHost_OnDialogClosing"
                     DialogContentUniformCornerRadius="20"
-                    DialogOpened="diHost_DialogOpened"
+                    DialogOpened="DialogHost_DialogOpened"
                     DialogTheme="Inherit">
                     <materialDesign:DialogHost.DialogContent>
                         <StackPanel Margin="16">
@@ -248,7 +248,6 @@
                                 Margin="0,0,0,5"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
-                                <!--<TextBlock Padding="0,0,5,0">Tagovi (odvojiti <Bold>zarezom</Bold>):</TextBlock>-->
                                 <TextBox
                                     Name="tags"
                                     Width="100"
@@ -354,7 +353,7 @@
                                     </ComboBoxItem>
                                 </ComboBox>
                             </StackPanel>
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
+                            <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
                                 <StackPanel
                                     Name="TodoList"
                                     MaxHeight="200"
@@ -414,11 +413,12 @@
                                 Visibility="Collapsed">
                                 <TextBlock Margin="0,0,5,0">Stavke:</TextBlock>
                             </StackPanel>
-                            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                          CanContentScroll="True"
-                                          Height="140"
-                                          Name="todoScroll"
-                                          Visibility="Collapsed">
+                            <ScrollViewer
+                                Name="todoScroll"
+                                Height="140"
+                                CanContentScroll="True"
+                                VerticalScrollBarVisibility="Auto"
+                                Visibility="Collapsed">
                                 <StackPanel
                                     Name="todoElements"
                                     Margin="0,0,0,5"
@@ -442,7 +442,6 @@
                                     Kind="Plus" />
                             </Button>
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <!--  ="{x:Static materialDesign:DialogHost.CloseDialogCommand}"  -->
                                 <Button
                                     Margin="0,8,8,0"
                                     Click="Button_Click_1"
@@ -500,14 +499,12 @@
                             Margin="0,0,10,10"
                             Background="Transparent"
                             NavigationUIVisibility="Hidden" />
-                        <!--  MouseLeftButtonDown="Create_Click"  -->
                         <Canvas
                             Name="plus"
                             Grid.Row="1"
                             Margin="529,244,41,26"
                             ToolTip="Dodaj zapis"
                             ToolTipService.InitialShowDelay="500">
-                            <!--  Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"  -->
                             <Button
                                 Width="50"
                                 Height="50"

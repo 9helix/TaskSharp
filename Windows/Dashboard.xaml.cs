@@ -108,7 +108,7 @@ namespace TaskSharp
                 MessageBox.Show($"Odjava uspješna!", "Odjava", MessageBoxButton.OK, MessageBoxImage.Information);
                 var win = new Login();
                 win.Show();
-                this.Close();
+                Close();
             }
         }
 
@@ -142,7 +142,7 @@ namespace TaskSharp
 
                 var win2 = new Login();
                 win2.Show();
-                this.Close();
+                Close();
             }
         }
 
@@ -171,55 +171,9 @@ namespace TaskSharp
 
         }
 
-        List<int> todoNums = new List<int> { 1 };
+        List<int> todoNums = new() { 1 };
         private void AddTodo(object sender, RoutedEventArgs e)
-        {/*
-            if (todoNums.Count() > 10)
-            {
-                todoNums.Add(todoNums.Last() + 1);
-                StackPanel stk = new StackPanel
-                {
-                    //Name = $"todo{todoNums.Last()}",
-                    Orientation = Orientation.Horizontal,
-                    HorizontalAlignment = HorizontalAlignment.Center
-                };
-                Separator sep = new Separator
-                {
-                    //Name = $"septodo{todoNums.Last()}",
-                    Width = 10,
-                    Background = Brushes.Transparent
-                };
-                TextBox txt = new TextBox
-                {
-                    Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0),
-                    MaxLength = 30,
-                    Width = 150,
-                    Text = $"Todo #{todoNums.Last()}",
-                    //Style = null
-                };
-                Border border = new Border
-                {
-                    Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
-                };
-                Image img = new Image
-                {
-                    Width = 15,
-                    Source = new BitmapImage(new Uri(@"/Resources/Images/deleteRed.png", UriKind.Relative)),
-                    Cursor = Cursors.Hand,
-                    ToolTip = new ToolTip() { Content = "Izbriši stavku" }
-                };
-                img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
-                stk.Children.Add(txt);
-                stk.Children.Add(sep);
-
-                stk.Children.Add(img);
-                border.Child = stk;
-                TodoList.Children.Add(border);
-            }
-            else
-            {
-                MessageBox.Show("Dozvoljeno maksimalno 10 Todo-ova po listi.", "Todo greška", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }*/
+        {
             AddTodo2();
         }
 
@@ -296,7 +250,7 @@ namespace TaskSharp
             }
         }
 
-        private void toggleNavbar()
+        private void ToggleNavbar()
         {
             p1.IsHitTestVisible = !p1.IsHitTestVisible;
             p2.IsHitTestVisible = !p2.IsHitTestVisible;
@@ -306,15 +260,14 @@ namespace TaskSharp
 
         private void DialogHost_OnDialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
         {
-            toggleNavbar();
+            ToggleNavbar();
             if (!Equals(eventArgs.Parameter, true))
                 return;
 
-            //if (!string.IsNullOrWhiteSpace(FruitTextBox.Text))
             int x = SaveNote();
             if (x == -1)
             {
-                toggleNavbar();
+                ToggleNavbar();
                 diHost.IsOpen = true;
             }
         }
@@ -495,7 +448,6 @@ namespace TaskSharp
             else
                 MessageBox.Show("Zapis uspješno uređen!", "Uređivanje zapisa", MessageBoxButton.OK, MessageBoxImage.Information);
             return 0;
-            //this.Close();
         }
 
         private void CleanAddNote()
@@ -516,15 +468,14 @@ namespace TaskSharp
             todoNums = new List<int> { 1 };
             StackPanel stk = new();
 
-            TextBox txt = new TextBox
+            TextBox txt = new()
             {
                 Margin = new Thickness(left: 0, top: 0, right: 30, bottom: 0),
                 MaxLength = 30,
                 Width = 150,
                 Text = $"Todo #1",
-                //Style = null
             };
-            Border border = new Border
+            Border border = new()
             {
                 Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
             };
@@ -703,16 +654,10 @@ namespace TaskSharp
 
                     note_name.Text = temp2.Name;
                     tags.Text = temp2.Tags;
-
-                    //EventStartPick.BlackoutDates.AddDatesInPast();
                     EventStartPick.SelectedDate = temp2.StartDate;
-                    //EventEndPick.BlackoutDates.AddDatesInPast();
                     EventEndPick.SelectedDate = temp2.EndDate;
-
                     location.Text = temp2.Location;
-                    /*EventStart.Visibility = Visibility.Visible;
-                    EventEnd.Visibility = Visibility.Visible;
-                    txtLocation.Visibility = Visibility.Visible;*/
+
                     break;
 
                 case 2:
@@ -720,13 +665,9 @@ namespace TaskSharp
 
                     note_name.Text = temp3.Name;
                     tags.Text = temp3.Tags;
-
-                    //ReminderDuePick.BlackoutDates.AddDatesInPast();
                     ReminderDuePick.SelectedDate = temp3.DueDate;
-                    //ReminderDue.Visibility = Visibility.Visible;
-
                     PriorityMenuPick.SelectedIndex = (int)temp3.Priority;
-                    //PriorityMenu.Visibility = Visibility.Visible;
+
                     break;
 
                 case 3:
@@ -742,7 +683,6 @@ namespace TaskSharp
                     {
                         AddTodo2(entry.Key);
                     }
-                    //TodoList.Visibility = Visibility.Visible;
                     break;
             }
 
@@ -754,16 +694,16 @@ namespace TaskSharp
 
         private void AddTodo2(string content = null)
         {
-            if (todoNums.Count() < 10)
+            if (todoNums.Count < 10)
             {
-                Image img = new Image
+                Image img = new()
                 {
                     Width = 15,
                     Source = new BitmapImage(new Uri(@"/Resources/Images/deleteRed.png", UriKind.Relative)),
                     Cursor = Cursors.Hand,
                     ToolTip = new ToolTip() { Content = "Izbriši stavku" }
                 };
-                if (todoNums.Count() == 0)
+                if (todoNums.Count == 0)
                 {
                     todoNums.Add(1);
                 }
@@ -772,7 +712,7 @@ namespace TaskSharp
                     todoNums.Add(todoNums.Last() + 1);
                     img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
                 }
-                StackPanel stk = new StackPanel
+                StackPanel stk = new()
                 {
                     Orientation = Orientation.Horizontal,
                     HorizontalAlignment = HorizontalAlignment.Center
@@ -789,13 +729,12 @@ namespace TaskSharp
                     txt = new TextBox { Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0), MaxLength = 30, Width = 150, Text = content };
                 }
 
-                Separator sep = new Separator
+                Separator sep = new()
                 {
-                    //Name = $"septodo{todoNums.Last()}",
                     Width = 10,
                     Background = Brushes.Transparent
                 };
-                Border border = new Border
+                Border border = new()
                 {
                     Padding = new Thickness(left: 0, top: 0, right: 0, bottom: 5)
                 };
@@ -873,9 +812,9 @@ namespace TaskSharp
             Application.Current.Properties["isSaveNote"] = false;
         }
 
-        private void diHost_DialogOpened(object sender, MaterialDesignThemes.Wpf.DialogOpenedEventArgs eventArgs)
+        private void DialogHost_DialogOpened(object sender, MaterialDesignThemes.Wpf.DialogOpenedEventArgs eventArgs)
         {
-            toggleNavbar();
+            ToggleNavbar();
             if ((bool)Application.Current.Properties["isNotTodoViewer"])
             {
                 ToggleFields((int)Application.Current.Properties["noteType"]);
