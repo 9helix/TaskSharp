@@ -46,7 +46,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="16"
                                 Foreground="{StaticResource TextColor2}"
-                                IsHitTestVisible="False"><Run FontStyle="Italic">Pretraži...</Run>
+                                IsHitTestVisible="False"><Run FontStyle="Italic">Pretraži po nazivu ili oznakama</Run>
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Style.Triggers>

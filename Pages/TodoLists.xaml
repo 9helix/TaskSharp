@@ -231,16 +231,20 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-
+                      
                         <StackPanel
                             Grid.Column="1"
+                            HorizontalAlignment="Right"
                             Cursor="Hand"
                             Orientation="Horizontal"
                             PreviewMouseDown="ViewTodo"
                             Tag="{Binding Path=Id}">
-                            <TextBlock Text="Pogledaj stavke" />
-                            <Separator Width="5" Background="Transparent" />
-                            <Image Width="20" Source="../Resources/Images/to-do.png" />
+                            <Image
+                                Width="20"
+                                Margin="0,0,8,5"
+                                Source="../Resources/Images/to-do.png"
+                                ToolTip="Pogledaj stavke"
+                                ToolTipService.InitialShowDelay="500" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
