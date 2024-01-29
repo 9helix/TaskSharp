@@ -714,7 +714,6 @@ namespace TaskSharp
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
-
                 TextBox txt;
                 if (content == null)
                 {

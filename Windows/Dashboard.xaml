@@ -188,6 +188,7 @@
 
                 <materialDesign:DialogHost
                     Name="diHost"
+                    CornerRadius="0,15,15,0"
                     DialogClosed="DiHost_DialogClosed"
                     DialogClosing="DialogHost_OnDialogClosing"
                     DialogContentUniformCornerRadius="20"
