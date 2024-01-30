@@ -84,8 +84,8 @@ namespace SideBar_Nav.Pages
             var uid = (int)Application.Current.Properties["uid"];
             var upcomingReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
                 .OrderByDescending(x => x.Pinned)
-                .ThenBy(x => x.Priority)
                 .ThenBy(x => x.DueDate)
+                .ThenByDescending(x => x.Priority)
                 .ToList();
             var expiredReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
                 .OrderByDescending(x => x.DueDate)
@@ -104,8 +104,8 @@ namespace SideBar_Nav.Pages
 
             var upcomingReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
                 .OrderByDescending(x => x.Pinned)
-                .ThenBy(x => x.Priority)
                 .ThenBy(x => x.DueDate)
+                .ThenByDescending(x => x.Priority)
                 .ToList();
             var expiredReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
                 .OrderByDescending(x => x.DueDate)
@@ -140,10 +140,10 @@ namespace SideBar_Nav.Pages
                 MessageBox.Show("Događaj uspješno izbrisan!", "Brisanje događaja", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 var upcomingReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate >= DateTime.Today)
-                .OrderByDescending(x => x.Pinned)
-                .ThenBy(x => x.Priority)
-                .ThenBy(x => x.DueDate)
-                .ToList();
+                    .OrderByDescending(x => x.Pinned)
+                    .ThenBy(x => x.DueDate)
+                    .ThenByDescending(x => x.Priority)
+                    .ToList();
                 var expiredReminders = _context.Reminders.Where(x => x.UserId == uid && x.DueDate < DateTime.Today)
                     .OrderByDescending(x => x.DueDate)
                     .ToList();

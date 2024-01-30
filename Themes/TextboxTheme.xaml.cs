@@ -72,8 +72,8 @@ namespace TaskSharp.Themes
                     var upcomingReminders = _context.Reminders
                         .Where(x => x.UserId == uid && x.DueDate >= DateTime.Today && (x.Name.ToLower().Contains(text) || x.Tags.ToLower().Contains(text)))
                         .OrderByDescending(x => x.Pinned)
-                        .ThenBy(x => x.Priority)
                         .ThenBy(x => x.DueDate)
+                        .ThenByDescending(x => x.Priority)
                         .ToList();
                     var expiredReminders = _context.Reminders
                         .Where(x => x.UserId == uid && x.DueDate < DateTime.Today && (x.Name.ToLower().Contains(text) || x.Tags.ToLower().Contains(text)))
