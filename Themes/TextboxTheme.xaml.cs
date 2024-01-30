@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using TaskSharp.Classes;
 
@@ -39,7 +38,6 @@ namespace TaskSharp.Themes
 
         private void SearchNotes(object sender, TextChangedEventArgs e)
         {
-            _context.Database.EnsureCreated();
             int noteType = (int)Application.Current.Properties["noteType"];
             var uid = (int)Application.Current.Properties["uid"];
             string text = (sender as TextBox).Text.ToLower();
