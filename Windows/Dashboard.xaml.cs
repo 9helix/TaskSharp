@@ -161,11 +161,6 @@ namespace TaskSharp
             }
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         List<int> todoNums = new() { 1 };
         private void AddTodo(object sender, RoutedEventArgs e)
         {
@@ -504,11 +499,10 @@ namespace TaskSharp
                 else
                 {
                     diHost.IsOpen = false;
-                    //CleanAddNote();
                     editing = false;
                 }
             }
-            else // perform saving to-do elements
+            else // perform saving changes of to-do elements
             {
                 var todos = todoElements.Children;
                 var noteId = (int)Application.Current.Properties["noteId"];
@@ -533,8 +527,6 @@ namespace TaskSharp
                         _context.SaveChanges();
 
                         diHost.IsOpen = false;
-                        //CleanAddNote();
-
                         RefreshData(noteType, uid);
                         return;
                     }
@@ -552,7 +544,6 @@ namespace TaskSharp
 
                 _context.SaveChanges();
                 diHost.IsOpen = false;
-                //CleanAddNote();
             }
             RefreshData(noteType, uid);
         }
@@ -560,7 +551,6 @@ namespace TaskSharp
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             diHost.IsOpen = false;
-            //CleanAddNote();
             editing = false;
         }
 
@@ -632,9 +622,9 @@ namespace TaskSharp
         {
             editing = true;
             int noteId = (int)Application.Current.Properties["noteId"];
-            int NoteType = (int)Application.Current.Properties["noteType"];
+            int noteType = (int)Application.Current.Properties["noteType"];
 
-            switch (NoteType)
+            switch (noteType)
             {
                 case 0:
                     var temp1 = _context.Notes.Where(nt => nt.Id == noteId).First();
@@ -683,7 +673,7 @@ namespace TaskSharp
             }
 
             Application.Current.Properties["isSaveNote"] = true;
-            ToggleFields(NoteType);
+            ToggleFields(noteType);
             diHost.IsOpen = true;
             Flag.Visibility = Visibility.Collapsed;
         }

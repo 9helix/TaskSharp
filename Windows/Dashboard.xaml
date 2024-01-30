@@ -186,7 +186,6 @@
                     </LinearGradientBrush>
                 </Border.Background>
 
-
                 <materialDesign:DialogHost
                     Name="diHost"
                     CornerRadius="0,15,15,0"
@@ -203,8 +202,7 @@
                                 HorizontalAlignment="Center"
                                 materialDesign:HintAssist.Hint="Vrsta zapisa"
                                 FontSize="15"
-                                IsEnabled="False"
-                                SelectionChanged="ComboBox_SelectionChanged">
+                                IsEnabled="False">
                                 <ComboBoxItem Name="NoteSelected" VerticalAlignment="Top">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Width="16" Source="../Resources/Images/Notes/note.png" />
@@ -479,6 +477,7 @@
                             </StackPanel>
                         </StackPanel>
                     </materialDesign:DialogHost.DialogContent>
+
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="200" />

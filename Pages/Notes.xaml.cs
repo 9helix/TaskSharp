@@ -13,7 +13,6 @@ namespace SideBar_Nav.Pages
     /// </summary>
     public partial class Page1 : Page
     {
-
         private readonly NotesContext _context = new();
 
         public Page1()
