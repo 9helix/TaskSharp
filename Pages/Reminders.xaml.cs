@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -150,6 +151,11 @@ namespace SideBar_Nav.Pages
                     .ToList();
                 RefreshReminders(upcomingReminders, expiredReminders);
             }
+        }
+
+        private void Reminders_Unloaded(object sender, RoutedEventArgs e)
+        {
+            TextboxTheme.calledReminder -= RefreshReminders;
         }
     }
 }

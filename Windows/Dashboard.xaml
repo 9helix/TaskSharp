@@ -12,6 +12,7 @@
     AllowsTransparency="True"
     Background="Transparent"
     Loaded="Dashboard_Loaded"
+    Closing="Dashboard_Closing"
     MouseLeftButtonDown="Window_MouseLeftButtonDown"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"

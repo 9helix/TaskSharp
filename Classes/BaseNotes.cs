@@ -25,8 +25,10 @@ namespace TaskSharp.Classes
         public string Tags { get; set; }
         public bool Pinned { get; set; }
 
-        // foreign key on User
+        // Foreign key on User
         public int UserId { get; set; }
+
+        // Reference navigation on User
         public User User { get; set; }
 
         public void PinUnpin()

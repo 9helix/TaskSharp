@@ -14,10 +14,9 @@ namespace SideBar_Nav.Pages
     public partial class Page1 : Page
     {
 
-        private readonly NotesContext _context =
-            new NotesContext();
+        private readonly NotesContext _context = new();
 
-        public Page1()
+        public Page1() // notes
         {
             InitializeComponent();
             TextboxTheme.calledNote += RefreshNotes;
@@ -100,6 +99,11 @@ namespace SideBar_Nav.Pages
                     .ToList();
                 RefreshNotes(notes);
             }
+        }
+
+        private void Notes_Unloaded(object sender, RoutedEventArgs e)
+        {
+            TextboxTheme.calledNote -= RefreshNotes;
         }
     }
 }

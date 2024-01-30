@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -139,6 +140,11 @@ namespace SideBar_Nav.Pages
             Application.Current.Properties["isNotTodoViewer"] = false;
 
             callTodoViewer?.Invoke();
+        }
+
+        private void Todos_Unloaded(object sender, RoutedEventArgs e)
+        {
+            TextboxTheme.calledTodo -= RefreshTodos;
         }
     }
 }

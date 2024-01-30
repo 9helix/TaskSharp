@@ -821,5 +821,15 @@ namespace TaskSharp
         {
             CleanAddNote();
         }
+
+        private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _context.Dispose();
+            Page1.callEditNote -= Edit;
+            Page2.callEditEvent -= Edit;
+            Page3.callEditReminder -= Edit;
+            Page4.callEditTodo -= Edit;
+            Page4.callTodoViewer -= ViewTodo;
+        }
     }
 }

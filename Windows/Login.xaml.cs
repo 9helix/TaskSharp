@@ -37,11 +37,6 @@ namespace TaskSharp
             _context.Users.Load();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            _context.Dispose();
-        }
-
         private void LoginSwitch()
         {
 
@@ -155,6 +150,11 @@ namespace TaskSharp
                 FileName = e.Uri.AbsoluteUri,
                 UseShellExecute = true
             });
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _context.Dispose();
         }
     }
 }
