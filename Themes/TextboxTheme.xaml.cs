@@ -42,14 +42,13 @@ namespace TaskSharp.Themes
             _context.Database.EnsureCreated();
             int noteType = (int)Application.Current.Properties["noteType"];
             var uid = (int)Application.Current.Properties["uid"];
-            string text = (sender as TextBox).Text;
+            string text = (sender as TextBox).Text.ToLower();
 
             switch (noteType)
             {
                 case 0: // note
-                    _context.Notes.Load();
                     var notes = _context.Notes
-                        .Where(x => x.UserId == uid && (x.Name.Contains(text) || x.Tags.Contains(text)))
+                        .Where(x => x.UserId == uid && (x.Name.ToLower().Contains(text) || x.Tags.ToLower().Contains(text)))
                         .OrderByDescending(x => x.Pinned)
                         .ThenByDescending(x => x.CreationDate)
                         .ToList();
@@ -58,15 +57,13 @@ namespace TaskSharp.Themes
                     break;
 
                 case 1: // event
-                    _context.Events.Load();
-
                     var upcomingEvents = _context.Events
-                        .Where(x => x.UserId == uid && x.EndDate >= DateTime.Today && (x.Name.Contains(text) || x.Tags.Contains(text)))
+                        .Where(x => x.UserId == uid && x.EndDate >= DateTime.Today && (x.Name.ToLower().Contains(text) || x.Tags.ToLower().Contains(text)))
                         .OrderByDescending(x => x.Pinned)
                         .ThenBy(x => x.EndDate)
                         .ToList();
                     var expiredEvents = _context.Events
-                        .Where(x => x.UserId == uid && x.EndDate < DateTime.Today && (x.Name.Contains(text) || x.Tags.Contains(text)))
+                        .Where(x => x.UserId == uid && x.EndDate < DateTime.Today && (x.Name.ToLower().Contains(text) || x.Tags.ToLower().Contains(text)))
                         .OrderByDescending(x => x.EndDate)
                         .ToList();
 
@@ -74,16 +71,14 @@ namespace TaskSharp.Themes
                     break;
 
                 case 2: // reminder
-                    _context.Reminders.Load();
-
                     var upcomingReminders = _context.Reminders
-                        .Where(x => x.UserId == uid && x.DueDate >= DateTime.Today && (x.Name.Contains(text) || x.Tags.Contains(text)))
+                        .Where(x => x.UserId == uid && x.DueDate >= DateTime.Today && (x.Name.ToLower().Contains(text) || x.Tags.ToLower().Contains(text)))
                         .OrderByDescending(x => x.Pinned)
                         .ThenBy(x => x.Priority)
                         .ThenBy(x => x.DueDate)
                         .ToList();
                     var expiredReminders = _context.Reminders
-                        .Where(x => x.UserId == uid && x.DueDate < DateTime.Today && (x.Name.Contains(text) || x.Tags.Contains(text)))
+                        .Where(x => x.UserId == uid && x.DueDate < DateTime.Today && (x.Name.ToLower().Contains(text) || x.Tags.ToLower().Contains(text)))
                         .OrderByDescending(x => x.DueDate)
                         .ToList();
 
@@ -91,14 +86,12 @@ namespace TaskSharp.Themes
                     break;
 
                 case 3: // to-do list
-                    _context.TodoLists.Load();
-
                     var undoneTodos = _context.TodoLists
-                        .Where(x => x.UserId == uid && x.Done == false && (x.Name.Contains(text) || x.Tags.Contains(text)))
+                        .Where(x => x.UserId == uid && x.Done == false && (x.Name.ToLower().Contains(text) || x.Tags.ToLower().Contains(text)))
                         .OrderByDescending(x => x.Pinned)
                         .ToList();
                     var doneTodos = _context.TodoLists
-                        .Where(x => x.UserId == uid && x.Done == true && (x.Name.Contains(text) || x.Tags.Contains(text)))
+                        .Where(x => x.UserId == uid && x.Done == true && (x.Name.ToLower().Contains(text) || x.Tags.ToLower().Contains(text)))
                         .ToList();
 
                     CallTodoRefresher(undoneTodos, doneTodos);

@@ -396,9 +396,9 @@ namespace TaskSharp
                         foreach (var child in todos)
                         {
                             var todo = ((child as Border).Child as StackPanel).Children;
-                            todoDict[(todo[1] as TextBox).Text] = false;
+                            todoDict[(todo[0] as TextBox).Text] = false;
 
-                            if ((todo[1] as TextBox).Text == "")
+                            if ((todo[0] as TextBox).Text == "")
                             {
                                 MessageBox.Show("To-Do stavka ne može biti prazna.", "Greška u stvaranju", MessageBoxButton.OK, MessageBoxImage.Error);
                                 return -1;

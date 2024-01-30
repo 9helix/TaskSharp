@@ -15,7 +15,7 @@ namespace SideBar_Nav.Pages
     {
         private readonly NotesContext _context = new();
 
-        public Page2() // events
+        public Page2()
         {
             InitializeComponent();
             TextboxTheme.calledEvent += RefreshEvents;
@@ -167,6 +167,7 @@ namespace SideBar_Nav.Pages
 
         private void Events_Unloaded(object sender, RoutedEventArgs e)
         {
+            _context.Dispose();
             TextboxTheme.calledEvent -= RefreshEvents;
         }
     }
