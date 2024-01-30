@@ -11,10 +11,10 @@ namespace SideBar_Nav.Pages
     /// <summary>
     /// Interaction logic for Page3.xaml
     /// </summary>
-    public partial class Page3 : Page
+    public partial class Reminders : Page
     {
         private readonly NotesContext _context = new();
-        public Page3()
+        public Reminders()
         {
             InitializeComponent();
             TextboxTheme.calledReminder += RefreshReminders;
@@ -24,13 +24,13 @@ namespace SideBar_Nav.Pages
         {
             if (upcomingReminders.Count == 0 && expiredReminders.Count == 0)
             {
-                Reminders.Visibility = Visibility.Collapsed;
+                RemindersContainer.Visibility = Visibility.Collapsed;
                 RemindersEmpty.Visibility = Visibility.Visible;
             }
             else
             {
                 RemindersEmpty.Visibility = Visibility.Collapsed;
-                Reminders.Visibility = Visibility.Visible;
+                RemindersContainer.Visibility = Visibility.Visible;
 
                 if (upcomingReminders.Count == 0)
                 {

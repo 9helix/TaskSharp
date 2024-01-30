@@ -11,11 +11,11 @@ namespace SideBar_Nav.Pages
     /// <summary>
     /// Interaction logic for Page4.xaml
     /// </summary>
-    public partial class Page4 : Page
+    public partial class TodoLists : Page
     {
         private readonly NotesContext _context = new();
 
-        public Page4()
+        public TodoLists()
         {
             InitializeComponent();
             TextboxTheme.calledTodo += RefreshTodos;

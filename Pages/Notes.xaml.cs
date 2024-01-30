@@ -11,11 +11,11 @@ namespace SideBar_Nav.Pages
     /// <summary>
     /// Interaction logic for Page1.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class Notes : Page
     {
         private readonly NotesContext _context = new();
 
-        public Page1()
+        public Notes()
         {
             InitializeComponent();
             TextboxTheme.calledNote += RefreshNotes;

@@ -22,11 +22,11 @@ namespace TaskSharp
         public Dashboard()
         {
             InitializeComponent();
-            Page1.callEditNote += Edit;
-            Page2.callEditEvent += Edit;
-            Page3.callEditReminder += Edit;
-            Page4.callEditTodo += Edit;
-            Page4.callTodoViewer += ViewTodo;
+            Notes.callEditNote += Edit;
+            Events.callEditEvent += Edit;
+            Reminders.callEditReminder += Edit;
+            TodoLists.callEditTodo += Edit;
+            TodoLists.callTodoViewer += ViewTodo;
         }
 
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
@@ -62,26 +62,26 @@ namespace TaskSharp
                     ((RadioButton)sender).Tag = "/Resources/Images/Notes/note-white.png";
                     noteTitle.Text = "Bilješke";
                     Application.Current.Properties["noteType"] = 0;
-                    navframe.Navigate(new Page1());
+                    navframe.Navigate(new Notes());
                     break;
 
                 case "p2":
                     ((RadioButton)sender).Tag = "/Resources/Images/Notes/event-white.png";
                     noteTitle.Text = "Događaji";
                     Application.Current.Properties["noteType"] = 1;
-                    navframe.Navigate(new Page2());
+                    navframe.Navigate(new Events());
                     break;
                 case "p3":
                     ((RadioButton)sender).Tag = "/Resources/Images/Notes/reminder-white.png";
                     noteTitle.Text = "Podsjetnici";
                     Application.Current.Properties["noteType"] = 2;
-                    navframe.Navigate(new Page3());
+                    navframe.Navigate(new Reminders());
                     break;
                 case "p4":
                     ((RadioButton)sender).Tag = "/Resources/Images/Notes/todo-white.png";
                     noteTitle.Text = "To-Do liste";
                     Application.Current.Properties["noteType"] = 3;
-                    navframe.Navigate(new Page4());
+                    navframe.Navigate(new TodoLists());
                     break;
             }
 
@@ -758,11 +758,11 @@ namespace TaskSharp
         private void Dashboard_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _context.Dispose();
-            Page1.callEditNote -= Edit;
-            Page2.callEditEvent -= Edit;
-            Page3.callEditReminder -= Edit;
-            Page4.callEditTodo -= Edit;
-            Page4.callTodoViewer -= ViewTodo;
+            Notes.callEditNote -= Edit;
+            Events.callEditEvent -= Edit;
+            Reminders.callEditReminder -= Edit;
+            TodoLists.callEditTodo -= Edit;
+            TodoLists.callTodoViewer -= ViewTodo;
         }
     }
 }

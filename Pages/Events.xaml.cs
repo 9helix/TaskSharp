@@ -11,11 +11,11 @@ namespace SideBar_Nav.Pages
     /// <summary>
     /// Interaction logic for Page2.xaml
     /// </summary>
-    public partial class Page2 : Page
+    public partial class Events : Page
     {
         private readonly NotesContext _context = new();
 
-        public Page2()
+        public Events()
         {
             InitializeComponent();
             TextboxTheme.calledEvent += RefreshEvents;
@@ -25,13 +25,13 @@ namespace SideBar_Nav.Pages
         {
             if (upcomingEvents.Count == 0 && expiredEvents.Count == 0)
             {
-                Events.Visibility = Visibility.Collapsed;
+                EventsContainer.Visibility = Visibility.Collapsed;
                 EventsEmpty.Visibility = Visibility.Visible;
             }
             else
             {
                 EventsEmpty.Visibility = Visibility.Collapsed;
-                Events.Visibility = Visibility.Visible;
+                EventsContainer.Visibility = Visibility.Visible;
 
                 if (upcomingEvents.Count == 0)
                 {
