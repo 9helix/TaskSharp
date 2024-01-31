@@ -24,7 +24,6 @@
                 Margin="2"
                 Padding="5"
                 HorizontalAlignment="Center"
-                Background="{StaticResource SecondaryColor}"
                 BorderBrush="{StaticResource TextColor2}"
                 BorderThickness="2"
                 CornerRadius="20">

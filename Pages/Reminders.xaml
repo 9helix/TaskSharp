@@ -23,15 +23,18 @@
                 Margin="2"
                 Padding="5"
                 HorizontalAlignment="Center"
-                Background="{StaticResource SecondaryColor}"
                 BorderThickness="2"
                 CornerRadius="20">
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="BorderBrush" Value="{StaticResource TextColor2}" />
+                        <Setter Property="Background" Value="{StaticResource SecondaryColor}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Notification}" Value="False">
                                 <Setter Property="BorderBrush" Value="Red" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Pinned}" Value="False">
+                                <Setter Property="Background" Value="Transparent" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
