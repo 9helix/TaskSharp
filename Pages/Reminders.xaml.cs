@@ -78,7 +78,6 @@ namespace SideBar_Nav.Pages
         private void Reminders_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
-            _context.Users.Load();
             _context.Reminders.Load();
 
             var uid = (int)Application.Current.Properties["uid"];

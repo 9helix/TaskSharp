@@ -39,7 +39,6 @@ namespace SideBar_Nav.Pages
         private void Notes_Loaded(object sender, RoutedEventArgs e)
         {
             _context.Database.EnsureCreated();
-            _context.Users.Load();
             _context.Notes.Load();
 
             var uid = (int)Application.Current.Properties["uid"];
