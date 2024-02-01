@@ -18,7 +18,6 @@ namespace SideBar_Nav.Pages
         public Notes()
         {
             InitializeComponent();
-            TextboxTheme.calledNote += RefreshNotes;
         }
 
         private void RefreshNotes(List<Note> notes)
@@ -38,6 +37,7 @@ namespace SideBar_Nav.Pages
 
         private void Notes_Loaded(object sender, RoutedEventArgs e)
         {
+            TextboxTheme.calledNote += RefreshNotes;
             _context.Database.EnsureCreated();
             _context.Notes.Load();
 

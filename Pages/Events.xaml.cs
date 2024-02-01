@@ -18,7 +18,6 @@ namespace SideBar_Nav.Pages
         public Events()
         {
             InitializeComponent();
-            TextboxTheme.calledEvent += RefreshEvents;
         }
 
         private void RefreshEvents(List<Event> upcomingEvents, List<Event> expiredEvents)
@@ -48,7 +47,7 @@ namespace SideBar_Nav.Pages
                     _context.SaveChanges();
                     ExpiredEventsContainer.ItemsSource = expiredEvents;
                 }
-                else if (expiredEvents.ToList().Count == 0)
+                else if (expiredEvents.Count == 0)
                 {
                     UpcomingEventsContainer.Visibility = Visibility.Visible;
                     UpcomingEventsEmpty.Visibility = Visibility.Collapsed;
@@ -90,6 +89,7 @@ namespace SideBar_Nav.Pages
 
         private void Events_Loaded(object sender, RoutedEventArgs e)
         {
+            TextboxTheme.calledEvent += RefreshEvents;
             _context.Database.EnsureCreated();
             _context.Events.Load();
 

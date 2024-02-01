@@ -18,7 +18,6 @@ namespace SideBar_Nav.Pages
         public TodoLists()
         {
             InitializeComponent();
-            TextboxTheme.calledTodo += RefreshTodos;
         }
 
         public void RefreshTodos(List<TodoList> undoneTodos, List<TodoList> doneTodos)
@@ -66,6 +65,7 @@ namespace SideBar_Nav.Pages
 
         private void Todos_Loaded(object sender, RoutedEventArgs e)
         {
+            TextboxTheme.calledTodo += RefreshTodos;
             _context.Database.EnsureCreated();
             _context.TodoLists.Load();
 

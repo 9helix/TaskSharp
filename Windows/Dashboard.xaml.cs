@@ -21,15 +21,15 @@ namespace TaskSharp
         public Dashboard()
         {
             InitializeComponent();
+        }
+
+        private void Dashboard_Loaded(object sender, RoutedEventArgs e)
+        {
             Notes.callEditNote += Edit;
             Events.callEditEvent += Edit;
             Reminders.callEditReminder += Edit;
             TodoLists.callEditTodo += Edit;
             TodoLists.callTodoViewer += ViewTodo;
-        }
-
-        private void Dashboard_Loaded(object sender, RoutedEventArgs e)
-        {
             _context.Database.EnsureCreated();
             _context.Users.Load();
 
@@ -38,6 +38,7 @@ namespace TaskSharp
                             .Select(usr => usr.UserName)
                             .First();
             userChip.Text = $"{username}";
+
             if (Application.Current.Properties["noteType"] == null || (int)Application.Current.Properties["noteType"] == 0)
                 p1.IsChecked = true;
             else

@@ -17,7 +17,6 @@ namespace SideBar_Nav.Pages
         public Reminders()
         {
             InitializeComponent();
-            TextboxTheme.calledReminder += RefreshReminders;
         }
 
         private void RefreshReminders(List<Reminder> upcomingReminders, List<Reminder> expiredReminders)
@@ -77,6 +76,7 @@ namespace SideBar_Nav.Pages
 
         private void Reminders_Loaded(object sender, RoutedEventArgs e)
         {
+            TextboxTheme.calledReminder += RefreshReminders;
             _context.Database.EnsureCreated();
             _context.Reminders.Load();
 
