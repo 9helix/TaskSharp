@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Notification.Wpf;
 using SideBar_Nav.Pages;
 using System.Text.Json;
 using System.Windows;
@@ -458,32 +457,7 @@ namespace TaskSharp
                 }
 
                 var selectedTodo = _context.TodoLists.Where(nt => nt.UserId == uid && nt.Id == noteId).First();
-                selectedTodo.Todos = JsonSerializer.Serialize(todoDict);
-
-                MessageBox.Show("Promjene uspješno spremljene!", "Spremanje promjena", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                foreach (var done in todoDict.Values)
-                { // check if all to-do list elements are done
-                    if (!done)
-                    {
-                        selectedTodo.Done = false;
-                        _context.SaveChanges();
-
-                        diHost.IsOpen = false;
-                        RefreshData(noteType, uid);
-                        return;
-                    }
-                }
-
-                selectedTodo.Done = true;
-                var notificationManager = new NotificationManager();
-                notificationManager.Show(new NotificationContent
-                {
-                    Title = selectedTodo.Name,
-                    Message = "To-do lista je obavljena!",
-                    Type = NotificationType.Information,
-                    CloseOnClick = true // closes message when message is clicked
-                });
+                selectedTodo.SaveTodoElements(todoDict);
 
                 _context.SaveChanges();
                 diHost.IsOpen = false;

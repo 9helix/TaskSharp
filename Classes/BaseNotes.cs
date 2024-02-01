@@ -1,4 +1,6 @@
 ﻿using Notification.Wpf;
+using System.Text.Json;
+using System.Windows;
 using System.Windows.Media;
 
 namespace TaskSharp.Classes
@@ -184,6 +186,31 @@ namespace TaskSharp.Classes
             Pinned = pin;
             Todos = todos;
             Done = done;
+        }
+
+        public void SaveTodoElements(Dictionary<string, bool> todoDict)
+        {
+            Todos = JsonSerializer.Serialize(todoDict);
+            MessageBox.Show("Promjene uspješno spremljene!", "Spremanje promjena", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            foreach (var done in todoDict.Values)
+            { // check if all to-do list elements are done
+                if (!done)
+                {
+                    Done = false;
+                    return;
+                }
+            }
+
+            Done = true;
+            var notificationManager = new NotificationManager();
+            notificationManager.Show(new NotificationContent
+            {
+                Title = Name,
+                Message = "To-do lista je obavljena!",
+                Type = NotificationType.Information,
+                CloseOnClick = true // closes message when message is clicked
+            });
         }
     }
 }
