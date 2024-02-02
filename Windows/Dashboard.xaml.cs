@@ -616,20 +616,27 @@ namespace TaskSharp
                     img.Source = new BitmapImage(new Uri(@"/Resources/Images/deleteRed.png", UriKind.Relative));
                     img.PreviewMouseDown += new MouseButtonEventHandler(DeleteTodo);
                 }
+
                 StackPanel stk = new()
                 {
                     Orientation = Orientation.Horizontal,
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
-                TextBox txt;
+                TextBox txt = new()
+                {
+                    Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0),
+                    MaxLength = 30,
+                    Width = 150
+                };
                 if (content == null)
                 {
-                    txt = new TextBox { Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0), MaxLength = 30, Width = 150, Text = $"Todo #{todoNums.Last()}" };
+
+                    txt.Text = $"Todo #{todoNums.Last()}";
                 }
                 else
                 {
-                    txt = new TextBox { Margin = new Thickness(left: 0, top: 0, right: 0, bottom: 0), MaxLength = 30, Width = 150, Text = content };
+                    txt.Text = content;
                 }
 
                 Separator sep = new()
@@ -682,17 +689,17 @@ namespace TaskSharp
             int counter = 1;
             foreach (var dict in todoDict)
             {
-                var stk = new StackPanel
+                StackPanel stk = new()
                 {
                     Orientation = Orientation.Horizontal
                 };
-                var text1 = new TextBlock
+                TextBlock text1 = new()
                 {
                     Text = (counter++) + ")",
                     Margin = new Thickness(left: 0, top: 0, right: 5, bottom: 0),
                     FontWeight = FontWeights.Bold
                 };
-                var text2 = new TextBlock
+                TextBlock text2 = new()
                 {
                     Padding = new Thickness(left: 0, top: 0, right: 5, bottom: 0),
                     Text = dict.Key,
@@ -700,7 +707,7 @@ namespace TaskSharp
                     Margin = new Thickness(left: 0, top: 0, right: 10, bottom: 0),
                     TextWrapping = TextWrapping.Wrap
                 };
-                var chk = new CheckBox
+                CheckBox chk = new()
                 {
                     VerticalAlignment = VerticalAlignment.Center,
                     Padding = new Thickness(left: 0, top: 0, right: 5, bottom: 0),
