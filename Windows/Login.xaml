@@ -115,7 +115,7 @@
                     Visibility="Collapsed">
                     <materialDesign:HintAssist.Hint>
                         <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
-                            <Image Width="17" Source="../Resources/Images/confirm.png" />
+                            <Image Width="16" Source="../Resources/Images/confirm.png" />
                             <TextBlock Padding="5,0,0,0" Text="Potvrdite lozinku" />
                         </StackPanel>
                     </materialDesign:HintAssist.Hint>

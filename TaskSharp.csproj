@@ -44,6 +44,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\Fonts\Poppins-Regular.ttf" />
+    <Resource Include="Resources\Images\confirm.png" />
     <Resource Include="Resources\Images\delete.png" />
     <Resource Include="Resources\Images\deleteRed.png" />
     <Resource Include="Resources\Images\edit.png" />
