@@ -7,19 +7,18 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="TaskSharp - Nadzorna ploča"
-    Width="800"
-    Height="520"
+    Width="850"
+    Height="570"
     AllowsTransparency="True"
     Background="Transparent"
-    Loaded="Dashboard_Loaded"
     Closing="Dashboard_Closing"
+    Loaded="Dashboard_Loaded"
     MouseLeftButtonDown="Window_MouseLeftButtonDown"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
-
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
@@ -29,7 +28,11 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Border Background="White" CornerRadius="15">
+    <materialDesign:Card
+        Margin="25"
+        materialDesign:ShadowAssist.ShadowDepth="Depth4"
+        Background="{DynamicResource MaterialDesignPaper}"
+        UniformCornerRadius="15">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="180" />
@@ -551,5 +554,5 @@
                 </materialDesign:DialogHost>
             </Border>
         </Grid>
-    </Border>
+    </materialDesign:Card>
 </Window>
