@@ -185,7 +185,7 @@ namespace TaskSharp
             todoName.Visibility = Visibility.Collapsed;
             todoCreationDate.Visibility = Visibility.Collapsed;
             todoTags.Visibility = Visibility.Collapsed;
-            elements.Visibility = Visibility.Collapsed;
+            itemTxt.Visibility = Visibility.Collapsed;
             todoScroll.Visibility = Visibility.Collapsed;
 
             if (type != 0)
@@ -666,13 +666,12 @@ namespace TaskSharp
             Tags.Visibility = Visibility.Collapsed;
             Flag.Visibility = Visibility.Collapsed;
             TodoList.Visibility = Visibility.Collapsed;
-            itemTxt.Visibility = Visibility.Collapsed;
             todoBtn.Visibility = Visibility.Collapsed;
 
             todoName.Visibility = Visibility.Visible;
             todoCreationDate.Visibility = Visibility.Visible;
             todoTags.Visibility = Visibility.Visible;
-            elements.Visibility = Visibility.Visible;
+            itemTxt.Visibility = Visibility.Visible;
             todoScroll.Visibility = Visibility.Visible;
             diHost.IsOpen = true;
 
