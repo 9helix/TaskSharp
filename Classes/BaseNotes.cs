@@ -48,11 +48,10 @@ namespace TaskSharp.Classes
 
         public string Content { get; set; }
 
-        public void Update(string name, string tags, bool pin, string content)
+        public void Update(string name, string tags, string content)
         {
             Name = name;
             Tags = tags;
-            Pinned = pin;
             Content = content;
         }
     }
@@ -74,16 +73,15 @@ namespace TaskSharp.Classes
         public bool DeadlineNotification { get; set; }
         public bool ExpiredNotification { get; set; }
 
-        public void Update(string name, string tags, bool pin, DateTime startDate, DateTime endDate, string location)
+        public void Update(string name, string tags, DateTime startDate, DateTime endDate, string location)
         {
             Name = name;
-            Tags = tags;
-            Pinned = pin;
-            DeadlineNotification = true;
+            Tags = tags;            
             StartDate = startDate;
             EndDate = endDate;
             Location = location;
             ExpiredNotification = true;
+            DeadlineNotification = true;
         }
 
         public void NotificationChecker(bool isDeadline)
@@ -138,11 +136,10 @@ namespace TaskSharp.Classes
         public ReminderPriority Priority { get; set; }
         public bool Notification { get; set; }
 
-        public void Update(string name, string tags, bool pin, DateTime dueDate, ReminderPriority priority)
+        public void Update(string name, string tags, DateTime dueDate, ReminderPriority priority)
         {
             Name = name;
             Tags = tags;
-            Pinned = pin;
             DueDate = dueDate;
             Priority = priority;
             Notification = true;
@@ -179,11 +176,10 @@ namespace TaskSharp.Classes
         public string Todos { get; set; }
         public bool Done { get; set; }
 
-        public void Update(string name, string tags, bool pin, string todos, bool done)
+        public void Update(string name, string tags, string todos, bool done)
         {
             Name = name;
             Tags = tags;
-            Pinned = pin;
             Todos = todos;
             Done = done;
         }

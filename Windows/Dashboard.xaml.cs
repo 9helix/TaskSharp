@@ -295,7 +295,7 @@ namespace TaskSharp
                     else
                     {
                         var note1 = _context.Notes.Where(nt => nt.Id == (int)noteId).First();
-                        note1.Update(name, tags, pin, content);
+                        note1.Update(name, tags, content);
                     }
                     break;
 
@@ -323,7 +323,7 @@ namespace TaskSharp
                     else
                     {
                         var note2 = _context.Events.Where(nt => nt.Id == (int)noteId).First();
-                        note2.Update(name, tags, pin, (DateTime)startEvent, (DateTime)endEvent, location);
+                        note2.Update(name, tags, (DateTime)startEvent, (DateTime)endEvent, location);
                     }
                     break;
 
@@ -345,7 +345,7 @@ namespace TaskSharp
                     else
                     {
                         var note3 = _context.Reminders.Where(nt => nt.Id == (int)noteId).First();
-                        note3.Update(name, tags, pin, (DateTime)dueDate, priority);
+                        note3.Update(name, tags, (DateTime)dueDate, priority);
                     }
                     break;
 
@@ -372,7 +372,7 @@ namespace TaskSharp
                     else
                     {
                         var note4 = _context.TodoLists.Where(nt => nt.Id == (int)noteId).First();
-                        note4.Update(name, tags, pin, JsonSerializer.Serialize(todoDict), false); 
+                        note4.Update(name, tags, JsonSerializer.Serialize(todoDict), false); 
                     }
                     break;
             }
@@ -631,7 +631,6 @@ namespace TaskSharp
                 };
                 if (content == null)
                 {
-
                     txt.Text = $"Todo #{todoNums.Last()}";
                 }
                 else
