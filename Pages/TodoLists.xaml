@@ -259,7 +259,7 @@
 
                 <StackPanel Name="Todos" Visibility="Visible">
                     <TextBlock
-                        Margin="0,35,0,0"
+                        Margin="0,20,0,0"
                         HorizontalAlignment="Center"
                         FontSize="20"
                         FontWeight="Bold">

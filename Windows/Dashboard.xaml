@@ -475,34 +475,33 @@
 
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="200" />
+                            <RowDefinition Height="179" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
                         <TextBlock
                             Name="noteTitle"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
+                            VerticalAlignment="Top"
+                            TextAlignment="Center"
                             FontSize="30"
                             FontWeight="Medium"
                             Foreground="{StaticResource TextColor}"
-                            Text="BILJEŠKE" />
+                            Margin="0,48,0,0" Height="40" Width="296" />
 
                         <TextBox
-                            Grid.Column="1"
                             Width="504"
                             Height="40"
-                            Margin="0,155,0,0"
+                            Margin="0,123,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Top"
                             Style="{StaticResource ModernTextbox}" />
 
                         <Frame
                             x:Name="navframe"
-                            Grid.Row="1"
-                            Margin="0,0,10,10"
+                            Margin="0,1,10,10"
                             Background="Transparent"
-                            NavigationUIVisibility="Hidden" />
+                            NavigationUIVisibility="Hidden" Grid.Row="1" />
                         <Canvas
                             Name="plus"
                             Grid.Row="1"

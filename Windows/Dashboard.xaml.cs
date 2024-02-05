@@ -37,7 +37,7 @@ namespace TaskSharp
             var username = _context.Users.Where(usr => usr.UserId == uid)
                             .Select(usr => usr.UserName)
                             .First();
-            userChip.Text = $"{username}";
+            userChip.Text = username;
 
             if (Application.Current.Properties["noteType"] == null || (int)Application.Current.Properties["noteType"] == 0)
                 p1.IsChecked = true;
