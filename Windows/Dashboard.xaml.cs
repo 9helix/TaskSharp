@@ -274,7 +274,6 @@ namespace TaskSharp
             string tags = this.tags.Text;
             bool pin = flag.IsChecked.Value;
 
-            DateTime dateCreate = DateTime.Now;
             int uid = (int)Application.Current.Properties["uid"];
             var noteId = Application.Current.Properties["noteId"];
             switch (index)
@@ -289,7 +288,7 @@ namespace TaskSharp
 
                     if (!editing)
                     {
-                        Note newNote = new(dateCreate, name, tags, pin, uid, content);
+                        Note newNote = new(name, tags, pin, uid, content);
                         _context.Notes.Add(newNote);
                     }
                     else
@@ -317,7 +316,7 @@ namespace TaskSharp
 
                     if (!editing)
                     {
-                        Event newEvent = new(dateCreate, name, tags, pin, uid, (DateTime)startEvent, (DateTime)endEvent, location);
+                        Event newEvent = new(name, tags, pin, uid, (DateTime)startEvent, (DateTime)endEvent, location);
                         _context.Events.Add(newEvent);
                     }
                     else
@@ -339,7 +338,7 @@ namespace TaskSharp
 
                     if (!editing)
                     {
-                        Reminder newReminder = new(dateCreate, name, tags, pin, uid, (DateTime)dueDate, priority);
+                        Reminder newReminder = new(name, tags, pin, uid, (DateTime)dueDate, priority);
                         _context.Reminders.Add(newReminder);
                     }
                     else
@@ -366,13 +365,13 @@ namespace TaskSharp
                     }
                     if (!editing)
                     {
-                        TodoList newTodoList = new(dateCreate, name, tags, pin, uid, JsonSerializer.Serialize(todoDict));
+                        TodoList newTodoList = new(name, tags, pin, uid, JsonSerializer.Serialize(todoDict));
                         _context.TodoLists.Add(newTodoList);
                     }
                     else
                     {
                         var note4 = _context.TodoLists.Where(nt => nt.Id == (int)noteId).First();
-                        note4.Update(name, tags, JsonSerializer.Serialize(todoDict), false); 
+                        note4.Update(name, tags, JsonSerializer.Serialize(todoDict), false);
                     }
                     break;
             }
