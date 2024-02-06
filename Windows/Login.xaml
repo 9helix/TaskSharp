@@ -163,7 +163,7 @@
                     HorizontalAlignment="Center"
                     Foreground="{DynamicResource MaterialDesignBody}"
                     TextAlignment="Center">
-                    v0.1.0<LineBreak />
+                    v1.0.0<LineBreak />
                     Autori: Dino Gržinić, Marin Rabađija</TextBlock>
 
             </StackPanel>
