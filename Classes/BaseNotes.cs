@@ -14,7 +14,7 @@ namespace TaskSharp.Classes
     {
         public BaseNote(string Name, string Tags, bool Pinned, int UserId)
         {
-            this.CreationDate = DateTime.Now;
+            CreationDate = DateTime.Now;
             this.Name = Name;
             this.Tags = Tags;
             this.Pinned = Pinned;
