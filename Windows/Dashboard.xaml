@@ -107,11 +107,10 @@
                             Unchecked="NoteUnchecked" />
                         <Separator Height="90" Background="Transparent" />
                         <TextBlock
-                            Width="133"
+                            Width="155"
                             Height="41"
-                            Margin="25,0,0,0"
                             Padding="0,0,0,0"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             FontSize="18"
                             Foreground="{StaticResource TextColor}"
                             Text="Korisnik: "
@@ -481,13 +480,15 @@
 
                         <TextBlock
                             Name="noteTitle"
+                            Width="296"
+                            Height="40"
+                            Margin="0,48,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Top"
-                            TextAlignment="Center"
                             FontSize="30"
                             FontWeight="Medium"
                             Foreground="{StaticResource TextColor}"
-                            Margin="0,48,0,0" Height="40" Width="296" />
+                            TextAlignment="Center" />
 
                         <TextBox
                             Width="504"
@@ -499,9 +500,10 @@
 
                         <Frame
                             x:Name="navframe"
+                            Grid.Row="1"
                             Margin="0,1,10,10"
                             Background="Transparent"
-                            NavigationUIVisibility="Hidden" Grid.Row="1" />
+                            NavigationUIVisibility="Hidden" />
                         <Canvas
                             Name="plus"
                             Grid.Row="1"
